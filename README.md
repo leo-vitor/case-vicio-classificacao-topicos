@@ -9,8 +9,11 @@ Entrega: `publicacao.csv` (raiz) e `previsao.txt`.
 > **O que a avaliação permite afirmar.** Observamos **90% de concordância**
 > (54/60) nas questões publicadas, com limite inferior de Wilson ~80%. Isso **não**
 > é precisão contra especialistas: os rótulos foram produzidos com assistência de
-> outro LLM (DeepSeek). Não afirmamos que a meta de 95% foi atingida. Detalhes em
-> `docs/metodologia_avaliacao.md` e `docs/transparencia_rotulos.md`.
+> outro LLM (DeepSeek). A **previsão** registrada em `previsao.txt` é **0,86
+> (0,74 a 0,94)**, cobertura 0,62, revisada após a segunda rotulagem; o 0,90 é a
+> concordância observada, **não** a previsão. Não afirmamos que a meta de 95% foi
+> atingida. Detalhes em `docs/metodologia_avaliacao.md` e
+> `docs/transparencia_rotulos.md`.
 
 ## Resumo (para quem não é de ML)
 
@@ -45,20 +48,41 @@ cp .env.example .env        # preencha GEMINI_API_KEY
 > antes** do `python -m src.decide` — o `outputs/questoes_limpas.csv` (com o texto)
 > é gerado localmente, não vem no pacote.
 
-| Passo | Comando | Gera |
-|---|---|---|
-| 1. Limpeza do HTML | `python -m src.clean` | `outputs/questoes_limpas.csv` |
-| 2. Temas candidatos | `python -m src.candidates` | `outputs/candidatos.json` |
-| 2b. Ampliar busca dos `fora` | `python -m src.expandir_fora` | amplia candidatos dos casos com voto `fora` |
-| 2c. Fallback (árvore inteira) | `python -m src.fallback_arvore --apply` | sobrescreve `candidatos.json` (com backup) |
-| 3. Juiz (LLM, várias rodadas) | `python -m src.judge` | `outputs/votos.jsonl`, `outputs/uso.json` |
-| 4a. Verificador (5º voto) | `python -m src.verificar_arvore --rodar` | `outputs/votos_verificacao.jsonl` |
-| 4b. Regras de decisão | `python -m src.decide` | `publicacao.csv`, `outputs/agregado.csv` |
-| 5. Validar formato | `python -m src.validate [arquivo]` | confere o `publicacao.csv` |
+**Ordem real do pipeline** (o juiz e o `decide` rodam mais de uma vez, porque
+ampliar a busca troca os candidatos; o juiz só chama a API nos prompts novos):
+
+```bash
+python -m src.clean
+python -m src.candidates
+python -m src.judge
+python -m src.decide
+python -m src.expandir_fora            # lê publicacao.csv e o voto 'fora'
+python -m src.judge
+python -m src.decide
+python -m src.fallback_arvore --apply  # lê publicacao.csv e votos.jsonl
+python -m src.judge
+python -m src.decide
+cp publicacao.csv outputs/publicacao_congelada.csv   # baseline do verificador
+python -m src.verificar_arvore --rodar               # lê publicacao_congelada.csv
+python -m src.decide
+python -m src.validate
+```
+
+| Artefato | Origem |
+|---|---|
+| `outputs/questoes_limpas.csv` | `src.clean` |
+| `outputs/candidatos.json` | `src.candidates` (ampliado pelo juiz/`expandir_fora`/`fallback_arvore`) |
+| `outputs/votos.jsonl`, `outputs/uso.json` | `src.judge` |
+| `publicacao.csv`, `outputs/agregado.csv` | `src.decide` |
+| `outputs/publicacao_congelada.csv` | cópia do `publicacao.csv` antes do verificador |
+| `outputs/votos_verificacao.jsonl` | `src.verificar_arvore --rodar` |
 
 Teste sem custo e sem internet: `JUDGE_BACKEND=mock python -m src.judge`. O mock não é IA, só verifica o fluxo.
 As chamadas ao modelo ficam em cache (`outputs/cache`). Rodar de novo não gasta de novo.
-Reproduzir sem API: `python -m src.decide` + `python -m src.validate`.
+**Reproduzir sem API** (com os dados em `data/`): `python -m src.clean && python -m src.decide && python -m src.validate`.
+O `decide` usa `outputs/questoes_limpas.csv` (a disciplina de origem, para a regra dos gêmeos),
+que **não** vem versionado; `outputs/candidatos.json`, `outputs/votos.jsonl` e
+`outputs/votos_verificacao.jsonl` **vêm** no repositório.
 
 ### Experimentos (não fazem parte da entrega)
 
@@ -104,7 +128,8 @@ de **5/19** para **16/19**. Numa **segunda rotulagem independente** (`data/rotul
 e `docs/irmaos_comparativo.md`. **Ainda não foi adotado no `publicacao.csv`** (mudar o prompt
 invalida o cache do juiz).
 
-> **Aviso (testado fim-a-fim).** Um A/B **pago** no nível da decisão (Opus 148, out-of-sample)
+> **Aviso (testado fim-a-fim).** Um A/B **pago** no nível da decisão (Opus 148,
+> **quase fora da amostra**: 41 já no conjunto de desenho)
 > mostrou que esse ganho de **busca** quase **não** chega à **decisão**: com o dicionário,
 > `recall_hier` sobe 0,791 → 0,845, mas a concordância das publicadas muda **+0,2 pp** (1
 > questão) — os acertos extras caem em `revisar`, que a métrica não conta. Decomposição:
@@ -154,7 +179,8 @@ discordâncias + 3 por re-agregação). Ele vetou 5 dos 11 erros conhecidos e 3
 questões certas (falsos vetos). Auditoria: `docs/auditoria_verificador.md`. O
 baseline segue em `outputs/publicacao_congelada.csv`.
 
-`previsao.txt`: precisão observada 0,90 (0,80–0,95); cobertura 0,62.
+`previsao.txt`: precisão **0,86 (0,74 a 0,94)**, cobertura 0,62, revisada após a
+segunda rotulagem. O 0,90 é a concordância observada, **não** a previsão.
 
 > `previsao.txt` foi escrito **à mão** nesta entrega (o `src.estimate previsao`
 > mantém o método antigo por grupos, preservado apenas como histórico).

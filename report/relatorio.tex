@@ -167,11 +167,13 @@ questões vêm de fora do recorte (Constitucional, Civil, Tributário, Ambiental
 
 \bd{Bloqueio por conteúdo sensível.} Uma questão (Q0227, cenários de violência sexual em Direito
 Penal, com \texttt{assunto\_origem} ``Lesão Corporal'', enganoso) teve a resposta bloqueada pelo
-filtro de segurança do modelo. O pipeline trata isso como abstenção: vai para revisão com o
-motivo registrado e não repete a chamada. Em produção, porém, um filtro sem critério jurídico
-decide o que cai na fila humana; a recomendação é \emph{contar} esses casos e avaliar se dá para
-ajustar o filtro sem risco, o que só um conjunto de especialistas permitiria checar. (Um caso em
-359 daria $\sim$140 por 50 mil, mas é extrapolação ingênua: o recorte é só de Penal.)
+filtro de segurança do modelo (\texttt{PROHIBITED\_CONTENT}). O pipeline trata isso como
+abstenção: vai para revisão com o motivo registrado e não repete a chamada. Em produção, um
+filtro sem critério jurídico decide o que cai na fila humana, e esse tipo de bloqueio
+\emph{pode não ser ajustável} (as proteções contra danos graves costumam não ser configuráveis).
+A recomendação é \emph{contar} esses casos e \textbf{mantê-los na revisão humana}, em vez de
+afrouxar o filtro. (Um caso em 359 daria $\sim$140 por 50 mil, mas é extrapolação ingênua: o
+recorte é só de Penal.)
 
 \bd{Onde o erro se concentra.} Dos 11 erros publicados, \textbf{3 são de legislação especial};
 os demais são de Parte Geral, Processo Penal e casos de ambiguidade real. Onde o erro de
