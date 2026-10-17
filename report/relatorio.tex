@@ -1,0 +1,440 @@
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------------------
+% Classificacao de topicos - case VDE
+% Fonte oficial do relatorio. Compila no Overleaf com pdfLaTeX.
+% Um unico arquivo: as figuras sao inline (TikZ/pgfplots), sem assets externos.
+% ---------------------------------------------------------------------------
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+\usepackage[margin=1.9cm]{geometry}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{azul}{HTML}{1F4E79}
+\definecolor{cinza}{HTML}{F2F4F7}
+\definecolor{verde}{HTML}{2E7D32}
+\definecolor{vermelho}{HTML}{B3261E}
+\definecolor{ambar}{HTML}{B26A00}
+
+\newcommand{\bd}[1]{\textbf{#1}}
+\setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=1pt}
+\setlength{\parskip}{1pt}
+\titlespacing*{\section}{0pt}{5pt}{2pt}
+
+\tikzset{
+  box/.style={draw=azul,rounded corners,fill=cinza,align=center,inner sep=3pt,
+              minimum height=8mm,text width=19mm,font=\small},
+  arr/.style={-{Latex[length=2mm]},thick,draw=azul}
+}
+
+\title{\vspace{-1.4cm}\textbf{\color{azul}Classificação de tópicos: case VDE}\\[3pt]
+\large Do raciocínio ao desenho de produção}
+\author{Leo Vitor}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.3cm}
+
+% ============================ SUMARIO EXECUTIVO ============================
+\begin{tcolorbox}[colback=cinza,colframe=azul,
+                  title=\textbf{Sumário executivo},boxrule=0.6pt,arc=2pt]
+\begin{itemize}
+\item Operação: 222 publicadas (61,8\% das 359), 136 em revisão, 1 fora do escopo.
+\item Qualidade: \bd{0,90 a 0,92} contra dois rotuladores de IA, que entre si concordam em
+      0,85. Os rótulos vêm de IA: mede-se concordância, não precisão.
+\item Com 60 itens, \bd{não há como separar 90\% de 95\%}: os intervalos se sobrepõem. A meta
+      de 95\% permanece \bd{não demonstrada}.
+\end{itemize}
+\end{tcolorbox}
+
+\noindent\emph{Nota de calibração:} a previsão foi \bd{revisada após a segunda rotulagem}:
+precisão $\sim$0,86 (intervalo 0,74 a 0,94) e cobertura $\sim$0,62. O resultado central (0,90) é
+concordância com um rotulador de IA, não precisão; o case compara a previsão com o gabarito de
+especialistas, que aqui não existe.
+
+% ================================= a) COMO PENSEI =========================
+\section*{a) Como eu pensei}
+
+O desafio é escolher o tema certo de cada questão entre $\sim$375 temas parecidos, sem mandar
+tudo para revisão. O erro nasce em dois pontos, e tratei cada um: (1) o tema certo não está
+entre as opções oferecidas ao modelo; (2) o modelo escolhe, mas não sabe quando não tem
+certeza. Daí o desenho de duas etapas: uma busca que garante a lista de opções e um juiz com
+abstenção, seguido de uma checagem que corrige o segundo ponto.
+
+Uma busca textual propõe candidatos (TF-IDF traz os 10 mais próximos, mais os pais e os filhos
+dos 3 primeiros). Dois modelos (\texttt{gemini-3.6-flash} e \texttt{gemini-3.1-flash-lite})
+avaliam as opções em quatro votos. Um verificador de 5º voto, com a árvore inteira, entra
+\emph{antes} da consolidação e empurra para revisão quando discorda. Só então as regras
+consolidam: votos iguais publicam; votos em subtemas do mesmo ramo publicam no nó comum (a régua
+aceita pai/filho); ramos diferentes vão para revisão; maioria de \texttt{fora} vira \texttt{fora}.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance=6mm]
+\node[box] (clean) {Limpeza\\\scriptsize HTML $\to$ texto};
+\node[box,right=of clean] (cand) {Candidatos\\\scriptsize TF-IDF + pais/filhos};
+\node[box,right=of cand] (juiz) {Juiz\\\scriptsize 2 modelos, 4 votos};
+\node[box,below=9mm of juiz] (ver) {Verificador\\\scriptsize 5º voto, árvore inteira};
+\node[box,right=of ver] (reg) {Regras\\\scriptsize decide};
+\node[box,right=of reg] (out) {publicar / revisar / fora};
+\draw[arr] (clean)--(cand);
+\draw[arr] (cand)--(juiz);
+\draw[arr] (juiz)--(ver);
+\draw[arr] (ver)--(reg);
+\draw[arr] (reg)--(out);
+\end{tikzpicture}
+\caption{Fluxo do pipeline entregue. O verificador (5º voto, \emph{antes} das regras) vê a árvore
+inteira e pega o erro ``confiante e errado''; não provei que seja a única forma.}
+\end{figure}
+
+Quando há dúvida entre filhos, publicar no pai é aposta de risco assimétrico: sob a régua, o pai
+é sempre aceito se a verdade for um dos filhos votados. Publicar menos (222 em vez de 261) reduz
+o risco, mas não comprova 95\%.
+
+\bd{Onde eu errei, e o que isso mudou.} Dos 11 erros publicados na base, 6 são de busca (o tema
+certo não estava na lista) e 5 de decisão. Todos os 11 foram \textbf{votos unânimes}: quando a
+busca traz as opções erradas, os dois modelos concordam no erro, e a concordância sozinha não
+sinaliza o problema. Foi por isso que criei o verificador.
+
+\bd{O que testei, e o que descartei.} \emph{Testado e descartado:} política seletiva (95 questões
+com base em $\sim$17 rótulos, na mesma amostra); BM25 e RRF (fusão \emph{lexical}); embeddings
+densos (\texttt{e5-large} local: empataram); subir sempre para o tema pai (+1 caso); SVM linear
+(0,441). \emph{Descartado por argumento:} cross-encoder, que só reordena a lista e não resolve o
+tema que não entra nela.
+
+\bd{O que fiz com o diagnóstico.} Como o erro de busca se concentra em legislação especial,
+ataquei esse ponto offline, sem tocar na entrega: um dicionário jurídico (traduz a citação da
+questão para o termo do título, ex.: ``Lei 11.340'' $\to$ ``Lei Maria da Penha'') somado à
+expansão por irmãos. Os resultados estão na Seção~b, inclusive um teste fim-a-fim que mostrou um
+limite importante.
+
+% ================================= b) DIAGNOSTICO =========================
+\section*{b) Diagnóstico}
+
+\bd{Números (93 questões rotuladas por IA).}
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Métrica & Valor \\
+\midrule
+Concordância observada (base, 261 publicadas) & 0,838 (57/68) \\
+Concordância observada (após verificador, 222) & \bd{0,90 (54/60)} \\
+Wilson 95\% da entrega & [0,80; 0,95] \\
+Erros publicados na base & 11 (6 de busca, 5 de decisão) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Publicadas ao longo do trabalho, a cada ajuste de regra: 255, 263, 246, 261 e 222.
+
+\bd{Duas ressalvas antes dos números.} (1) Os rótulos vêm de outro LLM (DeepSeek), a partir do
+texto da questão e da lista de temas: o 0,90 é concordância entre modelos, não precisão contra
+especialistas, que permanece desconhecida.
+(2) O recall da lista que o juiz \emph{realmente recebeu} na entrega, já com o fallback, foi de
+0,882 (82/93): número inflado (parte das questões recebeu a árvore inteira) e \emph{não}
+comparável ao 0,667 da busca pura.
+
+\bd{Como o catálogo atrapalha.} (1) Gêmeos: 8 pares de temas com o mesmo título em disciplinas
+diferentes. A régua conta apenas \emph{um} dos dois como certo, e o pipeline não sabe qual.
+\emph{O porquê da regra:} publicar no tema errado é o pior erro (o aluno estuda o tópico errado),
+enquanto revisar só atrasa; na dúvida entre gêmeos, rebaixar é a aposta segura. Na entrega, a
+regra é \emph{publicar o gêmeo quando a disciplina de origem coincide com a raiz do tema}; caso
+contrário, rebaixar para revisão. É uma \textbf{premissa adotada} (a organização ainda não
+confirmou a convenção): custa \textbf{24 questões rebaixadas} ($\approx$ 6,7 p.p. de cobertura) no
+entregue. (2) Lixeiras: temas com muitas questões na origem ($\geq$ 40).
+(3) Sobreposição pai/filho, que a estratégia do nó comum explora a favor.
+
+\bd{O que atrapalha nos dados.} (1) A \texttt{disciplina\_origem} coincide com a do tema escolhido
+em $\sim$95\% das publicadas rotuladas (3 discordâncias em 60) e serve de desempate; mas 2\% das
+questões vêm de fora do recorte (Constitucional, Civil, Tributário, Ambiental) ou sem valor.
+(2) O \texttt{assunto\_origem} é enganoso: a Q0026 (Lei Maria da Penha) veio como ``Ação Penal''.
+(3) Há questões multitemáticas (Q0016, Q0085), em que o ``tema certo'' é uma escolha, não um fato.
+
+\bd{Bloqueio por conteúdo sensível.} Uma questão (Q0227, cenários de violência sexual em Direito
+Penal, com \texttt{assunto\_origem} ``Lesão Corporal'', enganoso) teve a resposta bloqueada pelo
+filtro de segurança do modelo. O pipeline trata isso como abstenção: vai para revisão com o
+motivo registrado e não repete a chamada. Em produção, porém, um filtro sem critério jurídico
+decide o que cai na fila humana; a recomendação é \emph{contar} esses casos e avaliar se dá para
+ajustar o filtro sem risco, o que só um conjunto de especialistas permitiria checar. (Um caso em
+359 daria $\sim$140 por 50 mil, mas é extrapolação ingênua: o recorte é só de Penal.)
+
+\bd{Onde o erro se concentra.} Dos 11 erros publicados, \textbf{3 são de legislação especial};
+os demais são de Parte Geral, Processo Penal e casos de ambiguidade real. Onde o erro de
+\emph{busca} aparece, o juiz escolhe, de forma unânime, o vizinho mais próximo.
+
+\bd{O verificador funciona?} Fixei o critério \emph{antes} de rodar: vetar ao menos 3 erros reais,
+com no máximo 20\% de vetos falsos. Ele vetou \bd{5 dos 11 erros} publicados (4 de busca, em que
+o tema certo nem fora oferecido) e recusou \bd{3 das 57 certas} (5\%), dentro do critério. Dos 6
+erros que escaparam, minha adjudicação (não especialista, em \texttt{docs/adjudicacao\_erros.csv})
+diz que 1 favorece o rótulo (Q0120), 1 favorece o modelo (Q0238) e 4 são ambíguos (Q0273, Q0016,
+Q0306, Q0085). É leitura de um revisor, não medição.
+
+\bd{Reconciliação do gargalo.} A busca limita a \textbf{precisão das publicadas} (tema certo fora
+da lista); agregação, gêmeos e limiar limitam a \textbf{cobertura}. Melhorar só a busca ataca o
+primeiro limite, não o segundo (o A/B mostra).
+
+\bd{Ataque ao ponto fraco.} Duas alavancas de busca, testadas offline (93 questões, $k=10$):
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Mecanismo de busca & \texttt{recall\_hier} & Legislação Especial \\
+\midrule
+Busca pura (TF-IDF + pais/filhos) & 0,667 & 5/19 \\
++ dicionário (\texttt{top+dic}) & 0,731 & 12/19 \\
++ irmãos, sem dicionário (\texttt{irmao}) & 0,882 & 9/19 \\
+\bd{dicionário + irmãos} & \bd{0,957} & \bd{16/19} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+O dicionário sobe o piso; os irmãos, o topo. No holdout a melhora se mantém (0,613 $\to$ 0,968),
+\emph{com a ressalva} de que a última expansão do dicionário foi decidida olhando os erros
+remanescentes, um deles no holdout; não é um holdout estritamente cego.
+
+\begin{tcolorbox}[colback=cinza,colframe=ambar,boxrule=0.6pt,arc=2pt,
+                  title=\textbf{Teste fim-a-fim (A/B pago, nível da decisão)}]
+Levei o dicionário até a decisão na Opus (150 questões, 148 com tema; quase fora da amostra, 41 já
+no conjunto de desenho), mesmos modelos e regras, com o verificador:
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Configuração (limpa) & \texttt{recall\_hier} & Publicação correta (c/ verificador) \\
+\midrule
+\texttt{filho} (controle) & 0,791 & 0,886 (78/88) \\
+\texttt{filho+dic} (dicionário) & 0,845 & 0,888 (79/89) \\
+\bottomrule
+\end{tabular}
+\end{center}
+O dicionário sobe o recall (+5,4 p.p.) mas muda a decisão em +0,2 p.p. (1 questão). A maior
+parte dos acertos extras cai em \texttt{revisar}: o juiz acha o tema, mas a agregação não
+publica, e a métrica conta só as publicadas. No pareado: +2 conserta, $-1$ quebra, 8 neutras.
+Não foi adotado na entrega.
+\end{tcolorbox}
+
+\bd{Duas rotulagens, lado a lado.} A concordância do pipeline é medida contra dois rotuladores
+de IA; nenhum é o gabarito de especialistas, e os dois não são independentes entre si (41 questões
+em comum):
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Rotulagem & Itens & Concordância & Wilson 95\% \\
+\midrule
+DeepSeek (conjunto de desenho das regras) & 60 & 0,90 & 0,80 a 0,95 \\
+Opus (checagem quase fora da amostra) & 88 & 0,92 & 0,84 a 0,96 \\
+Entre os dois rotuladores (régua pai/filho) & 41 & 0,85 & 0,72 a 0,93 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+O resultado central (0,90) vem do conjunto que orientou o desenho das regras; a checagem com a
+Opus (0,92) repete 41 dessas questões, então é \emph{quase} fora da amostra. O achado central: as
+duas rotulagens concordam no ramo, não no tema exato (0,54 no exato e 0,85 na régua pai/filho nas
+41 comuns). Cuidado com os dois ``88'': o \bd{81/88} é o pipeline entregue na Opus; o
+\textbf{78/88} é o braço \texttt{filho} do A/B acima, uma configuração diferente, não o mesmo
+conjunto.
+
+\bd{Quanto custa precisar mais.} Como 95\% é a pergunta central, medi o trade-off entre
+cobertura e precisão (varredura de limiar no conjunto de validação). Os intervalos de Wilson
+abaixo mostram por que \emph{não} dá para cravar 95\%:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Cobertura & Precisão observada & $n$ & Wilson 95\% \\
+\midrule
+0,73 & 0,84 & 32 & [0,68; 0,93] \\
+\bd{0,62} & 0,90 (entrega, c/ verificador) & 60 & [0,80; 0,95] \\
+0,59 & 0,86 & 28 & [0,69; 0,94] \\
+0,43 & 0,93 & 15 & [0,70; 0,99] \\
+0,26 & 1,00 & 6 & [0,61; 1,00] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.74\textwidth, height=2.7cm,
+  xlabel={Cobertura (fração publicada)}, ylabel={Precisão observada},
+  xmin=0.2, xmax=0.8, ymin=0.55, ymax=1.05,
+  grid=both, minor tick num=1,
+  legend style={font=\footnotesize, at={(0.02,0.02)}, anchor=south west, fill=white},
+  tick label style={font=\footnotesize}, label style={font=\small}
+]
+\addplot+[mark=*,thick,color=azul,
+  error bars/.cd, y dir=both, y explicit]
+coordinates {
+ (0.724,0.844) += (0,0.086) -= (0,0.164)
+ (0.708,0.844) += (0,0.087) -= (0,0.166)
+ (0.677,0.871) += (0,0.077) -= (0,0.151)
+ (0.646,0.867) += (0,0.080) -= (0,0.157)
+ (0.593,0.857) += (0,0.083) -= (0,0.167)
+ (0.471,0.857) += (0,0.100) -= (0,0.200)
+ (0.432,0.933) += (0,0.057) -= (0,0.233)
+ (0.265,1.000) += (0,0.000) -= (0,0.390)
+};
+\addlegendentry{base (varredura de limiar)}
+\addplot[only marks,mark=star,mark size=3.2pt,color=verde] coordinates {(0.618,0.900)};
+\addlegendentry{entrega (c/ verificador)}
+\addplot[dashed,thick,color=vermelho] coordinates {(0.2,0.95)(0.8,0.95)};
+\addlegendentry{meta 95\%}
+\end{axis}
+\end{tikzpicture}
+\caption{Cobertura $\times$ precisão, com intervalos de Wilson. Os intervalos se sobrepõem: com
+esta amostra não dá para separar 90\% de 95\%. A cobertura alta só aparece com $n \leq 15$ e
+intervalo largo.}
+\end{figure}
+
+% ================================= c) PRODUCAO ============================
+\section*{c) Produção (50 mil questões por semana)}
+
+Esta seção é proposta; não foi executada nesta entrega (orçamento limitado de API e prazo curto).
+
+\bd{Encaixe no fluxo.} (1) as questões novas entram pelo importador; (2) a busca propõe
+candidatos; (3) um classificador leve resolve a maioria dos casos com probabilidade calibrada;
+(4) o LLM julga o que sobra e um verificador checa os ambíguos; (5) o que ainda diverge vai para
+a fila de revisão humana; (6) os reportes de alunos e a revisão alimentam a amostra auditada que
+mede a qualidade semana a semana.
+
+\bd{Arquitetura, do barato para o caro.} (1) Recuperação ampliada: TF-IDF + dicionário jurídico
+e irmãos (grátis); embeddings jurídicos densos só com GPU. (2) Classificador treinado: \emph{só
+depois de acumular rótulos dos professores} (hoje não existe; o SVM deu 0,441). (3) LLM com
+verificação seletiva e revisão humana nas divergências.
+
+\bd{Custo por etapa.} Medido onde há registro (fallback e verificador), estimado no juiz
+(juiz base $\approx$ 1,5 mil tok/chamada; verificador, 8,7 mil na rodada real):
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Etapa (359 questões) & Tokens de entrada & Custo (US\$, preços reais) \\
+\midrule
+Juiz (4 votos) & $\sim$2,1 M & $\sim$1,04 \\
+Fallback (28 questões $\times$ 4) & $\sim$0,9 M (medido) & $\sim$0,47 \\
+Verificador (246 chamadas) & 2,14 M + 18 mil saída (medido) & $\sim$0,56 \\
+\midrule
+\bd{Total} & \bd{$\sim$5,2 M} & \bd{$\sim$2,1} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Preços: \texttt{gemini-3.6-flash} (0,75 / 3,75 por milhão) e \texttt{gemini-3.1-flash-lite}
+(0,25 / 1,50). \bd{$\sim$14,4 M tokens de entrada por 1.000 questões} (não os 33,8 M que supunham
+a árvore inteira em toda questão). O verificador tem \emph{mais} tokens por chamada, mas custa
+\emph{menos} por questão que os quatro votos do juiz, porque usa só o modelo barato. É um
+\bd{piso}, só tokens de entrada (sem raciocínio nem experimentos): a primeira rodada completa
+consumiu $\sim$R\$ 14 no painel, mais que o US\$ 1,04 do juiz na tabela. Custo por questão
+$\sim$US\$ 0,0058: $\sim$US\$ 5,8 por mil, $\sim$US\$ 290 por semana para 50 mil.
+
+\bd{Cache de contexto.} O bloco repetido (instruções + árvore, $\sim$9 mil tokens) pode ser
+enviado uma vez e reaproveitado. O plano em tokens é grátis (\texttt{--dry-run}: $\sim$72\% de
+economia na entrada); o teste real é \emph{pequeno}, a \textbf{saída não foi guardada} e os
+créditos de API acabaram, então não o reexecutei. Reproduzir com
+\texttt{python -m src.contexto\_cache --criar} (\texttt{docs/cache\_contexto.md}); o desconto real
+em R\$ só se confirma no contrato.
+
+\bd{Limitações honestas.} (1) Juiz e verificador são da mesma família (Gemini): erram juntos, e a
+Q0120 passou pelos dois. (2) O \texttt{THRESH} e as lixeiras quase não filtram (confianças perto
+de 0,95; nas lixeiras o erro foi \emph{menor}, 0,12 contra 0,21). (3) As regras (verificador,
+gêmeos) foram desenhadas na amostra de 60 em que são medidas. (4) A verificação encarece com a
+árvore inteira por chamada.
+
+\bd{Medição contínua.} Três métricas semanais, além do tamanho da amostra: (i) precisão na
+amostra auditada; (ii) taxa de correção da fila (quantos revisados estavam errados); (iii)
+reportes de alunos por tema, como sinal de erro que a auditoria não pegou. Para separar de fato
+90\% de 95\% são necessários \bd{$\sim$434 itens por grupo} (poder 80\%); para $\pm$5 p.p. em
+torno de 0,90, $\sim$139 itens. A amostra auditada precisa ser da ordem de \textbf{centenas de
+itens}, não de dezenas.
+
+\bd{O que eu faria com mais tempo.} (1) Um verificador de \emph{outra família} (hoje juiz e
+verificador são ambos Gemini e podem errar juntos); (2) rótulos de especialistas nos 20 a 30
+desacordos; (3) a expansão por irmãos limitada aos casos de baixo risco; (4) o cache de contexto
+em produção; (5) confirmar a convenção dos gêmeos.
+
+\bd{Meta de 95\%.} Sem gabarito humano, não há garantia formal. A entrega prioriza precisão e uma
+avaliação honesta; não afirmamos que os 95\% foram atingidos.
+
+% ================================= d) MEMO ================================
+\clearpage
+\section*{(d) Memo para o professor}
+{\small\itshape Este memo é para você, especialista em Direito, não em IA. Uma página, sem
+jargão.}
+
+\vspace{4pt}
+\bd{O que eu construí}
+\begin{itemize}
+\item Um sistema que decide, para cada uma das 359 questões, entre publicar, revisar ou fora.
+\item Resultado: 222 publicadas (61,8\%), 136 em revisão e 1 fora do escopo.
+\item 0,90 a 0,92 de concordância contra duas avaliações feitas por IA (que entre si concordam em
+      0,85), mas nenhuma é o gabarito humano: a meta de 95\% não está confirmada.
+\end{itemize}
+
+\bd{O que encontrei}
+\begin{itemize}
+\item Dos 11 erros publicados, só 3 são de legislação especial; alguns vêm de questões com
+      assertivas I--IV, em que o enunciado dá pouca pista e o tema certo nem chega a ser oferecido
+      ao modelo. É um problema de busca, não de conhecimento jurídico.
+\item O erro é confiante: nos casos errados, os dois modelos concordaram por unanimidade. Por
+      isso adicionei a verificação, um 5º julgamento que vê todos os temas e manda para
+      revisão quando discorda.
+\item O catálogo tem armadilhas: temas com o mesmo nome em disciplinas diferentes e temas que se
+      sobrepõem (pai e filho dizendo o mesmo). \emph{Não observei} erro por escolha de gêmeo,
+      mas são poucos casos e a convenção ainda não foi confirmada.
+\end{itemize}
+
+\bd{O que já melhorei (offline, sem tocar na entrega)}
+\begin{itemize}
+\item Um dicionário jurídico somado à busca por temas irmãos elevou o achado do tema (ou de um
+      relacionado) de 0,667 para 0,957; em legislação especial, de 5/19 para 16/19. A parte
+      local é grátis.
+\item Testei isso até o fim: o ganho de busca não se converteu em publicação (+0,2 ponto
+      percentual, 1 questão). Por isso não mudei a entrega.
+\end{itemize}
+
+\bd{O que recomendo mudar nos temas}
+\begin{itemize}
+\item Dar nomes que distingam os gêmeos (ex.: citar a disciplina no título). São 8 pares, com
+      ids: 4684/6716, 5063/5466, 4688/6717, 4702/6723, 4704/6724, 4703/6734, 4705/6725,
+      4708/6728.
+\item Fundir ou hierarquizar melhor subtemas que repetem o conteúdo do pai.
+\item Marcar temas ``guarda-chuva'' (onde aceitar o nível geral é seguro) e os que exigem o
+      nível específico.
+\end{itemize}
+
+\bd{O que preciso de você}
+\begin{itemize}
+\item Uma amostra rotulada por você, começando por \textbf{20 a 30 casos de desacordo} entre as
+      duas avaliações de IA, para medir a precisão de verdade. Hoje a referência é assistida por
+      IA e só mede concordância.
+\item Confirmação da convenção dos temas gêmeos no gabarito.
+\item Um parecer sobre 6 casos em que o modelo e o rótulo de IA discordam (primeiro o que o
+      modelo publicou, depois o que o rótulo sugere):
+      \begin{itemize}
+      \item Q0120 (provas; resposta à acusação): Teoria Geral das Provas $\times$ Defesa Preliminar.
+      \item Q0238 (reforço da fiança, CPP): Liberdade Provisória $\times$ Prisão em Flagrante.
+      \item Q0273 (crime punido na modalidade culposa): Crime Doloso e Culposo $\times$ Condescendência Criminosa.
+      \item Q0016 (jurisprudência sobre prisão): Teoria Geral das Prisões $\times$ Prisão Preventiva.
+      \item Q0306 (associação criminosa): Crimes Contra à Paz Pública $\times$ Organizações Criminosas.
+      \item Q0085 (concussão, agente funcionário público): Concurso de Pessoas $\times$ Concussão e Excesso de Exação.
+      \end{itemize}
+\end{itemize}
+
+\end{document}

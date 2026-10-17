@@ -1,0 +1,22 @@
+{
+  "conjunto": "todos",
+  "k": 10,
+  "rotulos": null,
+  "juiz": [
+    "gemini-3.6-flash",
+    "gemini-3.1-flash-lite"
+  ],
+  "rodadas_por_modelo": 2,
+  "configs": {
+    "atual": {
+      "n": 93,
+      "publicar": 68,
+      "revisar": 25,
+      "fora": 0,
+      "cobertura": 0.731,
+      "concordancia_publicadas": 0.8382,
+      "escolhas_de_gemeo": 0,
+      "rebaixados_por_gemeo": 4
+    }
+  }
+}

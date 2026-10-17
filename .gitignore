@@ -1,0 +1,17 @@
+.env
+__pycache__/
+*.pyc
+*.bak
+.DS_Store
+.venv/
+outputs/cache/
+data/*
+!data/README.md
+!data/dicionario_juridico.csv
+!data/rotulos_opus.tsv
+
+# Artefatos com o TEXTO das questões (dados da empresa): nunca versionar
+outputs/questoes_limpas.csv
+outputs/amostra_rotulagem.csv
+outputs/cobertura_diagnostico.csv
+outputs/backups/amostra_rotulagem.*.csv

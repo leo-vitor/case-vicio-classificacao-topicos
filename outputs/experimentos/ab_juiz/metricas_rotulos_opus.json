@@ -1,0 +1,42 @@
+{
+  "conjunto": "todos",
+  "k": 10,
+  "rotulos": "data/rotulos_opus.tsv",
+  "juiz": [
+    "gemini-3.6-flash",
+    "gemini-3.1-flash-lite"
+  ],
+  "rodadas_por_modelo": 2,
+  "configs": {
+    "atual": {
+      "n": 148,
+      "publicar": 105,
+      "revisar": 43,
+      "fora": 0,
+      "cobertura": 0.709,
+      "concordancia_publicadas": 0.8286,
+      "escolhas_de_gemeo": 5,
+      "rebaixados_por_gemeo": 11
+    },
+    "tfidf+filho": {
+      "n": 148,
+      "publicar": 102,
+      "revisar": 39,
+      "fora": 7,
+      "cobertura": 0.689,
+      "concordancia_publicadas": 0.8235,
+      "escolhas_de_gemeo": 3,
+      "rebaixados_por_gemeo": 2
+    },
+    "tfidf+filho+dic": {
+      "n": 148,
+      "publicar": 103,
+      "revisar": 42,
+      "fora": 3,
+      "cobertura": 0.696,
+      "concordancia_publicadas": 0.8252,
+      "escolhas_de_gemeo": 2,
+      "rebaixados_por_gemeo": 9
+    }
+  }
+}

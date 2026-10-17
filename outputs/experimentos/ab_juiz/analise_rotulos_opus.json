@@ -1,0 +1,271 @@
+{
+  "rotulos": "data/rotulos_opus.tsv",
+  "configs": {
+    "atual": {
+      "n": 148,
+      "sem_verificador": {
+        "publicadas": 105,
+        "concordancia": 0.8286,
+        "corretas": 87,
+        "wilson95": [
+          0.75,
+          0.89
+        ],
+        "leg_esp": "5/7",
+        "gemeos": 0,
+        "erros_ids": [
+          "Q0025",
+          "Q0076",
+          "Q0089",
+          "Q0111",
+          "Q0119",
+          "Q0120",
+          "Q0123",
+          "Q0130",
+          "Q0166",
+          "Q0180",
+          "Q0184",
+          "Q0196",
+          "Q0197",
+          "Q0242",
+          "Q0249",
+          "Q0275",
+          "Q0299",
+          "Q0322"
+        ]
+      },
+      "com_verificador": {
+        "publicadas": 88,
+        "concordancia": 0.9205,
+        "corretas": 81,
+        "wilson95": [
+          0.84,
+          0.96
+        ],
+        "leg_esp": "5/5",
+        "gemeos": 0,
+        "erros_ids": [
+          "Q0089",
+          "Q0120",
+          "Q0123",
+          "Q0180",
+          "Q0196",
+          "Q0275",
+          "Q0322"
+        ]
+      }
+    },
+    "tfidf+filho": {
+      "n": 148,
+      "sem_verificador": {
+        "publicadas": 102,
+        "concordancia": 0.8235,
+        "corretas": 84,
+        "wilson95": [
+          0.74,
+          0.89
+        ],
+        "leg_esp": "3/5",
+        "gemeos": 0,
+        "erros_ids": [
+          "Q0025",
+          "Q0076",
+          "Q0089",
+          "Q0111",
+          "Q0115",
+          "Q0119",
+          "Q0123",
+          "Q0130",
+          "Q0180",
+          "Q0184",
+          "Q0196",
+          "Q0197",
+          "Q0242",
+          "Q0252",
+          "Q0275",
+          "Q0280",
+          "Q0299",
+          "Q0322"
+        ]
+      },
+      "com_verificador": {
+        "publicadas": 88,
+        "concordancia": 0.8864,
+        "corretas": 78,
+        "wilson95": [
+          0.8,
+          0.94
+        ],
+        "leg_esp": "3/4",
+        "gemeos": 0,
+        "erros_ids": [
+          "Q0089",
+          "Q0115",
+          "Q0120",
+          "Q0123",
+          "Q0180",
+          "Q0196",
+          "Q0252",
+          "Q0275",
+          "Q0280",
+          "Q0322"
+        ]
+      }
+    },
+    "tfidf+filho+dic": {
+      "n": 148,
+      "sem_verificador": {
+        "publicadas": 103,
+        "concordancia": 0.8252,
+        "corretas": 85,
+        "wilson95": [
+          0.74,
+          0.89
+        ],
+        "leg_esp": "5/7",
+        "gemeos": 0,
+        "erros_ids": [
+          "Q0025",
+          "Q0076",
+          "Q0089",
+          "Q0093",
+          "Q0111",
+          "Q0115",
+          "Q0119",
+          "Q0123",
+          "Q0130",
+          "Q0180",
+          "Q0184",
+          "Q0196",
+          "Q0197",
+          "Q0242",
+          "Q0252",
+          "Q0280",
+          "Q0290",
+          "Q0322"
+        ]
+      },
+      "com_verificador": {
+        "publicadas": 89,
+        "concordancia": 0.8876,
+        "corretas": 79,
+        "wilson95": [
+          0.81,
+          0.94
+        ],
+        "leg_esp": "5/6",
+        "gemeos": 0,
+        "erros_ids": [
+          "Q0089",
+          "Q0093",
+          "Q0115",
+          "Q0123",
+          "Q0180",
+          "Q0196",
+          "Q0252",
+          "Q0280",
+          "Q0290",
+          "Q0322"
+        ]
+      }
+    }
+  },
+  "par": {
+    "de": "tfidf+filho",
+    "para": "tfidf+filho+dic",
+    "mudaram": 11,
+    "ganho": 2,
+    "perda": 1,
+    "neutro": 8,
+    "trocas": [
+      {
+        "id": "Q0026",
+        "ref": "4704",
+        "de": "fora:None",
+        "para": "revisar:None",
+        "ok_de": false,
+        "ok_para": false
+      },
+      {
+        "id": "Q0093",
+        "ref": "5223",
+        "de": "revisar:None",
+        "para": "publicar:5150",
+        "ok_de": false,
+        "ok_para": false
+      },
+      {
+        "id": "Q0120",
+        "ref": "5530",
+        "de": "publicar:5590",
+        "para": "revisar:None",
+        "ok_de": false,
+        "ok_para": false
+      },
+      {
+        "id": "Q0147",
+        "ref": "5498",
+        "de": "publicar:5498",
+        "para": "revisar:None",
+        "ok_de": true,
+        "ok_para": false
+      },
+      {
+        "id": "Q0164",
+        "ref": "4703",
+        "de": "revisar:None",
+        "para": "publicar:4703",
+        "ok_de": false,
+        "ok_para": true
+      },
+      {
+        "id": "Q0173",
+        "ref": "4703",
+        "de": "revisar:None",
+        "para": "publicar:4703",
+        "ok_de": false,
+        "ok_para": true
+      },
+      {
+        "id": "Q0213",
+        "ref": "4708",
+        "de": "fora:None",
+        "para": "revisar:None",
+        "ok_de": false,
+        "ok_para": false
+      },
+      {
+        "id": "Q0254",
+        "ref": "4704",
+        "de": "fora:None",
+        "para": "revisar:None",
+        "ok_de": false,
+        "ok_para": false
+      },
+      {
+        "id": "Q0275",
+        "ref": "5539",
+        "de": "publicar:4701",
+        "para": "revisar:None",
+        "ok_de": false,
+        "ok_para": false
+      },
+      {
+        "id": "Q0290",
+        "ref": "5539",
+        "de": "revisar:None",
+        "para": "publicar:4701",
+        "ok_de": false,
+        "ok_para": false
+      },
+      {
+        "id": "Q0309",
+        "ref": "4688",
+        "de": "fora:None",
+        "para": "revisar:None",
+        "ok_de": false,
+        "ok_para": false
+      }
+    ]
+  }
+}

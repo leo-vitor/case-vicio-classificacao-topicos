@@ -1,0 +1,53 @@
+{
+  "rotulos": "data/rotulos_opus.tsv",
+  "publicacao": "publicacao.csv",
+  "n": 148,
+  "decisoes": {
+    "publicar": 88,
+    "revisar": 60
+  },
+  "publicadas": {
+    "n": 88,
+    "exato": 0.7727,
+    "hier": 0.9205,
+    "leniente": 0.9545,
+    "escolhas_de_gemeo": 0,
+    "erros_ids": [
+      "Q0089",
+      "Q0120",
+      "Q0123",
+      "Q0180",
+      "Q0196",
+      "Q0275",
+      "Q0322"
+    ]
+  },
+  "nao_publicadas": {
+    "n": 60,
+    "correto_recuperavel": 46,
+    "sugestao_certa": 31
+  },
+  "publicadas_por_duvida": {
+    "alta": {
+      "n": 11,
+      "hier": 0.7273,
+      "exato": 0.4545
+    },
+    "baixa": {
+      "n": 45,
+      "hier": 1.0,
+      "exato": 0.9778
+    },
+    "media": {
+      "n": 32,
+      "hier": 0.875,
+      "exato": 0.5938
+    }
+  },
+  "acordo_com_outra_rotulagem": {
+    "arquivo": "outputs/amostra_rotulagem.csv",
+    "em_comum": 41,
+    "exato": 0.5366,
+    "hier": 0.8537
+  }
+}

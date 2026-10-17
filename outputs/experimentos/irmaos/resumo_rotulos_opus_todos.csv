@@ -1,0 +1,7 @@
+config,descricao,n,recall_exato,recall_hier,cands_media,leg_esp,n_gemeo_do_correto,n_correto_e_gemeo,n_listas_com_par_gemeo,chars_candidatos,tok_candidatos_teto,lista_x_atual,delta_tok_q4
+tfidf+top,baseline sem expansao,148,0.6689,0.75,10.0,16/28,14,14,45,650,217,0.75,-288
+tfidf+filho,CONFIG ATUAL (entrega),148,0.7365,0.7905,13.8,16/28,14,14,46,868,289,1.0,0
+tfidf+top+dic,"dicionario, mantendo a lista em ~10",148,0.7027,0.8041,10.0,22/28,21,21,52,653,218,0.75,-284
+tfidf+filho+dic,dicionario + filhos,148,0.7838,0.8446,13.8,22/28,21,21,53,868,289,1.0,0
+tfidf+irmao,"irmaos, sem dicionario",148,0.8243,0.9257,83.6,18/28,21,18,79,4783,1594,5.51,5220
+tfidf+irmao+dic,irmaos + dicionario (melhor recall),148,0.8716,0.973,89.4,25/28,23,22,94,5180,1727,5.97,5752

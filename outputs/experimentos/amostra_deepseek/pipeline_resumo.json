@@ -1,0 +1,29 @@
+{
+  "rotulos": "outputs/amostra_rotulagem.csv",
+  "publicacao": "publicacao.csv",
+  "n": 93,
+  "decisoes": {
+    "publicar": 60,
+    "revisar": 33
+  },
+  "publicadas": {
+    "n": 60,
+    "exato": 0.6667,
+    "hier": 0.9,
+    "leniente": 0.9,
+    "escolhas_de_gemeo": 0,
+    "erros_ids": [
+      "Q0273",
+      "Q0016",
+      "Q0120",
+      "Q0306",
+      "Q0238",
+      "Q0085"
+    ]
+  },
+  "nao_publicadas": {
+    "n": 33,
+    "correto_recuperavel": 24,
+    "sugestao_certa": 15
+  }
+}

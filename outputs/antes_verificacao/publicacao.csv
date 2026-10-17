@@ -1,0 +1,360 @@
+id,decisao,tema_central_id,extras_ids,confianca,motivo
+Q0001,publicar,5527,5524;5561,0.96,
+Q0002,publicar,4385,4387,0.94,
+Q0003,revisar,5562,6737,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0004,publicar,5480,5481,0.96,
+Q0005,publicar,5199,5208;5576;5209,0.93,
+Q0006,revisar,5157,5160;5159,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0007,revisar,5466,5471;5470,0.7,rodadas divergem entre temas: 5063;5466
+Q0008,revisar,5199,5087,0.46,rodadas divergem entre temas: 5199;6727
+Q0009,revisar,5159,5157,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0010,revisar,4688,6717,0.97,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0011,revisar,4702,5071,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0012,revisar,5560,5561,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0013,publicar,5498,5477;5502,0.99,
+Q0014,revisar,5477,5476,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0015,revisar,5498,5500;5508,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0016,revisar,5584,5519;5587;5503,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0017,revisar,5466,5531;5510,0.44,rodadas divergem entre temas: 5466;5530;5531
+Q0018,revisar,5540,5480,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0019,publicar,5475,6737,0.99,
+Q0020,revisar,5199,5203;5067;5542,0.84,confianca 0.84 abaixo do limiar 0.90
+Q0021,revisar,5503,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0022,publicar,5087,5092;5095,0.97,
+Q0023,revisar,5524,5527;5528;5526,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0024,revisar,4388,4379;4385,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0025,publicar,5093,5087,0.95,
+Q0026,revisar,4704,6724,0.98,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0027,revisar,5488,5487,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0028,revisar,5524,5527,0.47,rodadas divergem entre temas: 5526;5530
+Q0029,revisar,4684,,0.49,rodadas divergem entre temas: 4684;6716
+Q0030,revisar,5135,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0031,revisar,4385,4387,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0032,revisar,5500,5498;5543,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0033,publicar,5519,5584,0.99,
+Q0034,revisar,5477,5498;5594,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0035,publicar,4706,5498,0.99,
+Q0036,revisar,4704,5531;5466,0.72,rodadas divergem entre temas: 4704;6724
+Q0037,revisar,5132,5081,0.81,confianca 0.81 abaixo do limiar 0.90
+Q0038,revisar,5549,5466;5512,0.88,seletiva: certeza 0.88 < limiar 0.98
+Q0039,revisar,4687,,0.45,confianca 0.45 abaixo do limiar 0.85
+Q0040,revisar,5562,5529,0.46,rodadas divergem entre temas: 5529;5562
+Q0041,publicar,5184,,0.99,
+Q0042,publicar,5222,,0.99,
+Q0043,revisar,5199,5203;5206;5204,0.46,rodadas divergem entre temas: 5199;6727
+Q0044,revisar,5488,5548,0.47,rodadas divergem entre temas: 5488;5530
+Q0045,publicar,5091,,0.99,
+Q0046,revisar,5509,5510,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0047,revisar,5164,5063;5466,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0048,publicar,5193,6727,0.98,
+Q0049,publicar,5152,5227,0.99,
+Q0050,revisar,4708,5557,0.93,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0051,publicar,5182,5180,0.99,
+Q0052,revisar,4703,6734,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0053,revisar,5539,5542,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0054,publicar,5174,5160;5124;5157,0.99,
+Q0055,revisar,5535,5509;5510,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0056,revisar,5066,5070,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0057,publicar,5176,5175,0.97,
+Q0058,revisar,4390,4389;4377,0.45,rodadas divergem entre temas: 4377;4390
+Q0059,revisar,4370,4384,0.45,rodadas divergem entre temas: 4370;4384;4388
+Q0060,publicar,5087,5097;5096;5093,0.94,
+Q0061,revisar,4703,6734,0.73,rodadas divergem entre temas: 4703;6734
+Q0062,publicar,5182,,0.99,
+Q0063,revisar,4704,,0.98,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0064,revisar,5191,5185,0.91,seletiva: certeza 0.91 < limiar 0.98
+Q0065,revisar,5161,,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0066,revisar,4373,4371,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0067,publicar,5091,,0.99,
+Q0068,revisar,5096,5102;5118,0.67,rodadas divergem entre temas: 5096;5116
+Q0069,publicar,5173,,0.99,
+Q0070,revisar,4703,6734;5519,0.47,rodadas divergem entre temas: 4703;6734
+Q0071,revisar,4688,5204;6717,0.73,rodadas divergem entre temas: 4688;6717
+Q0072,revisar,5498,,0.46,rodadas divergem entre temas: 5498;5543
+Q0073,publicar,5087,5093;5101;5084,0.91,
+Q0074,revisar,5181,6734,0.47,rodadas divergem entre temas: 5181;6734
+Q0075,revisar,5191,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0076,revisar,4380,4381,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0077,revisar,5170,5194;5181,0.86,confianca 0.86 abaixo do limiar 0.90
+Q0078,revisar,4697,4691,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0079,revisar,5580,5582;4374,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0080,revisar,4370,4384,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0081,publicar,4373,,0.99,
+Q0082,publicar,5100,,0.99,
+Q0083,revisar,5150,5218;5066,0.9,confianca 0.90 abaixo do limiar 0.90
+Q0084,revisar,4704,6724,0.99,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0085,revisar,5071,5091,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0086,publicar,5092,5087,0.99,
+Q0087,revisar,6734,5521;4703,0.47,rodadas divergem entre temas: 5521;6734
+Q0088,revisar,4389,4381,0.47,rodadas divergem entre temas: 4380;4381;4389
+Q0089,revisar,5227,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0090,revisar,5524,5466,0.41,rodadas divergem entre temas: 5466;5524
+Q0091,revisar,5201,5576,0.47,rodadas divergem entre temas: 5201;6727
+Q0092,publicar,5511,5509,0.97,
+Q0093,revisar,5150,5142;5218,0.67,rodadas divergem entre temas: 5150;5218
+Q0094,publicar,4388,5528,0.95,
+Q0095,revisar,5197,5150,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0096,revisar,5480,5483,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0097,revisar,5067,4702;4708;5066,0.44,rodadas divergem entre temas: 4708;5067
+Q0098,publicar,5548,5543,0.99,
+Q0099,revisar,5100,5228;5077,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0100,revisar,5103,5224;5071,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0101,revisar,4704,5480,0.97,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0102,revisar,5572,5209;5574;5577,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0103,publicar,5478,5476,0.99,
+Q0104,revisar,5498,5477,0.91,seletiva: certeza 0.91 < limiar 0.98
+Q0105,publicar,4388,4385,0.95,
+Q0106,publicar,5166,5157,0.93,
+Q0107,revisar,5119,5087,0.97,seletiva: certeza 0.96 < limiar 0.98
+Q0108,publicar,5561,,0.94,
+Q0109,revisar,4708,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0110,revisar,5480,5484;5482,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0111,revisar,4380,,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0112,revisar,4705,6725,0.99,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0113,revisar,5185,,0.91,seletiva: certeza 0.91 < limiar 0.98
+Q0114,revisar,5505,5470;5498;5466,0.89,confianca 0.89 abaixo do limiar 0.90
+Q0115,revisar,4385,4387,0.89,confianca 0.89 abaixo do limiar 0.90
+Q0116,revisar,4708,5205;5201,0.48,rodadas divergem entre temas: 4708;6728
+Q0117,revisar,4384,5200,0.71,rodadas divergem entre temas: 4384;5200
+Q0118,revisar,5507,5519;5523,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0119,revisar,5181,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0120,revisar,5590,5595,0.91,seletiva: certeza 0.91 < limiar 0.98
+Q0121,publicar,5466,5472;5469,0.97,
+Q0122,revisar,5201,5199,0.46,rodadas divergem entre temas: 5201;6727
+Q0123,revisar,4368,5518;4690,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0124,revisar,4384,5200;5199,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0125,revisar,6734,4703;5204,0.94,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0126,revisar,5226,5076;5181,0.76,confianca 0.76 abaixo do limiar 0.85
+Q0127,revisar,5572,4708,0.46,rodadas divergem entre temas: 5469;5572
+Q0128,revisar,5468,5466;5184,0.44,rodadas divergem entre temas: 5184;5468
+Q0129,revisar,5550,5535,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0130,revisar,5199,5204,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0131,publicar,5072,5071,0.95,
+Q0132,revisar,5543,5549;4389,0.44,rodadas divergem entre temas: 5487;5550
+Q0133,revisar,5524,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0134,publicar,5092,5087,0.99,
+Q0135,publicar,5169,5157,0.99,
+Q0136,revisar,4704,,0.73,rodadas divergem entre temas: 4704;6724
+Q0137,revisar,5498,,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0138,revisar,5199,5207,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0139,publicar,5212,5211,0.95,
+Q0140,revisar,5157,5159;5160;5204,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0141,revisar,4385,4387,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0142,fora,,,0.0,"A questão trata de ITCD e isenções tributárias, assunto pertinente ao Direito Tributário e Legislação Tributária Estadual."
+Q0143,revisar,5507,5505,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0144,revisar,5562,5529,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0145,revisar,4702,5084;5169,0.48,rodadas divergem entre temas: 4702;6723
+Q0146,revisar,5590,,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0147,revisar,5498,5556;5543,0.9,seletiva: certeza 0.90 < limiar 0.98
+Q0148,revisar,5199,5202,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0149,revisar,5498,5545;5500,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0150,revisar,4708,5204,0.96,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0151,revisar,5517,5520;5522;5521,0.91,seletiva: certeza 0.91 < limiar 0.98
+Q0152,revisar,5466,5474,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0153,revisar,5221,5175,0.88,seletiva: certeza 0.88 < limiar 0.98
+Q0154,revisar,5135,,0.47,confianca 0.47 abaixo do limiar 0.90
+Q0155,revisar,4703,5584,0.99,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0156,revisar,4688,5205;5207;5201,0.95,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0157,publicar,5520,5498,0.99,
+Q0158,revisar,5209,,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0159,revisar,5150,5160;5177,0.45,rodadas divergem entre temas: 5150;5160;5177
+Q0160,revisar,5199,5200,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0161,revisar,5584,5554;5518;5589,0.69,rodadas divergem entre temas: 5518;5588
+Q0162,publicar,4381,,0.97,
+Q0163,revisar,5133,4703,0.89,seletiva: certeza 0.89 < limiar 0.98
+Q0164,publicar,4703,6734,0.99,
+Q0165,revisar,4705,5557;5555,0.96,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0166,revisar,5521,5208;5517,0.88,seletiva: certeza 0.88 < limiar 0.98
+Q0167,revisar,5524,5528,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0168,revisar,4687,5071,0.45,confianca 0.45 abaixo do limiar 0.85
+Q0169,publicar,5492,,0.99,
+Q0170,revisar,5199,5210;5185,0.9,confianca 0.90 abaixo do limiar 0.90
+Q0171,revisar,4693,5557;5502;5187,0.44,rodadas divergem entre temas: 4693;5502
+Q0172,revisar,5466,5473;5185;5490,0.88,seletiva: certeza 0.88 < limiar 0.98
+Q0173,revisar,4703,6734,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0174,revisar,5133,5166;4709,0.86,seletiva: certeza 0.86 < limiar 0.98
+Q0175,revisar,5087,5091,0.97,seletiva: certeza 0.96 < limiar 0.98
+Q0176,publicar,5081,,0.99,
+Q0177,publicar,5547,5576,0.98,
+Q0178,publicar,4697,,0.99,
+Q0179,revisar,4369,4374,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0180,revisar,5554,5594,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0181,publicar,4695,,0.99,
+Q0182,revisar,5154,5139;5074;5071,0.78,confianca 0.78 abaixo do limiar 0.85
+Q0183,revisar,5561,5185,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0184,revisar,5518,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0185,revisar,6734,4703,0.95,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0186,publicar,5202,,0.99,
+Q0187,revisar,5209,5199;5572,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0188,publicar,5231,5228,0.95,
+Q0189,revisar,5472,5466,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0190,revisar,5539,5540;5542;5541,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0191,revisar,5560,5567;5561,0.47,rodadas divergem entre temas: 5512;5560
+Q0192,publicar,5087,5089;5081,0.93,
+Q0193,publicar,5557,5197,0.99,
+Q0194,revisar,5089,5071,0.71,rodadas divergem entre temas: 5071;5089
+Q0195,revisar,4373,4371,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0196,revisar,4388,4385,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0197,revisar,5498,,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0198,revisar,5071,5072,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0199,revisar,5218,5227;5230;5221,0.89,confianca 0.89 abaixo do limiar 0.90
+Q0200,revisar,4705,6725,0.97,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0201,publicar,5103,,0.98,
+Q0202,publicar,5109,5218,0.88,
+Q0203,revisar,6723,4702,0.73,rodadas divergem entre temas: 4702;6723
+Q0204,publicar,5507,5505,0.99,
+Q0205,publicar,5567,5572,0.94,
+Q0206,revisar,5583,,0.92,seletiva: certeza 0.93 < limiar 0.98
+Q0207,revisar,4703,5201,0.97,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0208,revisar,5071,5150;5228,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0209,revisar,5582,5498,0.46,rodadas divergem entre temas: 5498;5499;5582
+Q0210,revisar,4697,5066,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0211,revisar,5535,,0.68,rodadas divergem entre temas: 5535;5583
+Q0212,revisar,5488,5543,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0213,revisar,4708,6728,0.94,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0214,revisar,5494,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0215,revisar,5201,5576,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0216,publicar,5541,5539,0.97,
+Q0217,revisar,4384,5200,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0218,revisar,5518,5118,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0219,publicar,5071,5072,0.93,
+Q0220,publicar,5501,,0.99,
+Q0221,revisar,5199,5184;5201;5205,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0222,revisar,4374,4376;5170,0.69,rodadas divergem entre temas: 4374;5170
+Q0223,revisar,5127,,0.46,rodadas divergem entre temas: 5084;5127;5227
+Q0224,revisar,5207,5199,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0225,revisar,5478,5571,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0226,publicar,5544,5543,0.99,
+Q0227,revisar,5103,,0.0,resposta bloqueada pelo modelo (revisar manualmente)
+Q0228,revisar,5208,,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0229,revisar,5517,5519;5520,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0230,revisar,5214,5071;5184;5200,0.84,confianca 0.84 abaixo do limiar 0.90
+Q0231,revisar,5224,4708;6728,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0232,revisar,5079,5080;5082;5084,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0233,publicar,5175,5179,0.98,
+Q0234,revisar,4380,4382,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0235,revisar,5561,5515;5480,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0236,revisar,5582,5509;5498,0.83,confianca 0.83 abaixo do limiar 0.90
+Q0237,publicar,5178,,0.99,
+Q0238,revisar,5523,,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0239,publicar,5207,5199;5066,0.86,
+Q0240,revisar,5498,5473,0.88,confianca 0.88 abaixo do limiar 0.90
+Q0241,publicar,5224,,0.98,
+Q0242,revisar,5560,5570;5571,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0243,publicar,5178,5159,0.99,
+Q0244,publicar,5091,,0.99,
+Q0245,revisar,5185,5187;5189;5188,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0246,revisar,5524,5526,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0247,revisar,5502,5507;5181,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0248,revisar,5087,5092;5100;5093,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0249,revisar,5480,6733,0.85,seletiva: certeza 0.85 < limiar 0.98
+Q0250,revisar,6727,5199,0.47,rodadas divergem entre temas: 5199;5576;6727
+Q0251,revisar,5191,5193,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0252,revisar,5199,5208,0.46,rodadas divergem entre temas: 5206;6734
+Q0253,publicar,4373,4371,0.99,
+Q0254,revisar,4704,6724,0.99,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0255,publicar,5213,5211,0.99,
+Q0256,revisar,5218,5222;5228,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0257,revisar,5218,5219;5172,0.89,confianca 0.89 abaixo do limiar 0.90
+Q0258,publicar,5545,5543,0.99,
+Q0259,publicar,5183,5159;5164,0.99,
+Q0260,revisar,4368,4376;4370,0.9,seletiva: certeza 0.90 < limiar 0.98
+Q0261,revisar,5136,,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0262,revisar,4703,5184,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0263,publicar,5492,5583,0.98,
+Q0264,publicar,5102,5109,0.91,
+Q0265,revisar,5185,5066,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0266,publicar,5482,5524;5149,0.94,
+Q0267,revisar,4708,5518;5517,0.95,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0268,revisar,5120,4684;6716;5218,0.8,confianca 0.80 abaixo do limiar 0.90
+Q0269,publicar,5172,4368,0.93,
+Q0270,publicar,5091,,0.99,
+Q0271,revisar,5512,5524,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0272,revisar,6734,4703,0.97,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0273,revisar,5222,5089;5087;5096,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0274,publicar,5160,,0.98,
+Q0275,revisar,4701,5488,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0276,revisar,5543,5554;5545;5552,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0277,publicar,6722,4696,0.99,
+Q0278,publicar,5542,,0.98,
+Q0279,revisar,5188,5159;5178,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0280,revisar,5121,5466;5474,0.66,rodadas divergem entre temas: 5121;5466
+Q0281,revisar,5582,5555,0.44,rodadas divergem entre temas: 5543;5582
+Q0282,revisar,4704,4697,0.9,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0283,revisar,5496,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0284,revisar,5224,5231;5527,0.9,seletiva: certeza 0.90 < limiar 0.98
+Q0285,publicar,4376,4374,0.99,
+Q0286,publicar,5204,5066,0.93,
+Q0287,publicar,5230,5228,0.98,
+Q0288,revisar,5066,4688;5087;5466,0.69,confianca 0.69 abaixo do limiar 0.90
+Q0289,revisar,4704,6724,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0290,revisar,5539,5466;5468;5471,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0291,revisar,5501,4708,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0292,revisar,4374,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0293,publicar,5185,5188;5206;5205,0.95,
+Q0294,revisar,5211,5212;5217;5214,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0295,publicar,5487,5562,0.95,
+Q0296,revisar,5466,5474,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0297,revisar,4695,4689,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0298,revisar,4694,,0.45,rodadas divergem entre temas: 4694;4695;5222
+Q0299,revisar,4388,4384,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0300,publicar,5084,,0.98,
+Q0301,revisar,5197,5120,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0302,revisar,5218,5221,0.98,seletiva: certeza 0.97 < limiar 0.98
+Q0303,revisar,5180,5182;5181,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0304,publicar,5540,5480;5539,0.93,
+Q0305,revisar,5466,5471;5473;5469,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0306,revisar,5146,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0307,publicar,4707,5071,0.98,
+Q0308,publicar,5501,,0.99,
+Q0309,revisar,4688,6717,0.98,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0310,revisar,5505,5507;5508,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0311,revisar,5488,5487,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0312,revisar,4384,5200,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0313,revisar,5209,5475;5575,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0314,publicar,5477,5476,0.99,
+Q0315,publicar,5185,,0.99,
+Q0316,revisar,5224,,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0317,revisar,5198,5191,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0318,revisar,5175,5150;5179,0.48,rodadas divergem entre temas: 5150;5178
+Q0319,revisar,5073,5071,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0320,revisar,5550,,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0321,revisar,5071,5073;4708,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0322,revisar,5561,5531;4684,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0323,revisar,5590,5593;5557;5543,0.9,seletiva: certeza 0.90 < limiar 0.98
+Q0324,revisar,5199,5184;5201,0.93,seletiva: certeza 0.93 < limiar 0.98
+Q0325,revisar,5473,4704;6724;5542,0.88,confianca 0.88 abaixo do limiar 0.90
+Q0326,revisar,4708,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0327,publicar,5203,5548,0.99,
+Q0328,revisar,4382,4374,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0329,revisar,5557,5543,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0330,revisar,5501,5498,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0331,publicar,5477,5476,0.99,
+Q0332,publicar,5541,5539,0.99,
+Q0333,revisar,5175,5219;5177;5488,0.2,rodadas divergem entre temas: 5175;5178;5218;5219
+Q0334,publicar,4381,,0.99,
+Q0335,revisar,5218,5223,0.91,seletiva: certeza 0.91 < limiar 0.98
+Q0336,revisar,5159,,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0337,revisar,4684,6716;5466,0.49,rodadas divergem entre temas: 4684;6716
+Q0338,revisar,5590,5543;5545;5548,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0339,revisar,5572,5578,0.94,seletiva: certeza 0.94 < limiar 0.98
+Q0340,revisar,5071,5074;5076,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0341,revisar,5157,5159;5160;5169,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0342,publicar,5545,5543,0.99,
+Q0343,revisar,5472,5065;5195,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0344,revisar,4688,5063,0.95,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0345,revisar,5103,5177;5204,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0346,revisar,5583,5519;5524,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0347,revisar,5069,5208;5207;5232,0.45,rodadas divergem entre temas: 5069;5199
+Q0348,publicar,5093,5180;5185,0.9,
+Q0349,revisar,5178,5160,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0350,revisar,4702,6723;5199,0.98,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0351,revisar,5118,,0.47,rodadas divergem entre temas: 5118;5166
+Q0352,revisar,5512,5513;5515,0.96,seletiva: certeza 0.96 < limiar 0.98
+Q0353,revisar,5185,6737,0.9,seletiva: certeza 0.90 < limiar 0.98
+Q0354,publicar,5218,5226;5221;5211,0.93,
+Q0355,revisar,4708,5502;5541,0.95,tema duplicado entre disciplinas: confirmar qual gemeo usar
+Q0356,revisar,5066,5067;5068;5070,0.97,seletiva: certeza 0.97 < limiar 0.98
+Q0357,publicar,5135,5134,0.99,
+Q0358,revisar,5133,,0.95,seletiva: certeza 0.95 < limiar 0.98
+Q0359,revisar,4696,5539;4701,0.47,rodadas divergem entre temas: 4696;4701

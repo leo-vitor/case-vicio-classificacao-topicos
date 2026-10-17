@@ -1,0 +1,151 @@
+id	tema_id	fora	duvida	multitema	alternativo	base_legal	nota
+Q0001	5527	0	media	0		CPP 413-421, 427	3 de 4 itens sobre decisões da 1ª fase; item I é desaforamento
+Q0006	5157	0	media	0	5160	CP 155, 157	furto e roubo juntos
+Q0007	5063	0	alta	0	5466	CP 100, 145, 147 §ún, 147-A	ação penal de crimes específicos; existe Ação Penal em Penal e em Processo Penal
+Q0011	4702	0	baixa	0	6723	Lei 9.613/98	lavagem + competência federal
+Q0015	5498	0	media	0	5500	CPP 4-23	vários pontos do IP
+Q0016	5584	0	alta	1	5517	CPP 295, 3º-B, 310	prisão especial, custódia, preventiva de ofício
+Q0017	5533	0	media	0		CPP 513-518	procedimento dos crimes funcionais (defesa preliminar); sem nó próprio
+Q0019	5475	0	baixa	0		CPP 63-68	ação civil ex delicto
+Q0020		0	alta	1		ECA 241-A/B, CP 65, 307, 155 §1º, Lei 9.099	cinco itens de cinco temas; sem tema único
+Q0023	5524	0	media	0		CPP 406-497	vários pontos do júri
+Q0025	5101	0	media	0	5093	CP 332, 333	tráfico de influência x corrupção ativa
+Q0026	4704	0	baixa	0	6724	Lei 11.340/06	âmbito da Maria da Penha; tema duplicado em Penal
+Q0028	5526	0	media	0		CPP 406, 409, 421	rito do júri; assunto_origem diz Comunicação dos atos
+Q0030	5135	0	baixa	0		CP 197	atentado contra liberdade de trabalho; assunto_origem diz Lesão Corporal
+Q0034	5477	0	baixa	0		CPP 647-648	cabimento de HC
+Q0039	4687	0	alta	0	4695	Lei 8.137/90 art. 4º	cartel = crime contra ordem econômica; não há nó para ordem econômica
+Q0043	5199	0	media	0	6727	CP 59-68, 33, 49	dosimetria, multa e regime
+Q0046	5509	0	baixa	0		CPP 563-573	nulidades; assunto_origem diz Sistemas e Princípios
+Q0047	5164	0	baixa	0		CP 163, 167	dano
+Q0048	5193	0	media	0	4703	CP 107 II	indulto e comutação
+Q0053	5541	0	baixa	0		Lei 9.099 art. 76	transação penal
+Q0056	5066	0	baixa	0		CP 69-72	sistemas de aplicação de pena no concurso
+Q0057	5176	0	baixa	0		—	conceito de iter criminis
+Q0059	4384	0	alta	0	4387	—	Baratta, cárcere e reinserção (criminologia crítica)
+Q0065	5161	0	baixa	0		CP 159	extorsão mediante sequestro; assunto_origem diz Lesão Corporal
+Q0068	5116	0	alta	1		CP 213, 320, 250, 305, 307	cinco crimes diferentes; 2 de fé pública
+Q0074	5181	0	media	0	4703	CP 2º, Súm. 611 STF	lei mais benéfica após trânsito; competência da execução
+Q0076	4373	0	baixa	0		—	escola positiva
+Q0080	4370	0	baixa	0		—	modelos de reação ao delito
+Q0081	4373	0	baixa	0		—	escolas criminológicas
+Q0082	5100	0	baixa	0		CP 329	oposição violenta/ameaçadora à execução de ato legal = resistência; demais opções são distratores de outros crimes funcionais
+Q0087	4703	0	media	0	6734;5521	LEP 117	prisão domiciliar na execução penal (LEP 117 e STJ); duplicata da LEP em Processo Penal; nó de prisão domiciliar cautelar como segunda leitura
+Q0089	5172	0	alta	0	5227	—	princípio da insignificância (origem e requisitos do STF); leitura alternativa como exclusão da tipicidade material
+Q0091	5201	0	media	0	4703	CP 33 §2º; LEP 112; Súm. 491 STJ	progressão de regime sem salto do fechado para o aberto
+Q0093	5223	0	media	0	5142	CP 13 §2º, 135	distinção entre omissão imprópria do garantidor e omissão de socorro
+Q0095	5197	0	baixa	0		CP 107 IX, 121 §5º, 129 §8º	perdão judicial em lesão e homicídio culposos; assunto_origem diz Concurso de Crimes
+Q0097	4708	0	alta	1	4705;4702;6728	Lei 11.343/06 arts. 33, 35; Lei 12.850/13 art. 2º; Lei 9.613/98 art. 1º	tráfico sem apreensão, associação x organização criminosa e lavagem; drogas predominam
+Q0099	5100	0	baixa	0		CP 329 §2º, 23	resistência em concurso com lesão leve; fiscais sob excludente de ilicitude; texto com lixo de formatação mas legível
+Q0100	5102	0	alta	1	5103;5224	CP 217-A, 218, 20, 13 §2º, 339	estupro de vulnerável e corrupção de menores com erro de tipo, participação, omissão imprópria e denunciação caluniosa
+Q0103	5478	0	baixa	0		CPP 621-631	finalidade da revisão criminal; assunto_origem diz Ação Penal
+Q0104	5500	0	alta	0	5477	CPP 5º; CF 5º LXVIII	instauração do IP por requisição/ato do MP e autoridade coatora no HC
+Q0107	5119	0	baixa	0		CP 307; Súm. 522 STJ	falsa identidade perante autoridade para autodefesa é típica
+Q0110	5480	0	media	0	6732;6733	CPP 69-91, Súm. 521 STF, Súm. 244 STJ	competência material, territorial e por prerrogativa de função; duplicatas Parte 1/2
+Q0111	4373	0	baixa	0		—	escola positivista; assunto_origem diz Teorias Legitimadoras da Pena
+Q0115	4387	0	media	0	4388	—	escolha da teoria sociológica (anomia/tensão) que explica o caso
+Q0119	5194	0	alta	0	5181	CP 2º caput; CP 107 III	abolitio criminis alcança fato mesmo após o trânsito em julgado; é lei penal, não processual
+Q0120	5530	0	media	0	5533;5591	CPP 396-A, 400	momento da especificação de provas na resposta à acusação, no rito ordinário; leitura alternativa em teoria geral da prova
+Q0122	4703	0	baixa	0	6734	LEP 126-130	remição pelo trabalho e pelo estudo
+Q0123	4378	0	alta	1	4387;4368	—	seletividade racial do sistema penal e labeling; item II sobre flagrante e prova (processo penal)
+Q0127	5581	0	alta	1	5575;4708	CPP 385, 3º-A; Lei 11.343/06 arts. 33 §4º, 35, 57	juiz pode condenar apesar de pedido de absolvição do MP x sistema acusatório; demais itens sobre Lei de Drogas
+Q0130	5160	0	alta	1	5205	CP 157, 44 I, Súm. 582 STJ	consumação do roubo e simulacro de arma, mais substituição da pena
+Q0131	5072	0	baixa	0		CP 29	teoria do domínio do fato na distinção entre autor e partícipe
+Q0134	5092	0	baixa	0		CP 317	corrupção passiva: pena, forma privilegiada e causa de aumento
+Q0135	5169	0	baixa	0		CP 180	sujeito ativo, modalidade culposa e autonomia da receptação
+Q0139	5212	0	media	0	5217	CP 66	coculpabilidade entre as concepções de culpabilidade
+Q0141	4388	0	media	0	4387	—	teoria ecológica (Escola de Chicago) entre teorias em espécie
+Q0143	5507	0	baixa	0		CPP 2º	lei processual no tempo (tempus regit actum)
+Q0145	4702	0	baixa	0	6723	Lei 9.613/98 art. 1º	tipicidade e infração antecedente da lavagem; duplicata em Penal
+Q0146	5594	0	baixa	0		CF 5º LVI, CPP 157	prova ilícita e suas exceções em casos concretos
+Q0147	5498	0	alta	1	5543;6735	CPP 4-23, 28-A; Lei 9.296/96 art. 8º-A; Lei 12.850/13 art. 4º §16	investigação preliminar (denúncia anônima, ANPP, dispensabilidade do IP) com itens de captação ambiental e colaboração
+Q0148	5199	0	media	0	5203;5202;6726;6727	CP 59, 61 I, 63, 65 III d, 67	1ª e 2ª fases da dosimetria: uma condenação como maus antecedentes e outra como reincidência compensada com a confissão
+Q0151	5517	0	alta	0	5584	CPP 318, 319, 325 §1º, 302; Lei 7.960/89	prisão domiciliar, fiança, temporária e flagrante; vários subtemas de prisões em espécie
+Q0152	5472	0	media	0	5065;5474	CPP 31	ordem de preferência na ação penal privada (CPP 31); existe Ação Penal Privada também em Penal
+Q0155	4703	0	baixa	0	6734	LEP 52	regime disciplinar diferenciado; assunto_origem diz Medida de Segurança
+Q0156	4688	0	baixa	0	6717	Lei 9.605/98 arts. 16, 22, 10, 14, 37	penas e excludentes na Lei de Crimes Ambientais; duplicata em Penal
+Q0157	5520	0	media	0	4693	Lei 7.960/89, Lei 8.072/90 art. 1º e 2º §4º	prazo da prisão temporária para crime hediondo (epidemia com morte)
+Q0159	5226	0	alta	1	5160	CP 13 §1º, 157 §3º	causa superveniente independente (homicídio tentado) e latrocínio
+Q0160	5205	0	baixa	0		CP 44 §3º	substituição da pena ao reincidente
+Q0164	4703	0	baixa	0	6734	LEP 10-27	assistência ao preso e ao egresso na LEP
+Q0165	4705	0	baixa	0	6725	Lei 12.850/13 arts. 1º-4º	tipo, causas de aumento, afastamento do servidor e colaboração premiada na Lei 12.850
+Q0166	4703	0	media	0	6734	LEP 117; CP 83 V; Decreto 7.046/09	prisão domiciliar do maior de 70 anos em regime aberto entre benefícios da execução
+Q0169	5492	0	alta	0	5583	CPP 252-256	causas de impedimento e suspeição do juiz (CPP, capítulo Do Juiz); nó de exceção é o mais próximo
+Q0173	4703	0	baixa	0	6734	LEP 50-52, 118, 127	faltas disciplinares e regressão de regime na LEP; duplicata em Processo Penal
+Q0174	5133	0	alta	1	5166;4709	CP 154-A, 154-B, 171 §2º-A; ECA 241-A	crimes cibernéticos: invasão de dispositivo, fraude eletrônica e ECA; predomina o art. 154-A
+Q0176	5081	0	baixa	0		CP 342	falso testemunho: mão própria, compromisso, dolo e retratação; assunto_origem diz Concurso de Crimes
+Q0177	5547	0	media	0	5582	CPP 185, 186	interrogatório e direito ao silêncio/nemo tenetur; assunto_origem diz Comunicação dos atos
+Q0178	4697	0	baixa	0		Lei 10.826/03 art. 6º XI; Res. CNJ 467/2022	porte de arma da Polícia Judicial
+Q0179	4369	0	baixa	0		—	prevenção secundária do delito
+Q0180	5594	0	alta	0	5554	CF 5º XI, CPP 157, 240-245	ilicitude da prova obtida em busca domiciliar noturna sem mandado
+Q0184	4708	0	baixa	0	6728	Lei 11.343/06 art. 50	comunicação da prisão em flagrante na Lei de Drogas; assunto_origem diz Concurso de Crimes
+Q0185	4703	0	baixa	0	6734	LEP 52, 54, 118, 197	falta grave, RDD e regressão na execução penal
+Q0187	5199	0	media	0	6726;6727;5209	CP 91, 91-A, 92, 33 §4º	efeitos da condenação e progressão condicionada à reparação; subtemas da Teoria da Pena
+Q0193	5557	0	media	0	4705;6725	Lei 12.850/13 arts. 3º-B, 4º	regras do acordo de colaboração premiada; também cabe em Organizações Criminosas
+Q0194	5089	0	alta	0	5076	CP 312 §1º, 30	peculato-furto com comunicabilidade da elementar ao particular
+Q0195	4371	0	alta	0	4373;4387	—	nascimento da criminologia, escolas clássica/positiva/crítica e modelos de consenso x conflito
+Q0196	4387	0	media	0	4388	—	pressupostos do labelling approach
+Q0197	5482	0	alta	0	5499	CF 109 IV, 144 §1º; Súm. 42 STJ	crime contra o BB (sociedade de economia mista) não é federal; atribuição da PF segue a competência material
+Q0199	5218	0	alta	1	5228	CP 13, 18, 24	teoria do crime: conduta, bem jurídico, tipo subjetivo e tipo misto (fato típico) + estado de necessidade (ilicitude)
+Q0200	4705	0	baixa	0	6725	Lei 12.850/13 arts. 1º-2º	definição e crime de organização criminosa, afastamento do servidor
+Q0203	4702	0	baixa	0	6723	Lei 9.613/98 art. 4º	medidas assecuratórias sobre bens de interpostas pessoas na lavagem
+Q0204	5507	0	baixa	0		CPP 2º	tempus regit actum na lei processual penal
+Q0210	4697	0	baixa	0		Lei 10.826/03 arts. 12, 14, 16	jurisprudência sobre crimes do Estatuto do Desarmamento (consunção, insignificância, hediondez)
+Q0213	4708	0	media	0	6728;5532	Lei 11.343/06 art. 55	rito especial da Lei de Drogas (notificação para defesa prévia); tema duplicado em Penal
+Q0214	5494	0	baixa	0		CPP 95 III, 110-111	exceção de litispendência e seu processamento em autos apartados
+Q0218	5518	0	media	0	5585	CPP 302, 303; Súm. 145 STF	espécies de flagrante: esperado x preparado x diferido
+Q0221	5199	0	media	0	6726;6727;5184	CP 33, 43, 65, 67, 97	4 de 5 alternativas sobre pena (princípios, espécies, dosimetria); alternativa E é medida de segurança
+Q0223	5086	0	media	0	5084	CP 349-A	ingresso de chip em presídio = art. 349-A; distratores de favorecimento e desobediência
+Q0226	5544	0	baixa	0	6735	CPP 158-A a 158-F	etapas da cadeia de custódia; assunto_origem diz Ação Penal
+Q0231	5224	0	baixa	0		CP 20	efeitos do erro de tipo essencial; tráfico é só contexto
+Q0233	5178	0	baixa	0		CP 15, 16, 17	distinção entre desistência voluntária, arrependimento eficaz, arrependimento posterior e crime impossível
+Q0236	5490	0	alta	1	5590;5582	CPP 92-93, 118-120, 155	itens I e II sobre questão prejudicial e restituição de coisas; III prova do IP; IV direito de presença do réu
+Q0237	5178	0	baixa	0		CP 15	distinção entre desistência voluntária e arrependimento eficaz
+Q0240	5501	0	alta	1	5473;5500	CPP 10, 46	soma do prazo do IP com réu preso e do prazo do MP para a denúncia
+Q0242	5512	0	alta	1	5560	CPP 574, 579; LC 80/94	parte geral dos recursos (prazo em dobro, unirrecorribilidade, recurso de ofício) com itens sobre RE/REsp e ROC
+Q0244	5091	0	baixa	0		CP 316	tipo da concussão (exigir vantagem indevida)
+Q0247	5502	0	media	0	5507	CPP 28-A	requisitos e vedações do ANPP; um item sobre retroatividade
+Q0249	5492	0	alta	0	5583	CPP 252, 253	hipóteses de impedimento do juiz (CPP 252-253); leitura como juiz sujeito do processo é igualmente plausível
+Q0251	5191	0	media	0	5193;5185	CP 107	causas de extinção da punibilidade em geral (rol, anistia/indulto, prescrição)
+Q0252	4703	0	alta	0	6734;5199;5193	CPP 687, 712, 734, 739; CP 83	execução da pena pelo CPP: graça, parcelamento da multa e livramento condicional
+Q0254	4704	0	baixa	0	6724	Lei 11.340/06 art. 19	medidas protetivas de urgência; assunto_origem diz Comunicação dos atos
+Q0257	5218	0	media	0	5228;5227	CP 1º; CF 5º XXXIX, 225 §3º	tipo penal, sujeito ativo e relação tipicidade-ilicitude
+Q0258	5545	0	baixa	0		CPP 158, 159, 167	regras do exame de corpo de delito; assunto_origem diz Júri
+Q0260	4368	0	alta	1	4376;4370	—	direito penal do inimigo, justiça restaurativa, minorias e movimentos sociais
+Q0265	5186	0	media	0	5185;5066	CP 119	prescrição no concurso de crimes incide isoladamente sobre cada pena
+Q0266	5482	0	baixa	0		CPM 9º §2º; CF 125 §4º	competência da Justiça Militar da União x Júri em crime doloso contra a vida de civil
+Q0268	5118	0	alta	1	5120;4684	CP 299, 304, 138 §2º, 139, 140; Lei 13.869/19 art. 3º	dois itens de falsidade documental (incluindo o correto), dois de honra, um de abuso de autoridade
+Q0272	4703	0	baixa	0	6734	LEP 50-52	falta grave na execução penal
+Q0275	5539	0	media	0	5540;4701;5488	Lei 9.099 art. 66 §ún	réu não encontrado no JECrim: remessa ao juízo comum
+Q0276	5543	0	baixa	0	6735	CPP 158, 184, 196, 199, 229, 244	vários meios de prova em espécie (interrogatório, confissão, acareação, perícia, busca)
+Q0278	5542	0	baixa	0	4701	Lei 9.099 art. 89	requisitos da suspensão condicional do processo (pena mínima de um ano)
+Q0279	5188	0	media	0	5187;5178	CP 109 IV, 115, 155	prescrição da pretensão punitiva com redução etária; desistência/arrependimento são distratores
+Q0280	5466	0	alta	0	5063;5121	Súm. 714 STF; CPP 39, 44, 45, 523	ação penal nos crimes contra a honra de servidor: representação, queixa, aditamento e exceção da verdade
+Q0281	5555	0	alta	1	4700;5499	Lei 9.296/96 art. 2º; LC 105/01; SV 14	interceptação e quebra de sigilos; um item sobre sigilo do IP frente ao advogado
+Q0283	5496	0	baixa	0		CPP 134-144	hipoteca legal como medida assecuratória
+Q0284	5224	0	alta	0	5214;5231	CP 20 §1º, 21, 25	legítima defesa putativa por erro sobre pressuposto fático (descriminante putativa, teoria limitada)
+Q0285	4376	0	baixa	0		—	características do direito penal do inimigo
+Q0286	5199	0	media	0	6727;5204	CP 68	ordem das fases da dosimetria (circunstâncias, atenuantes/agravantes, causas de aumento/diminuição)
+Q0288		0	alta	1	5103;4695;4688;5066	CP 213, 217-A, 70; Lei 8.137/90; Lei 9.605/98 art. 14; DL 201/67	cinco itens de cinco temas; sem tema único
+Q0290	5539	0	baixa	0	4701	Lei 9.099 arts. 64-88	vários pontos do procedimento do JECrim; assunto_origem diz Ação Penal
+Q0293	5185	0	media	0	5189	CP 110, 112, 114, 117	prescrição executória, punitiva e da multa em caso concreto
+Q0296	5472	0	media	0	5474;5065	CPP 31; CP 100 §4º	sucessão processual do ofendido falecido na ação penal privada
+Q0298	4694	0	alta	0	4687;4695	Lei 8.137/90 art. 7º	crimes contra relações de consumo da Lei 8.137 admitem forma culposa; não há nó próprio para a Lei 8.137
+Q0299	4387	0	alta	1	4373;4384	—	labelling approach e criminologia crítica, com itens sobre escola positiva e teoria retributiva
+Q0303	5180	0	media	0	5182	CP 4º, 5º, 7º, 9º, 11	aplicação da lei penal: maioria sobre lei no espaço, um item de tempo do crime e um de frações de dia
+Q0305	5466	0	media	0	5063	CPP 24, 39, 41, 42, 46	vários pontos da ação penal pública (prazo, indisponibilidade, denúncia, representação, requisição)
+Q0309	4688	0	baixa	0	6717	Lei 9.605/98 art. 61	pena de crime ambiental; tema duplicado em Penal
+Q0311	5488	0	baixa	0		CPP 361, 366	citação por edital e suspensão do processo
+Q0315	5189	0	media	0	5188	CP 109, 110, 112, 115	cálculo da PPE com redução pela idade e termo inicial segundo o STF
+Q0317	5198	0	media	0	5471;5063	CP 103; CPP 38	prazo decadencial da representação
+Q0318	5178	0	baixa	0		CP 15, 121	arrependimento eficaz ineficaz: resultado ocorre e responde por homicídio consumado
+Q0319	5073	0	media	0	5174	—	coautoria impossível em crimes de mão própria
+Q0322	5569	0	media	0	5561;4684	Lei 13.869/19 art. 12; Lei 9.099 art. 82	rejeição da denúncia em crime de menor potencial ofensivo: apelação no JECrim, não RESE
+Q0324	5199	0	alta	1	5184;4686;4703	LCP 6º; CP 26 §ún, 98; LEP 28-29	espécies de sanção: prisão simples, penas acessórias, medida de segurança ao semi-imputável e trabalho do preso
+Q0332	5541	0	baixa	0	4701	Lei 9.099 art. 76	requisitos e impedimento de nova transação penal
+Q0337	4684	0	baixa	0	6716	Lei 13.869/19 arts. 1º, 3º	elemento subjetivo, crime de hermenêutica e ação penal no abuso de autoridade
+Q0340	5071	0	media	0	5203	CP 29, 30, 62	vários pontos do concurso de pessoas; alternativa correta é agravante do art. 62 III
+Q0342	5543	0	media	0	5546;5545;6735	CPP 159, 162, 163	exame de corpo de delito e perícias em geral
+Q0350	4702	0	baixa	0	6723	Lei 9.613/98 art. 1º §5º	autolavagem, tentativa, colaboração e gerações da lei de lavagem
+Q0357	5135	0	baixa	0		CP 198	boicotagem violenta (crime contra a organização do trabalho); assunto_origem diz Iter Criminis
+Q0359	4696	0	media	0	6722;5539	Lei 10.741/03 art. 94; ADI 3096	art. 94 do Estatuto do Idoso aplica só o rito da Lei 9.099, sem medidas despenalizadoras

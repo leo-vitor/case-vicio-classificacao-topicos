@@ -1,0 +1,352 @@
+{
+  "gerado_em": "2026-10-16T22:24:07+00:00",
+  "hashes": {
+    "publicacao.csv": "6b6b9356dd7a880423c96aba4c6e193260aa8b1941962de1f1ae5fe319a2d98a",
+    "outputs/candidatos.json": "c9ef4badd83af0c485bf013aeea5be33ce74398326bc1b9b2e8aeee1ba26c902",
+    "outputs/votos.jsonl": "796bbe38919a45507e2d2f2fa81c94b41b64b235ed52eb63e0d140c7ea57e2e1",
+    "outputs/votos_verificacao.jsonl": "00019a629f6eecb1a2f642083d8b3f87f61e52bfe0923b39dc07d70e39058991",
+    "outputs/questoes_limpas.csv": "89584264be0f73d53f4dbd64d5e924fe74b97e8bc0c9c9343ba200f93bf6866a",
+    "data/temas.csv": "9c6e98a6cd568816671c0fa14e2449b152cee10e20cb1327b3b097c1c5ce4cbc",
+    "data/dicionario_juridico.csv": "4de77271944d32c4204c2f3717ca5f990fbfe5e3d621e69839e24ce962ddf134",
+    "outputs/amostra_rotulagem.csv": "472d6a3761d2f45d7218abc0cb4142d82b36e6acfd4d33b5235a71229f0ab7fa",
+    "data/rotulos_opus.tsv": "872fa035b44ea2176e16fff5a3ac23a6510664fb8b562c1726097f8fb4f411da"
+  },
+  "decisoes": {
+    "publicar": 222,
+    "revisar": 136,
+    "fora": 1
+  },
+  "concordancia": {
+    "rotulos_opus": {
+      "rotulos": "data/rotulos_opus.tsv",
+      "publicacao": "publicacao.csv",
+      "n": 148,
+      "decisoes": {
+        "publicar": 88,
+        "revisar": 60
+      },
+      "publicadas": {
+        "n": 88,
+        "exato": 0.7727,
+        "hier": 0.9205,
+        "leniente": 0.9545,
+        "escolhas_de_gemeo": 0,
+        "erros_ids": [
+          "Q0089",
+          "Q0120",
+          "Q0123",
+          "Q0180",
+          "Q0196",
+          "Q0275",
+          "Q0322"
+        ]
+      },
+      "nao_publicadas": {
+        "n": 60,
+        "correto_recuperavel": 46,
+        "sugestao_certa": 31
+      },
+      "publicadas_por_duvida": {
+        "alta": {
+          "n": 11,
+          "hier": 0.7273,
+          "exato": 0.4545
+        },
+        "baixa": {
+          "n": 45,
+          "hier": 1.0,
+          "exato": 0.9778
+        },
+        "media": {
+          "n": 32,
+          "hier": 0.875,
+          "exato": 0.5938
+        }
+      },
+      "acordo_com_outra_rotulagem": {
+        "arquivo": "outputs/amostra_rotulagem.csv",
+        "em_comum": 41,
+        "exato": 0.5366,
+        "hier": 0.8537
+      }
+    },
+    "amostra_deepseek": {
+      "rotulos": "outputs/amostra_rotulagem.csv",
+      "publicacao": "publicacao.csv",
+      "n": 93,
+      "decisoes": {
+        "publicar": 60,
+        "revisar": 33
+      },
+      "publicadas": {
+        "n": 60,
+        "exato": 0.6667,
+        "hier": 0.9,
+        "leniente": 0.9,
+        "escolhas_de_gemeo": 0,
+        "erros_ids": [
+          "Q0273",
+          "Q0016",
+          "Q0120",
+          "Q0306",
+          "Q0238",
+          "Q0085"
+        ]
+      },
+      "nao_publicadas": {
+        "n": 33,
+        "correto_recuperavel": 24,
+        "sugestao_certa": 15
+      }
+    }
+  },
+  "recuperacao": {
+    "antigos_93": {
+      "bm25+filho": {
+        "n": 93,
+        "recall_exato": 0.4731,
+        "recall_hier": 0.5484,
+        "cands_media": 14.4
+      },
+      "bm25+irmao": {
+        "n": 93,
+        "recall_exato": 0.6022,
+        "recall_hier": 0.7204,
+        "cands_media": 73.4
+      },
+      "rrf+filho": {
+        "n": 93,
+        "recall_exato": 0.5806,
+        "recall_hier": 0.6129,
+        "cands_media": 14.2
+      },
+      "rrf+irmao": {
+        "n": 93,
+        "recall_exato": 0.6882,
+        "recall_hier": 0.8172,
+        "cands_media": 75.3
+      },
+      "tfidf+filho": {
+        "n": 31,
+        "recall_exato": 0.5484,
+        "recall_hier": 0.6129,
+        "cands_media": 13.4
+      },
+      "tfidf+filho+dic": {
+        "n": 31,
+        "recall_exato": 0.6774,
+        "recall_hier": 0.7419,
+        "cands_media": 12.6
+      },
+      "tfidf+irmao": {
+        "n": 31,
+        "recall_exato": 0.6774,
+        "recall_hier": 0.871,
+        "cands_media": 76.9
+      },
+      "tfidf+irmao+dic": {
+        "n": 93,
+        "recall_exato": 0.8495,
+        "recall_hier": 0.957,
+        "cands_media": 85.9
+      },
+      "tfidf+irmao3": {
+        "n": 93,
+        "recall_exato": 0.7204,
+        "recall_hier": 0.8602,
+        "cands_media": 50.9
+      },
+      "tfidf+pai": {
+        "n": 93,
+        "recall_exato": 0.6452,
+        "recall_hier": 0.6667,
+        "cands_media": 12.1
+      },
+      "tfidf+top": {
+        "n": 93,
+        "recall_exato": 0.6452,
+        "recall_hier": 0.6452,
+        "cands_media": 10.0
+      },
+      "tfidf+top+dic": {
+        "n": 31,
+        "recall_exato": 0.6774,
+        "recall_hier": 0.7097,
+        "cands_media": 10.0
+      }
+    },
+    "opus_148": {
+      "bm25+filho": {
+        "n": 148,
+        "recall_exato": 0.5946,
+        "recall_hier": 0.6486,
+        "cands_media": 14.5
+      },
+      "bm25+irmao": {
+        "n": 148,
+        "recall_exato": 0.6892,
+        "recall_hier": 0.8041,
+        "cands_media": 76.2
+      },
+      "rrf+filho": {
+        "n": 148,
+        "recall_exato": 0.6892,
+        "recall_hier": 0.75,
+        "cands_media": 14.3
+      },
+      "rrf+irmao": {
+        "n": 148,
+        "recall_exato": 0.7703,
+        "recall_hier": 0.8784,
+        "cands_media": 80.2
+      },
+      "tfidf+filho": {
+        "n": 148,
+        "recall_exato": 0.7365,
+        "recall_hier": 0.7905,
+        "cands_media": 13.8
+      },
+      "tfidf+filho+dic": {
+        "n": 148,
+        "recall_exato": 0.7838,
+        "recall_hier": 0.8446,
+        "cands_media": 13.8
+      },
+      "tfidf+irmao": {
+        "n": 148,
+        "recall_exato": 0.8243,
+        "recall_hier": 0.9257,
+        "cands_media": 83.6
+      },
+      "tfidf+irmao+dic": {
+        "n": 148,
+        "recall_exato": 0.8716,
+        "recall_hier": 0.973,
+        "cands_media": 89.4
+      },
+      "tfidf+irmao3": {
+        "n": 148,
+        "recall_exato": 0.7838,
+        "recall_hier": 0.9189,
+        "cands_media": 51.8
+      },
+      "tfidf+pai": {
+        "n": 148,
+        "recall_exato": 0.7297,
+        "recall_hier": 0.7905,
+        "cands_media": 12.3
+      },
+      "tfidf+top": {
+        "n": 148,
+        "recall_exato": 0.6689,
+        "recall_hier": 0.75,
+        "cands_media": 10.0
+      },
+      "tfidf+top+dic": {
+        "n": 148,
+        "recall_exato": 0.7027,
+        "recall_hier": 0.8041,
+        "cands_media": 10.0
+      }
+    }
+  },
+  "custo": {
+    "chamadas": 112,
+    "cache": 1324,
+    "tokens_in": 945992,
+    "tokens_out": 9188,
+    "tokens_pensando": 30660,
+    "erros": 4,
+    "segundos": 89.1,
+    "modelos": [
+      "gemini-3.6-flash",
+      "gemini-3.1-flash-lite"
+    ],
+    "rodadas_por_modelo": 2,
+    "escopo": {
+      "descricao": "Numeros gravados por src/judge.py (etapa 3). O judge zera STATS a cada execucao, entao estes valores correspondem ao ULTIMO run do juiz (359 questoes x 4 votos = 1436 chamadas, das quais 112 novas e 1324 do cache). Apenas src/judge.py grava uso.json.",
+      "etapas_com_chamadas": [
+        "judge (4 votos por questao)",
+        "fallback_arvore (re-julga as questoes com voto fora)",
+        "verificar_arvore (5o voto, arvore inteira)"
+      ],
+      "observacao": "O uso de fallback_arvore e verificar_arvore NAO foi registrado: nenhum dos dois persiste STATS, e os caches guardam apenas o texto da resposta (sem tokens). Os runs anteriores do judge tambem nao foram retidos. Portanto os totais acima sao parciais e nao representam o custo acumulado do projeto."
+    },
+    "verificador": {
+      "votos_gravados": 261,
+      "arquivo": "outputs/votos_verificacao.jsonl",
+      "chamadas_novas": null,
+      "tokens_in": null,
+      "tokens_out": null,
+      "observacao": "Nao documentado: src/verificar_arvore.py nao grava uso. Nao estimado aqui."
+    }
+  },
+  "ab_juiz_plano": {
+    "antigos_93": {
+      "conjunto": "todos",
+      "k": 10,
+      "rotulos": null,
+      "juiz": [
+        "gemini-3.6-flash",
+        "gemini-3.1-flash-lite"
+      ],
+      "rodadas_por_modelo": 2,
+      "configs": {
+        "tfidf+filho": {
+          "questoes": 93,
+          "chamadas_novas": 348,
+          "cache": 24,
+          "chamadas_total": 372,
+          "tokens_in_novos": 934605.0
+        },
+        "tfidf+top+dic": {
+          "questoes": 93,
+          "chamadas_novas": 372,
+          "cache": 0,
+          "chamadas_total": 372,
+          "tokens_in_novos": 868011.0
+        },
+        "tfidf+irmao+dic": {
+          "questoes": 93,
+          "chamadas_novas": 372,
+          "cache": 0,
+          "chamadas_total": 372,
+          "tokens_in_novos": 2072721.0
+        }
+      }
+    },
+    "opus_148": {
+      "conjunto": "todos",
+      "k": 10,
+      "rotulos": "data/rotulos_opus.tsv",
+      "juiz": [
+        "gemini-3.6-flash",
+        "gemini-3.1-flash-lite"
+      ],
+      "rodadas_por_modelo": 2,
+      "configs": {
+        "tfidf+filho": {
+          "questoes": 148,
+          "chamadas_novas": 552,
+          "cache": 40,
+          "chamadas_total": 592,
+          "tokens_in_novos": 1473867.0
+        },
+        "tfidf+top+dic": {
+          "questoes": 148,
+          "chamadas_novas": 584,
+          "cache": 8,
+          "chamadas_total": 592,
+          "tokens_in_novos": 1378338.0
+        },
+        "tfidf+irmao+dic": {
+          "questoes": 148,
+          "chamadas_novas": 592,
+          "cache": 0,
+          "chamadas_total": 592,
+          "tokens_in_novos": 3388296.0
+        }
+      }
+    }
+  }
+}

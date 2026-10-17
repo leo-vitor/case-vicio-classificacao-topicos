@@ -1,0 +1,118 @@
+{
+  "rotulos": "data/rotulos_opus.tsv",
+  "n": 148,
+  "classes": 106,
+  "singletons": 81,
+  "cv_exato": {
+    "1": 0.16891891891891891,
+    "3": 0.25,
+    "5": 0.2702702702702703,
+    "10": 0.2905405405405405
+  },
+  "cv_hier": {
+    "1": 0.25,
+    "3": 0.42567567567567566,
+    "5": 0.46621621621621623,
+    "10": 0.4864864864864865
+  },
+  "calibracao": [
+    {
+      "decil": 1,
+      "n": 14,
+      "acerto": 0.286,
+      "prob_media": 0.0371
+    },
+    {
+      "decil": 2,
+      "n": 14,
+      "acerto": 0.571,
+      "prob_media": 0.0248
+    },
+    {
+      "decil": 3,
+      "n": 14,
+      "acerto": 0.5,
+      "prob_media": 0.0218
+    },
+    {
+      "decil": 4,
+      "n": 14,
+      "acerto": 0.286,
+      "prob_media": 0.0201
+    },
+    {
+      "decil": 5,
+      "n": 14,
+      "acerto": 0.143,
+      "prob_media": 0.0195
+    },
+    {
+      "decil": 6,
+      "n": 14,
+      "acerto": 0.357,
+      "prob_media": 0.0186
+    },
+    {
+      "decil": 7,
+      "n": 14,
+      "acerto": 0.071,
+      "prob_media": 0.0178
+    },
+    {
+      "decil": 8,
+      "n": 14,
+      "acerto": 0.143,
+      "prob_media": 0.0171
+    },
+    {
+      "decil": 9,
+      "n": 14,
+      "acerto": 0.071,
+      "prob_media": 0.0167
+    },
+    {
+      "decil": 10,
+      "n": 14,
+      "acerto": 0.143,
+      "prob_media": 0.016
+    },
+    {
+      "decil": 11,
+      "n": 8,
+      "acerto": 0.125,
+      "prob_media": 0.0151
+    }
+  ],
+  "cobertura_precisao": [
+    {
+      "cobertura": 0.1,
+      "n": 15,
+      "precisao": 0.267
+    },
+    {
+      "cobertura": 0.2,
+      "n": 30,
+      "precisao": 0.467
+    },
+    {
+      "cobertura": 0.3,
+      "n": 44,
+      "precisao": 0.455
+    },
+    {
+      "cobertura": 0.5,
+      "n": 74,
+      "precisao": 0.365
+    },
+    {
+      "cobertura": 0.75,
+      "n": 111,
+      "precisao": 0.297
+    },
+    {
+      "cobertura": 1.0,
+      "n": 148,
+      "precisao": 0.25
+    }
+  ]
+}

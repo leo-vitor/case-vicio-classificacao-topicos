@@ -1,0 +1,67 @@
+precisao_prevista: 0.86
+precisao_intervalo: 0.74-0.94
+cobertura_prevista: 0.62
+cobertura_intervalo: 0.62-0.62
+
+NOTA (revisao). A previsao foi REVISADA apos a segunda rotulagem (Opus): 0,90 ->
+0,86, intervalo 0,74 a 0,94. Motivo: o pipeline concorda com cada rotulador
+(0,90 e 0,92) mais do que os dois rotuladores concordam entre si (0,85, nas 41
+questoes comuns), o que sugere correlacao entre LLMs. Contra especialistas (um
+terceiro rotulador, com convencao propria), a precisao tende a ficar abaixo do
+observado. E julgamento, nao medicao: o 0,85 sai de apenas 41 itens.
+
+O que estes numeros significam (e o que NAO significam).
+
+Publicadas: 222 de 359 (cobertura observada 222/359 = 0,618). A cobertura e uma
+contagem deterministica do pipeline, sem amostragem: nao ha intervalo.
+
+Concordancia observada: 0,90 (54/60). Das questoes publicadas que tem rotulo, 54
+concordam com o rotulo. O limite inferior de Wilson 95% e ~0,80 e o superior ~0,95.
+
+Isto e CONCORDANCIA com um rotulador, nao PRECISAO contra especialistas. Os rotulos
+de referencia foram produzidos com assistencia de outro modelo (DeepSeek) e nao
+foram validados independentemente por juristas. A precisao real permanece
+DESCONHECIDA. Se ha erro correlacionado entre os dois modelos (sao familias
+diferentes, mas ambos sao LLM), a concordancia pode ser otimista; por isso o numero
+acima e tratado como teto provisorio, nao como verdade.
+
+Cenarios de ajuste pela adjudicacao dos desacordos (docs/adjudicacao_erros.csv),
+apresentados como sensibilidade, nao como resultado:
+- So "modelo certo" nos 6 desacordos: 0,92 (55/60).
+- Tratando os casos ambiguos tambem a favor: 0,98 (59/60) — limite superior otimista.
+Nenhum desses cenarios e uma medicao; sao leituras de um revisor nao especialista.
+
+Verificacao (5o voto, arvore inteira). Das 261 publicadas antes da verificacao, o
+verificador concordou em 225 e discordou em 36. Foram rebaixadas 39 (as 36
+discordancias mais 3 reavaliadas pelas regras de agregacao). Resultado: 222 finais.
+O verificador vetou 5 dos 11 erros conhecidos e vetou 3 questoes que estavam certas
+na amostra (falsos vetos). Detalhes em docs/auditoria_verificador.md.
+
+Nao afirmo que a solucao atingiu 95% de precisao. Com 54 concordâncias em 60 casos,
+o observado e 90% e o limite inferior de Wilson e ~80%; como os rotulos sao
+assistidos por IA, nem esse intervalo mede a precisao perante especialistas.
+
+Formulacao defensavel: "A solucao prioriza a precisao por meio de votacao,
+recuperacao ampliada, verificacao e encaminhamento de casos discordantes para
+revisao. A avaliacao preliminar observou 90% de concordancia em 60 questoes
+publicadas, mas nao permite afirmar que a precisao real seja de pelo menos 95%,
+pois a amostra e pequena e os rotulos de referencia nao foram validados
+independentemente por especialistas."
+
+Limitacoes.
+- Amostra pequena (60 publicadas rotuladas) e rotulada com assistencia de IA
+  (ver docs/transparencia_rotulos.md). Mede concordancia, nao precisao real.
+- A regra de decisao foi avaliada na mesma amostra onde foi construida.
+- A convencao para os temas com titulo duplicado (gemeos) nao foi confirmada pela
+  organizacao; os casos ambiguos foram mantidos em revisao.
+- O verificador usa a mesma familia do juiz; erros dos dois podem ser
+  correlacionados.
+
+Segunda rotulagem (Opus, 150 questoes; 148 com tema).
+Alem dos 60 rotulos desta amostra, existe uma rotulagem Opus
+(data/rotulos_opus.tsv). Ela NAO e totalmente fora da amostra: 41 das questoes
+coincidem com as 93 antigas. Nas 88 publicadas por este mesmo pipeline (com o
+verificador), a concordancia e 0,92 (81/88), Wilson 95% [0,84; 0,96]. Entre os
+dois rotuladores, nas 41 comuns, a concordancia e 0,85 na regua pai/filho (e 0,54
+no tema exato). Corrobora a faixa 0,90-0,92; nao altera a cobertura observada
+(222/359 = 0,618).

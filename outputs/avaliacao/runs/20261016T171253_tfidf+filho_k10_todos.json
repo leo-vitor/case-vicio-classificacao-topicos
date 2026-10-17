@@ -1,0 +1,84 @@
+{
+  "run_id": "20261016T171253_tfidf+filho_k10_todos",
+  "criado_em": "2026-10-16T17:12:53+00:00",
+  "config": "tfidf+filho",
+  "recuperador": "tfidf",
+  "expansao": "filho",
+  "dicionario": false,
+  "k": 10,
+  "conjunto": "todos",
+  "dados": {
+    "questoes_limpas": "89584264be0f",
+    "amostra_rotulagem": "472d6a3761d2",
+    "temas": "9c6e98a6cd56",
+    "dicionario": "4de77271944d"
+  },
+  "segundos": 0.06,
+  "metricas": {
+    "n": 93,
+    "recall_exato": 0.6451612903225806,
+    "recall_hier": 0.6666666666666666,
+    "recall_via_pai": 0.021505376344086023,
+    "cands_media": 14.086021505376344
+  },
+  "legislacao_especial": {
+    "n": 19,
+    "acertos": 5,
+    "recall": 0.2631578947368421
+  },
+  "por_disciplina": {
+    "Processo Penal": {
+      "n": 23,
+      "acertos": 15,
+      "recall": 0.6521739130434783
+    },
+    "Penal": {
+      "n": 41,
+      "acertos": 34,
+      "recall": 0.8292682926829268
+    },
+    "Direito Penal - Legislação Especial": {
+      "n": 19,
+      "acertos": 5,
+      "recall": 0.2631578947368421
+    },
+    "Criminologia": {
+      "n": 10,
+      "acertos": 8,
+      "recall": 0.8
+    }
+  },
+  "erros_ids": [
+    "Q0026",
+    "Q0052",
+    "Q0064",
+    "Q0074",
+    "Q0076",
+    "Q0078",
+    "Q0114",
+    "Q0120",
+    "Q0125",
+    "Q0158",
+    "Q0164",
+    "Q0173",
+    "Q0174",
+    "Q0181",
+    "Q0206",
+    "Q0211",
+    "Q0238",
+    "Q0249",
+    "Q0259",
+    "Q0261",
+    "Q0268",
+    "Q0297",
+    "Q0298",
+    "Q0306",
+    "Q0320",
+    "Q0325",
+    "Q0333",
+    "Q0346",
+    "Q0349",
+    "Q0351",
+    "Q0352"
+  ]
+}

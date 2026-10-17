@@ -1,0 +1,144 @@
+########## intfloat/multilingual-e5-base ##########
+Rotuladas com tema: 93 | temas publicaveis: 371
+Embedder denso ativo: intfloat/multilingual-e5-base
+
+=== k=10 (recall e tamanho medio da lista de candidatos) ===
+                recall_exato  recall_1hop  cands_media
+ranker mode                                           
+tfidf  top             0.645        0.645         10.0
+       +pai            0.645        0.667         12.1
+       +filho          0.645        0.667         14.1
+       +irmao3         0.720        0.860         52.4
+       +irmao          0.753        0.882         80.2
+bm25   top             0.452        0.473         10.0
+       +pai            0.473        0.548         14.2
+       +filho          0.473        0.548         14.4
+       +irmao3         0.548        0.645         34.0
+       +irmao          0.602        0.720         73.4
+rrf    top             0.581        0.581         10.0
+       +pai            0.581        0.613         13.6
+       +filho          0.581        0.613         14.2
+       +irmao3         0.624        0.742         40.7
+       +irmao          0.688        0.817         75.3
+denso  top             0.409        0.484         10.0
+       +pai            0.419        0.538         12.8
+       +filho          0.441        0.538         16.0
+       +irmao3         0.505        0.699         47.8
+       +irmao          0.559        0.806         82.7
+rrf_d  top             0.613        0.645         10.0
+       +pai            0.613        0.667         12.2
+       +filho          0.634        0.667         13.6
+       +irmao3         0.677        0.817         44.7
+       +irmao          0.720        0.849         75.8
+rrf3   top             0.645        0.645         10.0
+       +pai            0.645        0.667         12.8
+       +filho          0.645        0.667         13.5
+       +irmao3         0.688        0.796         41.4
+       +irmao          0.731        0.839         73.4
+
+=== recall_1hop por k (permite o juiz acertar) ===
+  tfidf  +filho : k=5:0.59  k=10:0.67  k=15:0.70  k=20:0.75  k=30:0.80
+  tfidf  +irmao3: k=5:0.84  k=10:0.86  k=15:0.86  k=20:0.88  k=30:0.89
+  tfidf  +irmao : k=5:0.87  k=10:0.88  k=15:0.89  k=20:0.94  k=30:0.95
+  bm25   +filho : k=5:0.52  k=10:0.55  k=15:0.57  k=20:0.59  k=30:0.62
+  bm25   +irmao3: k=5:0.61  k=10:0.65  k=15:0.65  k=20:0.66  k=30:0.68
+  bm25   +irmao : k=5:0.63  k=10:0.72  k=15:0.74  k=20:0.76  k=30:0.78
+  rrf    +filho : k=5:0.57  k=10:0.61  k=15:0.63  k=20:0.68  k=30:0.72
+  rrf    +irmao3: k=5:0.70  k=10:0.74  k=15:0.76  k=20:0.78  k=30:0.83
+  rrf    +irmao : k=5:0.73  k=10:0.82  k=15:0.85  k=20:0.88  k=30:0.90
+  denso  +filho : k=5:0.40  k=10:0.54  k=15:0.60  k=20:0.66  k=30:0.74
+  denso  +irmao3: k=5:0.63  k=10:0.70  k=15:0.74  k=20:0.75  k=30:0.78
+  denso  +irmao : k=5:0.71  k=10:0.81  k=15:0.84  k=20:0.86  k=30:0.88
+  rrf_d  +filho : k=5:0.55  k=10:0.67  k=15:0.69  k=20:0.75  k=30:0.78
+  rrf_d  +irmao3: k=5:0.76  k=10:0.82  k=15:0.83  k=20:0.85  k=30:0.85
+  rrf_d  +irmao : k=5:0.78  k=10:0.85  k=15:0.88  k=20:0.91  k=30:0.94
+  rrf3   +filho : k=5:0.60  k=10:0.67  k=15:0.75  k=20:0.76  k=30:0.76
+  rrf3   +irmao3: k=5:0.75  k=10:0.80  k=15:0.83  k=20:0.84  k=30:0.84
+  rrf3   +irmao : k=5:0.81  k=10:0.84  k=15:0.88  k=20:0.90  k=30:0.91
+
+=== candidatos.json ATUAL (pos-fallback): exato 80/93=0.860 | 1hop 82/93=0.882 | via_pai 0/93=0.000 ===
+  (cuidado: parte das questoes teve a arvore inteira no fallback; recall nao e comparavel 1:1)
+
+=== melhor config gratuita: tfidf +irmao (k=10, recall_1hop 0.882) ===
+
+=== por disciplina (tfidf +irmao, k=10) ===
+  Penal                                      41/41 = 1.00
+  Processo Penal                             23/23 = 1.00
+  Direito Penal - Legislação Especial        9/19 = 0.47
+  Criminologia                               9/10 = 0.90
+
+=== 11 questoes em que nem o tema nem o pai entram (tfidf +irmao, k=10) ===
+  Q0026, Q0052, Q0064, Q0114, Q0158, Q0164, Q0173, Q0181, Q0298, Q0306, Q0333
+
+########## intfloat/multilingual-e5-large ##########
+Rotuladas com tema: 93 | temas publicaveis: 371
+Embedder denso ativo: intfloat/multilingual-e5-large
+
+=== k=10 (recall e tamanho medio da lista de candidatos) ===
+                recall_exato  recall_1hop  cands_media
+ranker mode                                           
+tfidf  top             0.645        0.645         10.0
+       +pai            0.645        0.667         12.1
+       +filho          0.645        0.667         14.1
+       +irmao3         0.720        0.860         52.4
+       +irmao          0.753        0.882         80.2
+bm25   top             0.452        0.473         10.0
+       +pai            0.473        0.548         14.2
+       +filho          0.473        0.548         14.4
+       +irmao3         0.548        0.645         34.0
+       +irmao          0.602        0.720         73.4
+rrf    top             0.581        0.581         10.0
+       +pai            0.581        0.613         13.6
+       +filho          0.581        0.613         14.2
+       +irmao3         0.624        0.742         40.7
+       +irmao          0.688        0.817         75.3
+denso  top             0.559        0.613         10.0
+       +pai            0.581        0.634         13.1
+       +filho          0.591        0.634         14.0
+       +irmao3         0.656        0.763         41.5
+       +irmao          0.688        0.871         79.0
+rrf_d  top             0.613        0.656         10.0
+       +pai            0.624        0.667         12.2
+       +filho          0.645        0.667         12.9
+       +irmao3         0.699        0.817         45.0
+       +irmao          0.753        0.882         74.9
+rrf3   top             0.645        0.667         10.0
+       +pai            0.645        0.677         12.6
+       +filho          0.645        0.677         13.2
+       +irmao3         0.710        0.817         41.5
+       +irmao          0.731        0.860         72.6
+
+=== recall_1hop por k (permite o juiz acertar) ===
+  tfidf  +filho : k=5:0.59  k=10:0.67  k=15:0.70  k=20:0.75  k=30:0.80
+  tfidf  +irmao3: k=5:0.84  k=10:0.86  k=15:0.86  k=20:0.88  k=30:0.89
+  tfidf  +irmao : k=5:0.87  k=10:0.88  k=15:0.89  k=20:0.94  k=30:0.95
+  bm25   +filho : k=5:0.52  k=10:0.55  k=15:0.57  k=20:0.59  k=30:0.62
+  bm25   +irmao3: k=5:0.61  k=10:0.65  k=15:0.65  k=20:0.66  k=30:0.68
+  bm25   +irmao : k=5:0.63  k=10:0.72  k=15:0.74  k=20:0.76  k=30:0.78
+  rrf    +filho : k=5:0.57  k=10:0.61  k=15:0.63  k=20:0.68  k=30:0.72
+  rrf    +irmao3: k=5:0.70  k=10:0.74  k=15:0.76  k=20:0.78  k=30:0.83
+  rrf    +irmao : k=5:0.73  k=10:0.82  k=15:0.85  k=20:0.88  k=30:0.90
+  denso  +filho : k=5:0.57  k=10:0.63  k=15:0.71  k=20:0.72  k=30:0.77
+  denso  +irmao3: k=5:0.72  k=10:0.76  k=15:0.82  k=20:0.83  k=30:0.86
+  denso  +irmao : k=5:0.75  k=10:0.87  k=15:0.89  k=20:0.90  k=30:0.91
+  rrf_d  +filho : k=5:0.60  k=10:0.67  k=15:0.75  k=20:0.81  k=30:0.85
+  rrf_d  +irmao3: k=5:0.82  k=10:0.82  k=15:0.84  k=20:0.87  k=30:0.89
+  rrf_d  +irmao : k=5:0.83  k=10:0.88  k=15:0.92  k=20:0.94  k=30:0.95
+  rrf3   +filho : k=5:0.58  k=10:0.68  k=15:0.74  k=20:0.76  k=30:0.81
+  rrf3   +irmao3: k=5:0.77  k=10:0.82  k=15:0.83  k=20:0.84  k=30:0.86
+  rrf3   +irmao : k=5:0.82  k=10:0.86  k=15:0.88  k=20:0.91  k=30:0.91
+
+=== candidatos.json ATUAL (pos-fallback): exato 80/93=0.860 | 1hop 82/93=0.882 | via_pai 0/93=0.000 ===
+  (cuidado: parte das questoes teve a arvore inteira no fallback; recall nao e comparavel 1:1)
+
+=== melhor config gratuita: tfidf +irmao (k=10, recall_1hop 0.882) ===
+
+=== por disciplina (tfidf +irmao, k=10) ===
+  Penal                                      41/41 = 1.00
+  Processo Penal                             23/23 = 1.00
+  Direito Penal - Legislação Especial        9/19 = 0.47
+  Criminologia                               9/10 = 0.90
+
+=== 11 questoes em que nem o tema nem o pai entram (tfidf +irmao, k=10) ===
+  Q0026, Q0052, Q0064, Q0114, Q0158, Q0164, Q0173, Q0181, Q0298, Q0306, Q0333
+

@@ -1,0 +1,103 @@
+{
+  "gerado_por": "src/experimento_irmaos.py",
+  "conjunto": "todos",
+  "k": 10,
+  "rotulos": "data/rotulos_opus.tsv",
+  "dados": {
+    "questoes_limpas": "89584264be0f",
+    "amostra_rotulagem": "ausente",
+    "temas": "9c6e98a6cd56",
+    "dicionario": "4de77271944d"
+  },
+  "premissas_custo": {
+    "chars_por_token": 3.0,
+    "observacao": "custo do juiz: apenas o bloco de candidatos muda entre configs; tokens do bloco = chars/3 (proxy do repo). Teto, nao media: a arvore inteira deu 8.894 no proxy contra 8.446 medidos.",
+    "ancora_medida_tokens_in_por_call": 8446
+  },
+  "linhas": [
+    {
+      "config": "tfidf+top",
+      "descricao": "baseline sem expansao",
+      "n": 148,
+      "recall_exato": 0.6689,
+      "recall_hier": 0.75,
+      "cands_media": 10.0,
+      "leg_esp": "16/28",
+      "n_gemeo_do_correto": 14,
+      "n_correto_e_gemeo": 14,
+      "n_listas_com_par_gemeo": 45,
+      "chars_candidatos": 650,
+      "tok_candidatos_teto": 217
+    },
+    {
+      "config": "tfidf+filho",
+      "descricao": "CONFIG ATUAL (entrega)",
+      "n": 148,
+      "recall_exato": 0.7365,
+      "recall_hier": 0.7905,
+      "cands_media": 13.8,
+      "leg_esp": "16/28",
+      "n_gemeo_do_correto": 14,
+      "n_correto_e_gemeo": 14,
+      "n_listas_com_par_gemeo": 46,
+      "chars_candidatos": 868,
+      "tok_candidatos_teto": 289
+    },
+    {
+      "config": "tfidf+top+dic",
+      "descricao": "dicionario, mantendo a lista em ~10",
+      "n": 148,
+      "recall_exato": 0.7027,
+      "recall_hier": 0.8041,
+      "cands_media": 10.0,
+      "leg_esp": "22/28",
+      "n_gemeo_do_correto": 21,
+      "n_correto_e_gemeo": 21,
+      "n_listas_com_par_gemeo": 52,
+      "chars_candidatos": 653,
+      "tok_candidatos_teto": 218
+    },
+    {
+      "config": "tfidf+filho+dic",
+      "descricao": "dicionario + filhos",
+      "n": 148,
+      "recall_exato": 0.7838,
+      "recall_hier": 0.8446,
+      "cands_media": 13.8,
+      "leg_esp": "22/28",
+      "n_gemeo_do_correto": 21,
+      "n_correto_e_gemeo": 21,
+      "n_listas_com_par_gemeo": 53,
+      "chars_candidatos": 868,
+      "tok_candidatos_teto": 289
+    },
+    {
+      "config": "tfidf+irmao",
+      "descricao": "irmaos, sem dicionario",
+      "n": 148,
+      "recall_exato": 0.8243,
+      "recall_hier": 0.9257,
+      "cands_media": 83.6,
+      "leg_esp": "18/28",
+      "n_gemeo_do_correto": 21,
+      "n_correto_e_gemeo": 18,
+      "n_listas_com_par_gemeo": 79,
+      "chars_candidatos": 4783,
+      "tok_candidatos_teto": 1594
+    },
+    {
+      "config": "tfidf+irmao+dic",
+      "descricao": "irmaos + dicionario (melhor recall)",
+      "n": 148,
+      "recall_exato": 0.8716,
+      "recall_hier": 0.973,
+      "cands_media": 89.4,
+      "leg_esp": "25/28",
+      "n_gemeo_do_correto": 23,
+      "n_correto_e_gemeo": 22,
+      "n_listas_com_par_gemeo": 94,
+      "chars_candidatos": 5180,
+      "tok_candidatos_teto": 1727
+    }
+  ]
+}

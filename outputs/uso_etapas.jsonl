@@ -1,0 +1,2 @@
+{"quando": "2026-10-16T22:34:26+00:00", "etapa": "ab_juiz", "chamadas": 552, "cache": 632, "tokens_in": 530884, "tokens_out": 43298, "tokens_pensando": 161462, "erros": 0, "segundos": null, "rotulos": "data/rotulos_opus.tsv", "configs": ["atual", "tfidf+filho"]}
+{"quando": "2026-10-16T22:39:11+00:00", "etapa": "ab_juiz", "chamadas": 348, "cache": 244, "tokens_in": 338668, "tokens_out": 28392, "tokens_pensando": 103836, "erros": 0, "segundos": null, "rotulos": "data/rotulos_opus.tsv", "configs": ["tfidf+filho+dic"]}

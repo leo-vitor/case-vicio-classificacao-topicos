@@ -1,0 +1,19 @@
+{
+  "threshold": 0.98,
+  "criterio": "cobertura_max_com_prec_cal>=0.95",
+  "usa_sim": false,
+  "regra": "mesmo_ramo",
+  "n_publicadas_hoje": 261,
+  "n_publicadas_seletiva": 95,
+  "cobertura": 0.2646,
+  "cobertura_lo": 0.2646,
+  "cobertura_hi": 0.7242,
+  "metodo_cobertura": "bootstrap B=300 das linhas de calibracao, re-escolhendo o limiar",
+  "cal_n": 11,
+  "cal_prec": 1.0,
+  "cal_lo": 0.7412,
+  "val_n": 6,
+  "val_prec": 1.0,
+  "val_lo": 0.6097,
+  "previsao_prec": 1.0
+}

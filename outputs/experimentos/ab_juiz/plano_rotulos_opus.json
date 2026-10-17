@@ -1,0 +1,33 @@
+{
+  "conjunto": "todos",
+  "k": 10,
+  "rotulos": "data/rotulos_opus.tsv",
+  "juiz": [
+    "gemini-3.6-flash",
+    "gemini-3.1-flash-lite"
+  ],
+  "rodadas_por_modelo": 2,
+  "configs": {
+    "tfidf+filho": {
+      "questoes": 148,
+      "chamadas_novas": 552,
+      "cache": 40,
+      "chamadas_total": 592,
+      "tokens_in_novos": 1473867.0
+    },
+    "tfidf+top+dic": {
+      "questoes": 148,
+      "chamadas_novas": 584,
+      "cache": 8,
+      "chamadas_total": 592,
+      "tokens_in_novos": 1378338.0
+    },
+    "tfidf+irmao+dic": {
+      "questoes": 148,
+      "chamadas_novas": 592,
+      "cache": 0,
+      "chamadas_total": 592,
+      "tokens_in_novos": 3388296.0
+    }
+  }
+}

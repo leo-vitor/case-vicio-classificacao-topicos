@@ -1,0 +1,31 @@
+{
+  "chamadas": 112,
+  "cache": 1324,
+  "tokens_in": 945992,
+  "tokens_out": 9188,
+  "tokens_pensando": 30660,
+  "erros": 4,
+  "segundos": 89.1,
+  "modelos": [
+    "gemini-3.6-flash",
+    "gemini-3.1-flash-lite"
+  ],
+  "rodadas_por_modelo": 2,
+  "escopo": {
+    "descricao": "Numeros gravados por src/judge.py (etapa 3). O judge zera STATS a cada execucao, entao estes valores correspondem ao ULTIMO run do juiz (359 questoes x 4 votos = 1436 chamadas, das quais 112 novas e 1324 do cache). Apenas src/judge.py grava uso.json.",
+    "etapas_com_chamadas": [
+      "judge (4 votos por questao)",
+      "fallback_arvore (re-julga as questoes com voto fora)",
+      "verificar_arvore (5o voto, arvore inteira)"
+    ],
+    "observacao": "O uso de fallback_arvore e verificar_arvore NAO foi registrado: nenhum dos dois persiste STATS, e os caches guardam apenas o texto da resposta (sem tokens). Os runs anteriores do judge tambem nao foram retidos. Portanto os totais acima sao parciais e nao representam o custo acumulado do projeto."
+  },
+  "verificador": {
+    "votos_gravados": 261,
+    "arquivo": "outputs/votos_verificacao.jsonl",
+    "chamadas_novas": null,
+    "tokens_in": null,
+    "tokens_out": null,
+    "observacao": "Nao documentado: src/verificar_arvore.py nao grava uso. Nao estimado aqui."
+  }
+}

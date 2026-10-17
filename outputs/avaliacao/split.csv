@@ -1,0 +1,94 @@
+id,disciplina,parte
+Q0004,Processo Penal,dev
+Q0006,Penal,dev
+Q0010,Direito Penal - Legislação Especial,dev
+Q0016,Processo Penal,holdout
+Q0017,Processo Penal,dev
+Q0023,Processo Penal,holdout
+Q0026,Direito Penal - Legislação Especial,holdout
+Q0031,Criminologia,dev
+Q0034,Processo Penal,holdout
+Q0040,Processo Penal,dev
+Q0043,Penal,dev
+Q0046,Processo Penal,holdout
+Q0047,Penal,dev
+Q0052,Direito Penal - Legislação Especial,dev
+Q0056,Penal,holdout
+Q0057,Penal,dev
+Q0058,Criminologia,holdout
+Q0064,Direito Penal - Legislação Especial,dev
+Q0067,Penal,dev
+Q0073,Penal,dev
+Q0074,Penal,dev
+Q0076,Criminologia,holdout
+Q0077,Penal,dev
+Q0078,Direito Penal - Legislação Especial,holdout
+Q0079,Processo Penal,dev
+Q0083,Penal,holdout
+Q0085,Penal,dev
+Q0091,Penal,holdout
+Q0094,Criminologia,dev
+Q0095,Penal,dev
+Q0109,Direito Penal - Legislação Especial,dev
+Q0114,Direito Penal - Legislação Especial,dev
+Q0117,Criminologia,dev
+Q0120,Processo Penal,dev
+Q0125,Direito Penal - Legislação Especial,dev
+Q0127,Direito Penal - Legislação Especial,dev
+Q0140,Penal,dev
+Q0141,Criminologia,dev
+Q0148,Penal,dev
+Q0149,Processo Penal,dev
+Q0158,Direito Penal - Legislação Especial,dev
+Q0164,Direito Penal - Legislação Especial,dev
+Q0173,Direito Penal - Legislação Especial,holdout
+Q0174,Penal,dev
+Q0181,Direito Penal - Legislação Especial,dev
+Q0195,Criminologia,dev
+Q0198,Penal,holdout
+Q0199,Penal,dev
+Q0200,Direito Penal - Legislação Especial,holdout
+Q0204,Processo Penal,holdout
+Q0206,Processo Penal,dev
+Q0210,Direito Penal - Legislação Especial,holdout
+Q0211,Processo Penal,dev
+Q0212,Processo Penal,dev
+Q0221,Penal,holdout
+Q0223,Penal,dev
+Q0225,Processo Penal,dev
+Q0232,Penal,dev
+Q0233,Penal,holdout
+Q0238,Processo Penal,dev
+Q0249,Processo Penal,holdout
+Q0259,Penal,dev
+Q0261,Penal,dev
+Q0268,Penal,holdout
+Q0273,Penal,dev
+Q0284,Penal,holdout
+Q0285,Criminologia,dev
+Q0286,Penal,dev
+Q0287,Penal,holdout
+Q0290,Processo Penal,dev
+Q0297,Direito Penal - Legislação Especial,dev
+Q0298,Direito Penal - Legislação Especial,dev
+Q0301,Penal,dev
+Q0303,Penal,dev
+Q0306,Direito Penal - Legislação Especial,holdout
+Q0318,Penal,holdout
+Q0320,Processo Penal,holdout
+Q0324,Penal,dev
+Q0325,Direito Penal - Legislação Especial,dev
+Q0333,Criminologia,holdout
+Q0334,Criminologia,dev
+Q0336,Penal,dev
+Q0339,Processo Penal,dev
+Q0342,Processo Penal,dev
+Q0346,Processo Penal,dev
+Q0347,Penal,dev
+Q0348,Penal,holdout
+Q0349,Penal,holdout
+Q0351,Penal,holdout
+Q0352,Processo Penal,holdout
+Q0354,Penal,dev
+Q0356,Penal,holdout
+Q0358,Penal,dev

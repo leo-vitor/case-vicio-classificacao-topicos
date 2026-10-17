@@ -1,0 +1,12 @@
+id,tema_modelo,caminho_modelo,tema_rotulo,caminho_rotulo,rotulo_oferecido_ao_juiz,causa_provavel,incerto,fonte
+Q0273,5222,Penal > Teoria do Crime: Fato Típico > Crime Doloso e Culposo,5096,Penal > Dos Crimes Contra a Administração Pública > Condescendência Criminosa,True,decisao,0,
+Q0016,5584,Processo Penal > Teoria Geral das Prisões,5519,Processo Penal > Prisões em Espécie > Prisão Preventiva,True,decisao,0,
+Q0249,5480,Processo Penal > Competência,5492,"Processo Penal > Das Questões e Processos Incidentes > Exceção de Suspeição, de Impedimento ou de Incompatibilidade",False,retrieval,0,
+Q0120,5590,Processo Penal > Teoria Geral das Provas,5533,Processo Penal > Procedimento Ordinário > Defesa Preliminar,False,retrieval,0,
+Q0306,5146,Penal > Dos Crimes Contra a Saúde Pública e Dos Crimes Contra à Paz Pública > Crimes Contra à Paz Pública,4705,Direito Penal - Legislação Especial > Organizações Criminosas,False,retrieval,0,
+Q0158,5209,Penal > Teoria da Pena > Efeitos da Condenação Penais e Extrapenais,4707,Direito Penal - Legislação Especial > Tortura,False,retrieval,0,
+Q0238,5523,Processo Penal > Prisões em Espécie > Liberdade Provisória,5518,Processo Penal > Prisões em Espécie > Prisão em Flagrante,True,decisao,0,
+Q0284,5224,Penal > Teoria do Crime: Fato Típico > Erro de Tipo,5231,Penal > Teoria do Crime: Ilicitude > Legítima Defesa,True,decisao,1,
+Q0064,5191,Penal > Punibilidade,4695,Direito Penal - Legislação Especial > Crimes Tributários,False,retrieval,0,
+Q0085,5071,Penal > Concurso de Pessoas,5091,Penal > Dos Crimes Contra a Administração Pública > Concussão e Excesso de Exação,True,decisao,0,
+Q0076,4380,Criminologia > Teoria Geral da Criminologia,4371,Criminologia > Etapas Evolutivas e Escolas Criminológicas,False,retrieval,0,
