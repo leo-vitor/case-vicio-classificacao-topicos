@@ -91,7 +91,7 @@ repo: **~33,8 M tokens de entrada / 1.000 questões** (4 votos).
 \* tabela pública de out/2026 — **verificar no contrato**; há sinal de **dobra em 01/01/2027**.
 Números gerados por `python -m src.experimentos.custo` (com `GEMINI_PRECO_IN_POR_MILHAO`/`_OUT_`). O
 `src/custo.py` usa só a saída "visível"; os **tokens de raciocínio** também são cobrados como
-saída, então o custo real é **um pouco maior** que a tabela. TODO o run medido é do
+saída, então o custo real é **um pouco maior** que a tabela. O run medido é do
 **fallback** (prompt com a árvore inteira) → é **teto**, não média representativa.
 
 **Custo-benefício.** A parte que mais decide (recuperação local) é **grátis** e leva o

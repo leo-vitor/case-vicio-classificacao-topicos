@@ -33,6 +33,12 @@ verificação já feita permanece **não documentado** — e não é estimado aq
 
 (4 votos por questão, a partir da média medida. É extrapolação, não medição.)
 
+> **Atenção ao teto.** Esta projeção usa a média do run de **fallback** (a mais alta
+> possível), por isso dá ~33,8 M/1.000. A entrega real somou **~5,2 M de tokens de
+> entrada** (juiz + verificação + etapas registradas) → **~14,4 M por 1.000** e
+> **~US$ 2,1**, conforme `README.md` ("Modelos, custo e tempo"). O 33,8 M é **pior
+> caso**, não expectativa.
+
 ## Custo por abordagem
 
 | Abordagem | Custo de API | Precisão/recall observado |

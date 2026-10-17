@@ -1,19 +1,18 @@
 # Case Vício (Método VDE): classificação de tópicos
 
-Pipeline que decide, para cada uma das 359 questões, entre **publicar**,
-**revisar** e **fora**, com votação de LLM, recuperação ampliada, verificação e
-uma avaliação de precisão **sem gabarito**.
+Classifica cada uma das **359 questões** de concurso num tema de Direito, ou manda
+para **revisão**: votação de dois LLMs, recuperação ampliada e uma segunda checagem.
 
-Entrega: `publicacao.csv` (raiz) e `previsao.txt`.
-
-> **O que a avaliação permite afirmar.** Observamos **90% de concordância**
-> (54/60) nas questões publicadas, com limite inferior de Wilson ~80%. Isso **não**
-> é precisão contra especialistas: os rótulos foram produzidos com assistência de
-> outro LLM (DeepSeek). A **previsão** registrada em `previsao.txt` é **0,86
-> (0,74 a 0,94)**, cobertura 0,62, revisada após a segunda rotulagem; o 0,90 é a
-> concordância observada, **não** a previsão. Não afirmamos que a meta de 95% foi
-> atingida. Detalhes em `docs/metodologia_avaliacao.md` e
-> `docs/transparencia_rotulos.md`.
+- **Resultado:** **222 publicadas** (61,8%), **136 para revisão**, **1 fora do escopo**.
+- **Qualidade:** **0,90 de concordância** (54/60) nas publicadas, com limite inferior
+  de Wilson ~80%. Isso **não** é precisão contra especialistas: os rótulos vieram de
+  outro LLM (DeepSeek); mede-se concordância, não precisão.
+- **Previsão (`previsao.txt`):** **0,86 (0,74 a 0,94)**, cobertura 0,62, revisada
+  após a segunda rotulagem. A meta de **95% não está demonstrada**.
+- **Rodar (sem API):** `python -m src.clean && python -m src.decide && python -m src.validate`
+  (detalhes em [Como rodar](#como-rodar)).
+- **Relatório (5 páginas):** [`report/relatorio.pdf`](report/relatorio.pdf); a fonte é
+  `report/relatorio.tex`.
 
 ## Resumo (para quem não é de ML)
 
@@ -45,7 +44,7 @@ cp .env.example .env        # preencha GEMINI_API_KEY
 > **Dados.** O banco de questões e os textos derivados **não estão versionados**
 > (são dados da empresa; ver `.gitignore`). O avaliador coloca `questoes.jsonl`,
 > `temas.csv` e `entrega_modelo.csv` em `data/` e roda **`python -m src.clean`
-> antes** do `python -m src.decide` — o `outputs/questoes_limpas.csv` (com o texto)
+> antes** do `python -m src.decide`: o `outputs/questoes_limpas.csv` (com o texto)
 > é gerado localmente, não vem no pacote.
 
 **Ordem real do pipeline** (o juiz e o `decide` rodam mais de uma vez, porque
@@ -86,33 +85,11 @@ que **não** vem versionado; `outputs/candidatos.json`, `outputs/votos.jsonl` e
 
 ### Experimentos (não fazem parte da entrega)
 
-- `python -m src.eval --split` / `--sweep` / `--config tfidf+irmao+dic --k 10` —
-  avaliação **canônica** de recuperação (métricas, IDs de erro, versão dos dados).
-  Ver `docs/avaliacao.md`.
-- `python -m src.experimentos.recall_recuperacao` — experimento histórico de recuperação (TF-IDF/BM25/
-  denso/RRF + expansões). Superado por `src.eval`, mantido por rastreabilidade.
-- `python -m src.experimentos.audit recall|erros|votos|latente` — auditoria offline.
-- `python -m src.experimentos.baseline_svm` — baseline supervisionado (TF-IDF + SVM linear).
-- `python -m src.experimentos.custo` — consumo por etapa e projeção por 1.000/50.000 questões.
-- `python -m src.experimentos.experimento_irmaos` — irmãos × risco de **gêmeo** × custo (offline, grátis).
-  Ver `docs/irmaos_comparativo.md`.
-- `python -m src.experimentos.ab_juiz --dry-run` / `--rodar` — A/B do juiz entre configs de recuperação
-  (dry-run grátis; `--rodar` **gasta API**). Ver `docs/irmaos_comparativo.md`.
-- `python -m src.experimentos.avaliacao_pipeline --rotulos data/rotulos_opus.tsv` — pipeline congelado ×
-  **rotulagem nova** (offline): concordância, gêmeos, por grau de dúvida. Ver `docs/rotulos_opus.md`.
-- `python -m src.eval --sweep --rotulos data/rotulos_opus.tsv` (e
-  `src.experimentos.experimento_irmaos --rotulos ...`) — mesmos testes numa **rotulagem alternativa**.
-- `src/experimentos/seletiva.py` — política seletiva testada e **não adotada** (apoiava-se em ~17 rótulos).
-- `python -m src.experimentos.classificador [--rotulos ...] [--cruzado]` — **classificador treinado** offline
-  (TF-IDF + regressão logística): validação cruzada, generalização entre rotulagens, calibração
-  e **precisão a cobertura fixa**. Piso de comparação; sai em `outputs/experimentos/classificador/`.
-- `python -m src.contexto_cache [--dry-run|--criar|--validar]` — **cache de contexto** do prefixo
-  repetido (a árvore). `--dry-run` só estima tokens (grátis); `--criar`/`--validar` usam API.
-- `python -m src.experimentos.ab_dic [--rotulos ...] [--configs ...] [--par A B]` — **analisa o A/B** já
-  pago (votos do `src.experimentos.ab_juiz`): decisão com/sem verificador, Legislação Especial e diferença
-  pareada (ganho/perda por questão). Offline. Ver `docs/ab_dicionario.md`.
-- `python -m src.experimentos.snapshot_metricas` — congela **todas as métricas atuais** em
-  `outputs/experimentos/baseline_snapshot/` (hashes, decisões, concordância, recuperação).
+Módulos opt-in em `src/experimentos/` (avaliação de recuperação, baselines, A/B do
+dicionário, classificador, irmãos/gêmeos, custo, auditoria e congelamento de
+métricas), além do `src.contexto_cache` (cache do prefixo repetido). **Nenhum**
+entra no `publicacao.csv`; só o pipeline de `src/` gera a entrega. A lista dos
+módulos está em [`src/experimentos/README.md`](src/experimentos/README.md).
 
 **Flags opt-in (não mudam a entrega):** `RETRIEVAL_DIC=1` aplica o **dicionário na consulta**
 do `src.candidates` (mesma lógica do `+dic` do `src.eval`); `CANDIDATOS_OUT=<arquivo>` grava a
@@ -132,7 +109,7 @@ invalida o cache do juiz).
 > **quase fora da amostra**: 41 já no conjunto de desenho)
 > mostrou que esse ganho de **busca** quase **não** chega à **decisão**: com o dicionário,
 > `recall_hier` sobe 0,791 → 0,845, mas a concordância das publicadas muda **+0,2 pp** (1
-> questão) — os acertos extras caem em `revisar`, que a métrica não conta. Decomposição:
+> questão): os acertos extras caem em `revisar`, que a métrica não conta. Decomposição:
 > `docs/ab_dicionario.md`.
 
 ## Como a classificação funciona
@@ -151,9 +128,12 @@ invalida o cache do juiz).
    - temas "lixeira" (muitas questões na origem) exigem confiança extra.
 5. **Verificador:** um 5º voto, do `flash-lite` com a **árvore inteira**. Se ele
    discorda do tema publicado, a questão vai para revisão. Motivo: os erros eram
-   unânimes por falha de recuperação — só uma recuperação diferente os pega.
+   unânimes por falha de recuperação; só uma recuperação diferente os pega.
 6. **Gêmeos:** temas de mesmo título em disciplinas diferentes só publicam se a
-   disciplina de origem conferir com a raiz do tema escolhido.
+   disciplina de origem conferir com a raiz do tema escolhido. **Por quê:** publicar
+   no tema errado é o erro mais caro (o aluno estudaria o tópico errado); na dúvida
+   entre gêmeos, rebaixar para revisão é a aposta segura. Custo da premissa: **24
+   questões** rebaixadas (~6,7 pontos de cobertura).
 
 ## Como estimei a precisão sem gabarito
 
@@ -166,6 +146,10 @@ invalida o cache do juiz).
 4. **Intervalo de Wilson 95%** sobre a concordância observada.
 5. **Transparência:** os rótulos vêm de outro LLM (DeepSeek); mede-se
    **concordância**, não precisão. Ver `docs/transparencia_rotulos.md`.
+6. **Segunda rotulagem (Opus) e adjudicação:** uma rotulagem nova de **150 questões**
+   (41 em comum com a primeira) dá **0,54 no tema exato** e **0,85 com pai e filho**:
+   a concordância depende de quem rotula. Os 6 desacordos foram adjudicados à mão em
+   `docs/adjudicacao_erros.csv` (1 rótulo, 1 modelo, 4 ambíguos).
 
 ## Resultado desta execução
 
@@ -187,7 +171,7 @@ segunda rotulagem. O 0,90 é a concordância observada, **não** a previsão.
 
 ## Modelos, custo e tempo
 
-Valores de `outputs/uso.json` (execução real; **parciais** — ver escopo no arquivo).
+Valores de `outputs/uso.json` (execução real; **parciais**; ver escopo no arquivo).
 
 | Item | Valor |
 |---|---|
@@ -203,14 +187,14 @@ O `src/judge.py` grava `uso.json` a cada run (só o último fica); as demais eta
 registram em `outputs/uso_etapas.jsonl`. Somando as etapas medidas: **~5,2 M tokens de
 entrada → ~US$ 2,1** (**~14,4 M por 1.000 questões**) e **~US$ 0,0058 por questão**
 (~US$ 5,8 por mil; ~US$ 290 por semana para 50 mil). É um **piso**: conta só tokens de
-entrada, sem raciocínio nem saída — a primeira rodada completa consumiu **~R$ 14** no
+entrada, sem raciocínio nem saída: a primeira rodada completa consumiu **~R$ 14** no
 painel, mais que o US$ 1,04 do juiz na tabela.
 
 ### Tempo
 
 Rodadas do juiz cronometradas: **28, 88, 89 e 25 s** (a de 89,1 s está em
 `outputs/uso.json`). A rodada inicial do juiz não foi cronometrada, e a verificação
-(261 votos, com a árvore inteira em cada chamada) não registrou segundos — pela taxa
+(261 votos, com a árvore inteira em cada chamada) não registrou segundos; pela taxa
 do juiz (~112 chamadas novas em 89 s), a ordem é de **~3 a 4 min**. A máquina, no
 total, roda em **minutos**, não em horas; o gargalo foi o **esforço humano** (desenho
 do pipeline, adjudicação dos erros conferidos à mão e escrita do relatório), da ordem
@@ -228,12 +212,12 @@ src/        núcleo do pipeline (clean, candidates, expandir_fora, fallback_arvo
             dicionario, contexto_cache, uso, estimate)
 src/experimentos/  módulos de experimentação, opt-in (ab_juiz, ab_dic, experimento_irmaos,
             avaliacao_pipeline, classificador, baseline_svm, audit, seletiva,
-            recall_recuperacao, snapshot_metricas, custo) — ver o README da pasta
-data/       questoes.jsonl, temas.csv, entrega_modelo.csv, dicionario_juridico.csv
+            recall_recuperacao, snapshot_metricas, custo); ver o README da pasta
+data/       copie dos anexos do case: questoes.jsonl, temas.csv e entrega_modelo.csv
+            (não versionados); dicionario_juridico.csv e rotulos_opus.tsv vêm no repo
 prompts/    prompt do juiz
-report/     relatório oficial em LaTeX (relatorio.tex, 5 páginas, Overleaf/pdfLaTeX),
-            PDF compilado (relatorio.pdf) e memo ao professor integrado como seção (d);
-            os .md são rascunho
+report/     relatorio.tex (fonte, Overleaf/pdfLaTeX) e relatorio.pdf (5 páginas, memo
+            ao professor na última página)
 docs/       decisões manuais, metodologia, transparência, auditoria do verificador,
             adjudicação dos erros, A/B do dicionário
 outputs/    artefatos intermediários (votos, agregado, uso, candidatos, experimentos)
@@ -242,7 +226,7 @@ outputs/    artefatos intermediários (votos, agregado, uso, candidatos, experim
 ## O que faria com mais tempo
 
 - **Melhorar o retrieval** (dicionário + irmãos): testado offline, `recall_hier` de 0,667 →
-  **0,957** (Legislação Especial 5/19 → 16/19). Muda o prompt do juiz e invalida o cache —
+  **0,957** (Legislação Especial 5/19 → 16/19). Muda o prompt do juiz e invalida o cache:
   precisa re-julgar. O dicionário sozinho (lista pequena) já entrega o essencial por
   **menos**; irmãos custam ~6× de lista por ganho marginal e expõem a confusão por **gêmeo**
   (exposição 4 → 10). Análise: `docs/irmaos_comparativo.md`.
