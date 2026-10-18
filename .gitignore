@@ -24,3 +24,10 @@ outputs/backups/
 # Saida do metodo antigo de estimativa (nao sobrescreve o previsao.txt entregue)
 previsao_automatica.txt
 outputs/votos_mock.jsonl
+
+# Artefatos de compilacao do LaTeX (o relatorio.pdf entregue e versionado)
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.synctex.gz

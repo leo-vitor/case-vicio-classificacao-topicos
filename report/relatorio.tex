@@ -11,42 +11,71 @@
 \usepackage[brazilian]{babel}
 \usepackage[margin=2.0cm]{geometry}
 \usepackage{booktabs}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{microtype}
 \usepackage{enumitem}
 \usepackage{titlesec}
 \usepackage{tcolorbox}
+\tcbuselibrary{skins}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[scaled=1.0]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 \usepackage[hidelinks]{hyperref}
 
 \definecolor{azul}{HTML}{1F4E79}
 \definecolor{cinza}{HTML}{F2F4F7}
+\definecolor{cinzaforte}{HTML}{DCE3EB}
 
 \newcommand{\bd}[1]{\textbf{#1}}
 \setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=2pt}
 \setlength{\parskip}{4pt}
 \setlength{\parindent}{0pt}
-\titlespacing*{\section}{0pt}{9pt}{3pt}
+
+% --- cabecalho de secao: caixa alta, navy, com filete ---
+\titleformat{\section}{\normalfont\large\bfseries\color{azul}}{}{0pt}{\MakeUppercase}[{\vspace{-0.15em}\color{azul}\titlerule[0.8pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+
+% --- rodape (pagina X de Y) ---
+\fancypagestyle{rodape}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[L]{\small\color{black!55}Classificação de tópicos --- case VDE}%
+  \fancyfoot[R]{\small\color{black!55}Página \thepage\ de \pageref{LastPage}}%
+}
+\pagestyle{rodape}
+
+% --- cartao de indicador (KPI) ---
+\newcommand{\kpi}[2]{%
+  \fcolorbox{azul!55}{white}{\parbox[c][13mm][c]{0.285\textwidth}{\centering
+    {\Large\bfseries\color{azul}#1}\\[2pt]{\scriptsize\bfseries\color{black!65}#2}}}%
+}
 
 \tikzset{
-  box/.style={draw=azul,rounded corners,fill=cinza,align=center,inner sep=3pt,
+  box/.style={draw=azul,rounded corners,fill=white,align=center,inner sep=3pt,
               minimum height=8mm,text width=19mm,font=\small},
   arr/.style={-{Latex[length=2mm]},thick,draw=azul}
 }
 
-\title{\vspace{-1.4cm}\textbf{\color{azul}Classificação de tópicos: case VDE}\\[3pt]
-\large Do raciocínio ao desenho de produção}
-\author{Leo Vitor}
-\date{}
-
 \begin{document}
-\maketitle
-\vspace{-1.3cm}
+% --- bloco de titulo ---
+{\LARGE\bfseries\color{azul}Classificação de tópicos: case VDE\par}
+\vspace{2pt}
+{\large Do raciocínio ao desenho de produção\par}
+\vspace{4pt}
+{\small Autor: Leo Vitor \hfill Contexto: Processo Seletivo / Engenharia de IA\par}
+\vspace{-2pt}
+{\color{azul}\hrule height 0.8pt}
+\vspace{7pt}
+\thispagestyle{rodape}
 
 % ============================ SUMARIO EXECUTIVO ============================
-\begin{tcolorbox}[colback=cinza,colframe=azul,
-                  title=\textbf{Sumário executivo},boxrule=0.6pt,arc=2pt]
+\begin{tcolorbox}[colback=cinza,colframe=azul!35,
+                  borderline west={2.5pt}{0pt}{azul},
+                  title={\bfseries SUMÁRIO EXECUTIVO},coltitle=azul,colbacktitle=cinza,
+                  boxrule=0.6pt,arc=2pt,left=6pt]
 \begin{itemize}
 \item \bd{Resultado:} publiquei 222 das 359 questões (61,8\%), mandei 136 para revisão e
       deixei uma fora do escopo.
@@ -56,29 +85,39 @@
 \end{itemize}
 \end{tcolorbox}
 
-Minha previsão final é 0,86 (de 0,74 a 0,94), com cobertura de 0,62. Baixei de 0,90 porque
-o número antigo vinha de um único rotulador de IA; com uma segunda avaliação independente,
-ele parecia otimista.
+\vspace{2pt}
+\noindent
+\kpi{61,8\%}{TAXA DE PUBLICAÇÃO}\hfill
+\kpi{0,86}{PREVISÃO FINAL (0,74--0,94)}\hfill
+\kpi{0,90--0,92}{CONCORDÂNCIA COM ROTULADOR DE IA}
+\vspace{4pt}
+
+Minha previsão de precisão é 0,86, no intervalo de 0,74 a 0,94, que é julgamento e não
+bootstrap. A cobertura, de 0,62, é uma contagem do pipeline, não uma estimativa. Baixei de
+0,90 porque o número antigo vinha de um único rotulador de IA; com uma segunda avaliação
+independente, ele parecia otimista.
 
 % ================================= a) COMO PENSEI =========================
 \section*{a) Como eu pensei}
 
 Comecei pelo caminho mais simples: pedir a um modelo que escolhesse o tema de cada questão
 entre os temas que uma busca por palavras trazia. As primeiras rodadas mostraram dois
-problemas diferentes. Em várias questões o tema certo nem estava entre os candidatos, e o
-modelo escolhia o vizinho mais parecido com toda a confiança. Quando pus dois modelos para
-votar, eles concordavam justamente nesses erros, de modo que a votação, que eu esperava que
-servisse de alarme, não avisava de nada.
+problemas: em várias questões o tema certo nem estava entre os candidatos, e o
+modelo escolhia o vizinho mais parecido com toda a confiança; e, ao pôr dois modelos para
+votar, eles concordavam justamente nesses erros. A votação, que eu esperava que fosse um
+alarme, então confirmava o erro em vez de apontá-lo.
 
 O desenho final tem três partes. A busca por palavras propõe os temas mais parecidos, mais os
-pais e os filhos dos mais bem colocados. Dois modelos Gemini (\texttt{gemini-3.6-flash} e
-\texttt{gemini-3.1-flash-lite}) votam duas vezes cada, num total de quatro votos. Um
-verificador, que enxerga a árvore inteira de temas, dá um quinto voto e manda a questão para
-revisão quando discorda. Só então as regras consolidam: votos iguais publicam; votos em
+pais e os filhos dos mais bem colocados. Dois modelos Gemini (\texttt{gemini-\allowbreak 3.6-\allowbreak flash} e
+\texttt{gemini-\allowbreak 3.1-\allowbreak flash-\allowbreak lite}) votam duas vezes cada, num total de quatro votos. Um
+verificador, o menor dos dois modelos, enxerga a árvore inteira de temas, dá o quinto voto,
+que desempata um 2 a 2, e manda a questão para revisão quando discorda. Só então as regras consolidam: votos iguais publicam; votos em
 subtemas do mesmo ramo publicam no tema pai (a régua do case aceita pai e filho); temas
 diferentes vão para revisão; e a maioria de \texttt{fora} vira \texttt{fora}.
 
-\begin{figure}[h]
+\begin{tcolorbox}[colback=cinza,colframe=azul!30,boxrule=0.6pt,arc=2pt,
+                  title={\small\bfseries\color{azul}ARQUITETURA DO PIPELINE DE CLASSIFICAÇÃO ENTREGUES},
+                  coltitle=azul,colbacktitle=cinza,left=4pt,right=4pt,top=6pt,bottom=5pt]
 \centering
 \begin{tikzpicture}[node distance=6mm]
 \node[box] (clean) {Limpeza\\\scriptsize HTML $\to$ texto};
@@ -93,11 +132,13 @@ diferentes vão para revisão; e a maioria de \texttt{fora} vira \texttt{fora}.
 \draw[arr] (ver)--(reg);
 \draw[arr] (reg)--(out);
 \end{tikzpicture}
-\caption{Fluxo do pipeline entregue. O verificador entra antes das regras e vê a árvore inteira.}
-\end{figure}
+\\[2pt]
+{\scriptsize\itshape\color{black!60}O verificador entra antes das regras e vê a árvore inteira.}
+\end{tcolorbox}
 
-Dos onze erros que achei entre as publicadas da primeira versão, seis eram de busca (o tema
-certo não estava entre os candidatos) e cinco de decisão (estava, e o juiz escolheu outro). O
+Dos onze erros que achei entre as publicadas da primeira versão, seis eram de busca, com o
+tema certo fora da lista de candidatos, e cinco de decisão, com o tema certo na lista e o
+juiz escolhendo outro. O
 que me chamou a atenção foi que todos eram votos unânimes: a votação nunca desconfiou. Foi
 isso que me levou ao verificador, um quinto voto que enxerga a árvore inteira e manda a
 questão para revisão quando discorda.
@@ -105,14 +146,14 @@ questão para revisão quando discorda.
 Antes de rodá-lo, escrevi o critério de sucesso: vetar pelo menos três erros reais e recusar
 no máximo um quinto das questões certas. Ele vetou cinco dos onze erros e recusou três das
 questões certas, dentro do critério. Dos seis que escaparam, minha leitura é que dois dividem
-opinião (um a favor do rótulo de IA, um a favor do modelo) e quatro são ambíguos, todos
-registrados em \texttt{docs/adjudicacao\_erros.csv}. É a leitura de um revisor, não de um
+opinião, sendo um a favor do rótulo de IA e um a favor do modelo, e quatro são ambíguos,
+todos registrados em \texttt{docs/adjudicacao\_erros.csv}. É a leitura de um revisor, não de um
 especialista.
 
-O caminho até aqui não foi reto, e descartei várias ideias. A primeira foi uma política que
+Cheguei ao desenho final por tentativa e erro, e descartei várias ideias pelo caminho. A primeira foi uma política que
 publicava só os casos mais confiáveis: chegou a 95 questões com 100\% de concordância, mas eu
 a abandonei porque se apoiava em 17 rótulos da mesma amostra que a calibrou. Buscas
-alternativas (BM25, fusão de rankings e embeddings densos) não superaram a busca simples por
+alternativas, como BM25, fusão de rankings e embeddings densos, não superaram a busca simples por
 palavras. Subir sempre para o tema pai resolveu um caso só, porque o erro raramente era entre
 irmãos. E descartei o cross-encoder sem testar, porque ele só reordena a lista, e o problema é
 o tema que não entra nela.
@@ -173,20 +214,20 @@ A tabela resume o que encontrei.
 \small
 \begin{tabular}{lcc}
 \toprule
-Comparação & Itens & Resultado \\
+\rowcolor{azul}\color{white}\bfseries Comparação & \color{white}\bfseries Itens & \color{white}\bfseries Resultado \\
 \midrule
-\multicolumn{3}{l}{\emph{Concordância, aceitando pai e filho}} \\
+\rowcolor{cinzaforte}\multicolumn{3}{l}{\emph{Concordância, aceitando pai e filho}} \\
 Antes do verificador (261 publicadas) $\times$ DeepSeek & 68 & 0,84 \;(0,73 a 0,91) \\
 Entrega (222 publicadas) $\times$ DeepSeek & 60 & 0,90 \;(0,80 a 0,95) \\
 Entrega $\times$ Opus (quase fora da amostra) & 88 & 0,92 \;(0,84 a 0,96) \\
 DeepSeek $\times$ Opus & 41 & 0,85 \;(0,72 a 0,93) \\
 \quad \emph{no tema exato} & 41 & 0,54 \\
 \midrule
-\multicolumn{3}{l}{\emph{Verificador, sobre as 261 publicadas antes dele}} \\
+\rowcolor{cinzaforte}\multicolumn{3}{l}{\emph{Verificador, sobre as 261 publicadas antes dele}} \\
 Erros apontados e vetados & 11 & 5 \\
 Questões certas recusadas & 57 & 3 \\
 \midrule
-\multicolumn{3}{l}{\emph{Limiar de confiança, para chegar perto de 95\% de precisão}} \\
+\rowcolor{cinzaforte}\multicolumn{3}{l}{\emph{Limiar de confiança, para chegar perto de 95\% de precisão}} \\
 Melhor precisão com cobertura útil & 15 & 0,93 \;(0,70 a 0,99) \\
 Precisão máxima & 6 & 1,00 \;(0,61 a 1,00) \\
 \bottomrule
@@ -233,14 +274,14 @@ gravados em arquivo.
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
-Etapa (359 questões) & Tokens de entrada & Custo (US\$, preço de tabela) \\
+\rowcolor{azul}\color{white}\bfseries Etapa (359 questões) & \color{white}\bfseries Tokens de entrada & \color{white}\bfseries Custo (US\$, preço de tabela) \\
 \midrule
 Juiz (4 votos) & $\sim$2,1 M & 1,04 \\
 Fallback (28 questões $\times$ 4) & $\sim$0,9 M & 0,47 \\
 Verificador (246 chamadas) & $\sim$2,14 M & 0,56 \\
 \midrule
-Total & $\sim$5,2 M & 2,1 \\
-Projeção para 50 mil por semana & --- & US\$ 290 a R\$ 4,6 mil \\
+\rowcolor{cinzaforte}\bfseries Total & $\sim$5,2 M & 2,1 \\
+Projeção para 50 mil por semana & --- & US\$ 290 (piso) \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -251,7 +292,8 @@ que os quatro votos do juiz, porque usa só o modelo barato.
 
 O gasto real foi maior: a fatura do painel ficou em R\$ 32,98, contando também os
 experimentos. Dividido pelas 359 questões, o teto observado é de R\$ 0,09 por questão, contra
-um piso de US\$ 0,006 na tabela.
+um piso de US\$ 0,006 na tabela. Para as 50 mil questões, a projeção vai de US\$ 290, no piso,
+a R\$ 4,6 mil, no teto observado.
 
 \bd{Cache de contexto.} O bloco que se repete em toda chamada (instruções mais a árvore, uns
 9 mil tokens) pode ser enviado uma vez e reaproveitado. O cálculo em tokens, que não gasta
@@ -282,8 +324,7 @@ classificador.
 % ================================= d) MEMO ================================
 \clearpage
 \section*{(d) Memo para o professor}
-{\small\itshape Este memo é para você, especialista em Direito, não em IA. Uma página, sem
-jargão.}
+{\small\itshape Este memo é para você, especialista em Direito, não em IA.}
 
 \bd{O que eu fiz}
 \begin{itemize}
@@ -313,8 +354,8 @@ jargão.}
 \bd{O que recomendo mudar nos temas}
 \begin{itemize}
 \item Dar nomes que distingam os gêmeos (por exemplo, citar a disciplina no título). São oito
-      pares: 4684/6716, 5063/5466, 4688/6717, 4702/6723, 4704/6724, 4703/6734, 4705/6725 e
-      4708/6728.
+      pares, cujos números são os IDs na base de temas: 4684/6716, 5063/5466, 4688/6717,
+      4702/6723, 4704/6724, 4703/6734, 4705/6725 e 4708/6728.
 \item Fundir ou hierarquizar melhor os subtemas que repetem o conteúdo do pai.
 \item Marcar os temas ``guarda-chuva'' (onde aceitar o nível geral é seguro) e os que exigem o
       nível específico.

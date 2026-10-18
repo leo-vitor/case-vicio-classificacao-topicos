@@ -23,7 +23,7 @@ para **revisão**: votação de dois LLMs, recuperação ampliada e uma segunda 
   regras consolidam os votos; uma segunda checagem (que vê todos os temas)
   encaminha para revisão quando discorda.
 - **Fora da entrega:** melhorar a busca (dicionário + temas "irmãos") elevaria o
-  acerto da busca de ~67% para ~95%, mas num A/B **fim-a-fim** esse ganho **não**
+  acerto da busca de ~67% para ~96%, mas num A/B **fim-a-fim** esse ganho **não**
   se converteu em decisão (ver `docs/ab_dicionario.md`); ficou como proposta.
 
 ## Como rodar
@@ -192,7 +192,7 @@ não gravado:** o verificador (~2,14 M de entrada + ~18 mil de saída em 246 cha
 
 Custo por questão: **entre ~US$ 0,006** (piso, só tokens de entrada) **e ~R$ 0,09** (teto
 observado: R$ 32,98 de painel ÷ 359, incluindo os experimentos). Para 50 mil por semana:
-**entre ~US$ 290 (piso) e ~R$ 4,6 mil (teto)**.
+**entre ~US$ 290 (piso, preço de tabela) e ~R$ 4,6 mil (teto observado)**.
 
 ### Tempo
 
