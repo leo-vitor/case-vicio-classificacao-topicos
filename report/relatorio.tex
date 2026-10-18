@@ -315,8 +315,8 @@ depois de acumular rótulos dos professores} (hoje não existe; o SVM deu 0,441)
 verificação seletiva e revisão humana nas divergências.
 
 \bd{Custo por etapa.} Medido onde há registro (fallback e A/B, em \texttt{uso.json} e
-\texttt{uso\_etapas.jsonl}); estimado no juiz (juiz base $\approx$ 1,5 mil tok/chamada) e no
-verificador (246 chamadas contadas, tokens não gravados, a 8,7 mil cada):
+\texttt{uso\_etapas.jsonl}); no juiz base, estimado; no verificador, lido no console
+(246 chamadas; os tokens não foram gravados em arquivo):
 
 \begin{center}
 \begin{tabular}{lcc}
@@ -325,7 +325,7 @@ Etapa (359 questões) & Tokens de entrada & Custo (US\$, preços reais) \\
 \midrule
 Juiz (4 votos) & $\sim$2,1 M & $\sim$1,04 \\
 Fallback (28 questões $\times$ 4) & $\sim$0,9 M (medido) & $\sim$0,47 \\
-Verificador (246 chamadas) & $\sim$2,14 M (estimado) & $\sim$0,56 \\
+Verificador (246 chamadas) & $\sim$2,14 M (lido no console) & $\sim$0,56 \\
 \midrule
 \bd{Total} & \bd{$\sim$5,2 M} & \bd{$\sim$2,1} \\
 \bottomrule
@@ -336,15 +336,15 @@ Preços: \texttt{gemini-3.6-flash} (0,75 / 3,75 por milhão) e \texttt{gemini-3.
 (0,25 / 1,50). \bd{$\sim$14,4 M tokens de entrada por 1.000 questões} (não os 33,8 M que supunham
 a árvore inteira em toda questão). O verificador tem \emph{mais} tokens por chamada, mas custa
 \emph{menos} por questão que os quatro votos do juiz, porque usa só o modelo barato. É um
-\bd{piso}, só tokens de entrada (sem raciocínio nem experimentos): todas as rodadas consumiram
-$\sim$R\$ 32,98 no painel, acima do US\$ 2,1 estimado na tabela. Custo por questão
-$\sim$US\$ 0,0058: $\sim$US\$ 5,8 por mil, $\sim$US\$ 290 por semana para 50 mil.
+\bd{piso}, só tokens de entrada (sem raciocínio nem saída). Custo por questão \bd{entre
+$\sim$US\$ 0,006} (piso) \bd{e $\sim$R\$ 0,09} (teto observado: R\$ 32,98 das rodadas
+$\div$ 359, com os experimentos); para 50 mil por semana, de $\sim$US\$ 290 a $\sim$R\$ 4,6 mil.
 
 \bd{Cache de contexto.} O bloco repetido (instruções + árvore, $\sim$9 mil tokens) pode ser
-enviado uma vez e reaproveitado. O plano em tokens é grátis (\texttt{--dry-run}: $\sim$72\% de
+enviado uma vez e reaproveitado. O plano em tokens é grátis (\texttt{-{}-dry-run}: $\sim$72\% de
 economia na entrada); o teste real é \emph{pequeno}, a \textbf{saída não foi guardada} e os
 créditos de API acabaram, então não o reexecutei. Reproduzir com
-\texttt{python -m src.contexto\_cache --criar} (\texttt{docs/cache\_contexto.md}); o desconto real
+\texttt{python -m src.contexto\_cache -{}-criar} (\texttt{docs/cache\_contexto.md}); o desconto real
 em R\$ só se confirma no contrato.
 
 \bd{Limitações honestas.} (1) Juiz e verificador são da mesma família (Gemini): erram juntos, e a

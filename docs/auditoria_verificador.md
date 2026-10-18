@@ -54,11 +54,12 @@ verificador, inclusive `Q0120`, que trata de resposta à acusação e foi para
 memória) e não grava arquivo. Os caches (`outputs/cache/judge/*.json`) guardam
 apenas o texto da resposta, sem contagem de tokens. Por isso:
 
-- **Documentado:** 261 votos em `outputs/votos_verificacao.jsonl`.
-- **Não documentado:** número de chamadas novas e tokens da verificação.
+- **Persistido:** 261 votos em `outputs/votos_verificacao.jsonl`.
+- **Lido no console (`J.STATS`), não persistido:** ~2,14 M de entrada + ~18 mil de
+  saída em 246 chamadas novas.
 
-Não há, portanto, custo de tokens da verificação para somar de forma confiável; o
-valor não é estimado aqui. Ver `outputs/uso.json` para o escopo do que foi gravado.
+Os tokens não foram gravados em arquivo (`uso_etapas.jsonl` não tem a etapa), então o
+número vem do console do run. Ver `outputs/uso.json` para o escopo do que foi gravado.
 
 ## Limites desta auditoria
 

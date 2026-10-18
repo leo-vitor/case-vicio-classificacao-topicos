@@ -22,12 +22,6 @@ para **revisão**: votação de dois LLMs, recuperação ampliada e uma segunda 
 - **Solução:** uma busca textual propõe candidatos; dois modelos votam (4 votos);
   regras consolidam os votos; uma segunda checagem (que vê todos os temas)
   encaminha para revisão quando discorda.
-- **Resultado:** **222 publicadas** (61,8%), **136 para revisão**, **1 fora do
-  escopo**. A decisão de publicar menos reduz o risco, mas **não comprova** 95% de
-  precisão.
-- **Qualidade:** **90% de concordância** (54 de 60 avaliadas). Como os rótulos de
-  referência foram feitos com apoio de IA, a **precisão real permanece
-  desconhecida**.
 - **Fora da entrega:** melhorar a busca (dicionário + temas "irmãos") elevaria o
   acerto da busca de ~67% para ~95%, mas num A/B **fim-a-fim** esse ganho **não**
   se converteu em decisão (ver `docs/ab_dicionario.md`); ficou como proposta.
@@ -75,6 +69,9 @@ python -m src.validate
 | `publicacao.csv`, `outputs/agregado.csv` | `src.decide` |
 | `outputs/publicacao_congelada.csv` | cópia do `publicacao.csv` antes do verificador |
 | `outputs/votos_verificacao.jsonl` | `src.verificar_arvore --rodar` |
+
+O verificador reaproveita o **mesmo prompt do juiz** (`prompts/judge_prompt.md`), passando a
+**árvore inteira** como lista de candidatos (`src/verificar_arvore.py`).
 
 Teste sem custo e sem internet: `JUDGE_BACKEND=mock python -m src.judge`. O mock não é IA, só verifica o fluxo, e grava em `outputs/votos_mock.jsonl` (não toca em `votos.jsonl` nem em `uso.json`).
 As chamadas ao modelo ficam em cache (`outputs/cache`). Rodar de novo não gasta de novo.
@@ -181,17 +178,18 @@ Valores de `outputs/uso.json` (execução real; **parciais**; ver escopo no arqu
 | Tokens de entrada / saída (último run do juiz) | 945.992 / 9.188 (+30.660 de raciocínio) |
 | Chamadas novas / cache | 112 / 1.324 |
 | Erros de provedor | 4 (inclui Q0227, `PROHIBITED_CONTENT`) |
-| Verificação | 261 votos; 246 chamadas novas **contadas** (tokens não gravados: ~2,14 M estimados, a ~8,7 mil/chamada) |
+| Verificação | 261 votos; 246 chamadas novas; **~2,14 M de entrada + ~18 mil de saída lidos no console**, não gravados em arquivo |
 
 O `src/judge.py` grava `uso.json` a cada run (só o último fica) e as etapas
-instrumentadas registram em `outputs/uso_etapas.jsonl`. **Medido:** o último run do juiz
-(≈0,9 M, o fallback) e o A/B do dicionário (≈0,9 M). **Estimado:** o juiz base
-(≈1,5 mil tok/chamada) e o verificador (as 246 chamadas foram contadas, mas o módulo não
-gravou tokens). Somando medido e estimado: **~5,2 M tokens de entrada → ~US$ 2,1**
-(**~14,4 M por 1.000 questões**) e **~US$ 0,0058 por questão** (~US$ 5,8 por mil; ~US$ 290
-por semana para 50 mil). É um **piso**: só tokens de entrada, sem raciocínio nem saída. O gasto
-total no painel foi **~R$ 32,98** (todas as rodadas, com experimentos), acima do
-**US$ 2,1** que a tabela estima para o pipeline.
+instrumentadas registram em `outputs/uso_etapas.jsonl`. **Medido em arquivo:** o último run
+do juiz (≈0,9 M, o fallback) e o A/B do dicionário (≈0,9 M). **Lido no console (`J.STATS`),
+não gravado:** o verificador (~2,14 M de entrada + ~18 mil de saída em 246 chamadas).
+**Estimado:** o juiz base (≈1,5 mil tok/chamada). Somando: **~5,2 M tokens de entrada →
+~US$ 2,1** (**~14,4 M por 1.000 questões**).
+
+Custo por questão: **entre ~US$ 0,006** (piso, só tokens de entrada) **e ~R$ 0,09** (teto
+observado: R$ 32,98 de painel ÷ 359, incluindo os experimentos). Para 50 mil por semana:
+**entre ~US$ 290 (piso) e ~R$ 4,6 mil (teto)**.
 
 ### Tempo
 
@@ -241,3 +239,9 @@ outputs/    artefatos intermediários (votos, agregado, uso, candidatos, experim
 - Confirmar com a organização a convenção dos temas **gêmeos**.
 - Consolidar **uso/custo** acumulado de todas as etapas (hoje o `uso.json` guarda só o
   último run do juiz).
+- **Com o professor no circuito** (itens 6–8 do relatório): ligações curadas lei→tema e
+  entre **gêmeos**, validadas por ele; **regra de decisão por custo**, quando houver
+  probabilidade calibrada; **aprendizado ativo** (a revisão dele gera rótulos e treina o
+  classificador).
+
+> No relatório (Seção c), a mesma lista aparece agrupada em **8 itens**.

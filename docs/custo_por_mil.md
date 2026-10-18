@@ -21,8 +21,9 @@ inteira) → a média por chamada é **alta** e **superestima** um run típico. 
 uma média representativa.
 
 As etapas `fallback_arvore` e `verificar_arvore` **não registravam** uso; agora registram
-(`outputs/uso_etapas.jsonl`), mas isso vale das **próximas** execuções. O custo da
-verificação já feita permanece **não documentado** — e não é estimado aqui.
+(`outputs/uso_etapas.jsonl`), mas isso vale das **próximas** execuções. Da verificação já
+feita, só os **tokens lidos no console** (`J.STATS`: ~2,14 M de entrada + ~18 mil de saída
+em 246 chamadas) — não gravados em arquivo.
 
 ## Projeção (rotulada como projeção)
 
@@ -35,10 +36,9 @@ verificação já feita permanece **não documentado** — e não é estimado aq
 
 > **Atenção ao teto.** Esta projeção usa a média do run de **fallback** (a mais alta
 > possível), por isso dá ~33,8 M/1.000. O número citado em `README.md` ("Modelos, custo e
-> tempo") é outra conta: **~14,4 M por 1.000** e **~US$ 2,1**, somando **medido**
-> (fallback e A/B, em `uso.json`/`uso_etapas.jsonl`) e **estimado** (juiz base e
-> verificador, cujos tokens **não** foram gravados). O 33,8 M é **pior caso**, não
-> expectativa.
+> tempo") é outra conta: **~14,4 M por 1.000** e **~US$ 2,1**, somando **medido em arquivo**
+> (fallback e A/B, em `uso.json`/`uso_etapas.jsonl`), **lido no console** (verificador) e
+> **estimado** (juiz base). O 33,8 M é **pior caso**, não expectativa.
 
 ## Custo por abordagem
 

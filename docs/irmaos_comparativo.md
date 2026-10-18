@@ -100,9 +100,9 @@ pequena) já entrega o essencial por **menos** que a config atual, e irmãos cus
 lista por ganho marginal de exposição, a aposta de melhor custo-benefício é
 **`tfidf+top+dic`** — não irmãos.
 
-**Não medido (e por isso não estimado):** o uso do **verificador** (235–261 votos) e do
-**fallback** já realizado nunca foi registrado (`outputs/uso.json`). O custo acumulado do
-projeto é **maior** que a tabela; a instrumentação vale das próximas execuções.
+**Não registrado em arquivo:** o uso do **verificador** (246 chamadas; tokens lidos no
+console, ~2,14 M de entrada) e do **fallback** já realizado (`outputs/uso.json`). O custo
+acumulado do projeto é **maior** que a tabela; a instrumentação vale das próximas execuções.
 
 ## 5. O teste fim-a-fim (executado na rotulagem Opus)
 
