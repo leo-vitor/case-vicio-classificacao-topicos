@@ -3,7 +3,7 @@
 Testes recriados sobre uma **rotulagem nova e independente** (`data/rotulos_opus.tsv`,
 150 questões) para checar se o que concluímos com os 93 rótulos antigos **se reproduz**.
 
-Tudo **offline, sem API**, exceto o A/B do juiz no fim (**pronto**, não executado).
+Tudo **offline, sem API**, exceto o A/B do juiz no fim (**executado em parte**; ver seção 5).
 
 ```
 .venv/bin/python -m src.experimentos.avaliacao_pipeline --rotulos data/rotulos_opus.tsv   # pipeline congelado
@@ -93,12 +93,16 @@ Custo por 1.000 questões (medido, seção 4 de `docs/irmaos_comparativo.md`):
 - **Decisão de configuração não muda:** `top+dic` continua o melhor custo-benefício;
   `irmao+dic` continua o teto de recall com o maior custo e a maior exposição.
 
-## 5. O que ainda falta (pago, pronto)
+## 5. O A/B pago (executado em parte)
 
-`--dry-run` já contou nas 148: **1.728 chamadas novas (~US$ 0,5 a 4,5)** para re-julgar
-`filho` / `top+dic` / `irmao+dic`. Isso mediria, **com juiz real**, se a lista maior
-**mantém** a concordância e se aparece alguma escolha de gêmeo. Para rodar:
-`python -m src.experimentos.ab_juiz --rodar --rotulos data/rotulos_opus.tsv` (só com `--rodar`).
+> **Atualização.** O A/B **foi executado** para `tfidf+filho` e `tfidf+filho+dic`; o braço
+> `top+dic` ficou de fora (créditos de API esgotados, 402). Resultado e veredito em
+> `docs/ab_dicionario.md` (o ganho de retrieval não chega à decisão). O `--dry-run` para as
+> 148 contava **~1.728 chamadas novas** na época; hoje o cache cobre a maior parte (~1.148).
+
+`python -m src.experimentos.ab_juiz --rodar --rotulos data/rotulos_opus.tsv` (só com `--rodar`)
+re-julgaria `filho` / `top+dic` / `irmao+dic` com juiz real, para medir se a lista maior
+**mantém** a concordância e se aparece alguma escolha de gêmeo.
 
 ## 6. Limitações
 

@@ -15,3 +15,7 @@ outputs/questoes_limpas.csv
 outputs/amostra_rotulagem.csv
 outputs/cobertura_diagnostico.csv
 outputs/backups/amostra_rotulagem.*.csv
+
+# Saida do metodo antigo de estimativa (nao sobrescreve o previsao.txt entregue)
+previsao_automatica.txt
+outputs/votos_mock.jsonl

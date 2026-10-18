@@ -299,7 +299,9 @@ def previsao():
         "- O intervalo de cobertura da politica seletiva (quando aplicada) vem do bootstrap do conjunto "
         "de calibracao re-escolhendo o limiar; e largo porque o conjunto rotulado e pequeno.\n"
     )
-    (ROOT / "previsao.txt").write_text(txt, encoding="utf-8")
+    # NAO sobrescreve o previsao.txt da entrega (escrito a mao): grava ao lado.
+    (ROOT / "previsao_automatica.txt").write_text(txt, encoding="utf-8")
+    print("(gravado em previsao_automatica.txt; o previsao.txt da entrega nao foi tocado)\n")
     print(txt)
 
 

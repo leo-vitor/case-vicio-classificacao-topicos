@@ -4,8 +4,8 @@ Responde a uma pergunta só: **acrescentar "irmãos" à recuperação compensa**
 conta (1) risco de piorar a classificação, (2) risco de confundir com um **tema gêmeo** e
 (3) o **custo extra** de julgar mais candidatos.
 
-Tudo aqui é **offline, reprodutível e sem API** — exceto o teste pago no fim, que fica
-**pronto para rodar** mas não foi executado.
+Tudo aqui é **offline, reprodutível e sem API** — exceto o teste pago no fim, que ficou
+**pronto para rodar** e acabou **executado em variante** (Opus; ver `docs/ab_dicionario.md`).
 
 Comandos:
 
@@ -90,7 +90,7 @@ repo: **~33,8 M tokens de entrada / 1.000 questões** (4 votos).
 
 \* tabela pública de out/2026 — **verificar no contrato**; há sinal de **dobra em 01/01/2027**.
 Números gerados por `python -m src.experimentos.custo` (com `GEMINI_PRECO_IN_POR_MILHAO`/`_OUT_`). O
-`src/custo.py` usa só a saída "visível"; os **tokens de raciocínio** também são cobrados como
+`src/experimentos/custo.py` usa só a saída "visível"; os **tokens de raciocínio** também são cobrados como
 saída, então o custo real é **um pouco maior** que a tabela. O run medido é do
 **fallback** (prompt com a árvore inteira) → é **teto**, não média representativa.
 
@@ -101,18 +101,22 @@ lista por ganho marginal de exposição, a aposta de melhor custo-benefício é
 **`tfidf+top+dic`** — não irmãos.
 
 **Não medido (e por isso não estimado):** o uso do **verificador** (235–261 votos) e do
-**fallback** já realizado nunca foi registrado (`src/uso.json`). O custo acumulado do
+**fallback** já realizado nunca foi registrado (`outputs/uso.json`). O custo acumulado do
 projeto é **maior** que a tabela; a instrumentação vale das próximas execuções.
 
-## 5. O teste que falta (pronto, não executado)
+## 5. O teste fim-a-fim (executado na rotulagem Opus)
 
-`src/ab_juiz.py` re-julga as 93 rotuladas com o **mesmo juiz** e as **mesmas regras**, em 3
+> **Atualização.** Uma variante deste A/B foi **executada** com a rotulagem **Opus** (148), em
+> vez das 93: ver `docs/ab_dicionario.md`. O veredito está lá (o ganho de retrieval não chega
+> à decisão); aqui ficam o desenho e a contagem do `--dry-run` para as 93.
+
+`src/experimentos/ab_juiz.py` re-julga as 93 rotuladas com o **mesmo juiz** e as **mesmas regras**, em 3
 configs (`filho`, `top+dic`, `irmao+dic`), e mede: **publicar/revisar/fora**, **concordância
 nas publicadas**, **escolha de gêmeo** e **rebaixamentos por gêmeo**.
 
-`--dry-run` (já rodado): **1.092 chamadas novas**, ~3,9 M tokens de entrada (teto) →
-**~US$ 0,4 a 3**. Protegido para não gastar por engano (default é dry-run; o juiz real só
-com `--rodar`).
+`--dry-run` (já rodado): **~1.092 chamadas novas** (o número cai conforme o cache; hoje
+~1.072), ~3,9 M tokens de entrada (teto) → **~US$ 0,4 a 3**. Protegido para não gastar por
+engano (default é dry-run; o juiz real só com `--rodar`).
 
 Como ler o resultado:
 
@@ -133,7 +137,8 @@ O que ela **de fato** compra nesta implementação:
   `gemini-3.1-flash-lite`) e o verificador saem sem trocar de fornecedor.
 - **Contexto longo** — o fallback manda a árvore inteira (~375 temas) numa chamada só.
 - **Cache de contexto** (desconto grande) — o prefixo da árvore repete em toda questão;
-  ganho estrutural ainda **não ativado**.
+  ganho estrutural **adotado no A/B** e testado num caso pequeno
+  (`docs/ab_dicionario.md`, `docs/cache_contexto.md`); o desconto em R\$ depende do contrato.
 - **Tokens de raciocínio + `usage_metadata`** — base da contabilização de custo por etapa.
 
 **Onde a justificativa é fraca (limitações):** o *ensemble* é **single-vendor** (erros

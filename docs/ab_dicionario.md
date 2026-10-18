@@ -10,8 +10,9 @@ Nada aqui altera a entrega (`publicacao.csv` permanece 222/136/1).
 
 - **Juiz:** `gemini-3.6-flash` + `gemini-3.1-flash-lite`, 2 rodadas cada = **4 votos/questão**,
   `TEMPERATURE=0.4`. Sem verificador dentro do A/B (o verificador é anexado na análise).
-- **Rótulos:** `data/rotulos_opus.tsv` (**148 questões**, rotulagem Opus, **out-of-sample** —
-  não foi usada para calibrar o dicionário).
+- **Rótulos:** `data/rotulos_opus.tsv` (**148 questões** com tema, rotulagem Opus,
+  **quase fora da amostra** — 41 já no conjunto de desenho, ver `docs/rotulos_opus.md`; não foi
+  usada para calibrar o dicionário).
 - **Braços** (todos com cache de contexto ligado, `CONTEXT_CACHE=1`):
   - `atual` — os candidatos da entrega (âncora; com fallback da árvore inteira). 0 chamadas.
   - `tfidf+filho` — **controle limpo** (base sem dicionário, sem fallback).
@@ -32,12 +33,12 @@ Nada aqui altera a entrega (`publicacao.csv` permanece 222/136/1).
 
 ## O dicionário *funciona* na busca — o problema é onde o ganho cai
 
-Medindo o recall com os **mesmos rótulos Opus** (out-of-sample), pelo harness canônico
+Medindo o recall com os **mesmos rótulos Opus** (quase fora da amostra), pelo harness canônico
 `src.eval`:
 
 | Conjunto | `recall_hier` filho | filho+dic | Δ | adicionou o certo | perdeu |
 |---|---|---|---|---|---|
-| **Opus 148** (out-of-sample) | 0,791 | **0,845** | **+5,4 pp** | 9 | 1 (`Q0252`) |
+| **Opus 148** (quase fora da amostra) | 0,791 | **0,845** | **+5,4 pp** | 9 | 1 (`Q0252`) |
 | 93 (rotulagem antiga) | 0,667 | 0,763 | +9,7 pp | 9 | 0 |
 
 Ou seja: **não é overajuste aos rótulos antigos**. No conjunto Opus o dicionário coloca o tema

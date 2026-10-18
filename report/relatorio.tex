@@ -31,7 +31,7 @@
 
 \newcommand{\bd}[1]{\textbf{#1}}
 \setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=1pt}
-\setlength{\parskip}{1pt}
+\setlength{\parskip}{0pt}
 \titlespacing*{\section}{0pt}{5pt}{2pt}
 
 \tikzset{
@@ -62,9 +62,8 @@
 \end{tcolorbox}
 
 \noindent\emph{Nota de calibração:} a previsão foi \bd{revisada após a segunda rotulagem}:
-precisão $\sim$0,86 (intervalo 0,74 a 0,94) e cobertura $\sim$0,62. O resultado central (0,90) é
-concordância com um rotulador de IA, não precisão; o case compara a previsão com o gabarito de
-especialistas, que aqui não existe.
+precisão $\sim$0,86 (0,74 a 0,94), cobertura $\sim$0,62. O 0,90 central é concordância com um
+rotulador de IA, não precisão (o gabarito de especialista não existe aqui).
 
 % ================================= a) COMO PENSEI =========================
 \section*{a) Como eu pensei}
@@ -75,12 +74,12 @@ entre as opções oferecidas ao modelo; (2) o modelo escolhe, mas não sabe quan
 certeza. Daí o desenho de duas etapas: uma busca que garante a lista de opções e um juiz com
 abstenção, seguido de uma checagem que corrige o segundo ponto.
 
-Uma busca textual propõe candidatos (TF-IDF traz os 10 mais próximos, mais os pais e os filhos
-dos 3 primeiros). Dois modelos (\texttt{gemini-3.6-flash} e \texttt{gemini-3.1-flash-lite})
+Uma busca textual propõe candidatos (TF-IDF + pais e filhos). Dois modelos
+(\texttt{gemini-3.6-flash} e \texttt{gemini-3.1-flash-lite})
 avaliam as opções em quatro votos. Um verificador de 5º voto, com a árvore inteira, entra
 \emph{antes} da consolidação e empurra para revisão quando discorda. Só então as regras
-consolidam: votos iguais publicam; votos em subtemas do mesmo ramo publicam no nó comum (a régua
-aceita pai/filho); ramos diferentes vão para revisão; maioria de \texttt{fora} vira \texttt{fora}.
+consolidam: votos iguais publicam; votos em subtemas do mesmo ramo publicam no nó comum;
+ramos diferentes vão para revisão; maioria de \texttt{fora} vira \texttt{fora}.
 
 \begin{figure}[h]
 \centering
@@ -101,26 +100,20 @@ aceita pai/filho); ramos diferentes vão para revisão; maioria de \texttt{fora}
 inteira e pega o erro ``confiante e errado''; não provei que seja a única forma.}
 \end{figure}
 
-Quando há dúvida entre filhos, publicar no pai é aposta de risco assimétrico: sob a régua, o pai
-é sempre aceito se a verdade for um dos filhos votados. Publicar menos (222 em vez de 261) reduz
-o risco, mas não comprova 95\%.
-
 \bd{Onde eu errei, e o que isso mudou.} Dos 11 erros publicados na base, 6 são de busca (o tema
 certo não estava na lista) e 5 de decisão. Todos os 11 foram \textbf{votos unânimes}: quando a
 busca traz as opções erradas, os dois modelos concordam no erro, e a concordância sozinha não
 sinaliza o problema. Foi por isso que criei o verificador.
 
 \bd{O que testei, e o que descartei.} \emph{Testado e descartado:} política seletiva (95 questões
-com base em $\sim$17 rótulos, na mesma amostra); BM25 e RRF (fusão \emph{lexical}); embeddings
-densos (\texttt{e5-large} local: empataram); subir sempre para o tema pai (+1 caso); SVM linear
-(0,441). \emph{Descartado por argumento:} cross-encoder, que só reordena a lista e não resolve o
+com $\sim$17 rótulos, na mesma amostra); BM25 e RRF (fusão lexical); embeddings densos
+(\texttt{e5-large}: empataram); subir sempre para o pai (+1 caso); SVM linear (0,441). \emph{Descartado por argumento:} cross-encoder, que só reordena a lista e não resolve o
 tema que não entra nela.
 
 \bd{O que fiz com o diagnóstico.} Como o erro de busca se concentra em legislação especial,
-ataquei esse ponto offline, sem tocar na entrega: um dicionário jurídico (traduz a citação da
-questão para o termo do título, ex.: ``Lei 11.340'' $\to$ ``Lei Maria da Penha'') somado à
-expansão por irmãos. Os resultados estão na Seção~b, inclusive um teste fim-a-fim que mostrou um
-limite importante.
+ataquei esse ponto offline, sem tocar na entrega: um dicionário jurídico (traduz a citação da lei
+para o nome que aparece no título) somado à expansão por irmãos. Os resultados estão na Seção~b,
+inclusive um teste fim-a-fim que mostrou um limite importante.
 
 % ================================= b) DIAGNOSTICO =========================
 \section*{b) Diagnóstico}
@@ -321,8 +314,9 @@ e irmãos (grátis); embeddings jurídicos densos só com GPU. (2) Classificador
 depois de acumular rótulos dos professores} (hoje não existe; o SVM deu 0,441). (3) LLM com
 verificação seletiva e revisão humana nas divergências.
 
-\bd{Custo por etapa.} Medido onde há registro (fallback e verificador), estimado no juiz
-(juiz base $\approx$ 1,5 mil tok/chamada; verificador, 8,7 mil na rodada real):
+\bd{Custo por etapa.} Medido onde há registro (fallback e A/B, em \texttt{uso.json} e
+\texttt{uso\_etapas.jsonl}); estimado no juiz (juiz base $\approx$ 1,5 mil tok/chamada) e no
+verificador (246 chamadas contadas, tokens não gravados, a 8,7 mil cada):
 
 \begin{center}
 \begin{tabular}{lcc}
@@ -331,7 +325,7 @@ Etapa (359 questões) & Tokens de entrada & Custo (US\$, preços reais) \\
 \midrule
 Juiz (4 votos) & $\sim$2,1 M & $\sim$1,04 \\
 Fallback (28 questões $\times$ 4) & $\sim$0,9 M (medido) & $\sim$0,47 \\
-Verificador (246 chamadas) & 2,14 M + 18 mil saída (medido) & $\sim$0,56 \\
+Verificador (246 chamadas) & $\sim$2,14 M (estimado) & $\sim$0,56 \\
 \midrule
 \bd{Total} & \bd{$\sim$5,2 M} & \bd{$\sim$2,1} \\
 \bottomrule
@@ -361,18 +355,19 @@ gêmeos) foram desenhadas na amostra de 60 em que são medidas. (4) A verificaç
 
 \bd{Medição contínua.} Três métricas semanais, além do tamanho da amostra: (i) precisão na
 amostra auditada; (ii) taxa de correção da fila (quantos revisados estavam errados); (iii)
-reportes de alunos por tema, como sinal de erro que a auditoria não pegou. Para separar de fato
-90\% de 95\% são necessários \bd{$\sim$434 itens por grupo} (poder 80\%); para $\pm$5 p.p. em
-torno de 0,90, $\sim$139 itens. A amostra auditada precisa ser da ordem de \textbf{centenas de
-itens}, não de dezenas.
+reportes de alunos por tema, como sinal de erro que a auditoria não pegou. Para separar 90\% de
+95\% são necessários \bd{$\sim$434 itens por grupo} (poder 80\%); em torno de 0,90, $\sim$139 para
+$\pm$5 p.p. A amostra auditada precisa ser da ordem de \textbf{centenas}, não de dezenas.
 
 \bd{O que eu faria com mais tempo.} (1) Um verificador de \emph{outra família} (hoje juiz e
 verificador são ambos Gemini e podem errar juntos); (2) rótulos de especialistas nos 20 a 30
-desacordos; (3) a expansão por irmãos limitada aos casos de baixo risco; (4) o cache de contexto
-em produção; (5) confirmar a convenção dos gêmeos.
+desacordos; (3) irmãos só nos casos de baixo risco; (4) o cache em produção; (5) confirmar a
+convenção dos gêmeos. \textbf{Com o professor no circuito:} (6) ligações curadas lei$\to$tema e
+entre gêmeos, validadas por ele; (7) decisão por custo, com probabilidade calibrada; (8)
+aprendizado ativo: a revisão dele gera rótulos e treina o classificador.
 
-\bd{Meta de 95\%.} Sem gabarito humano, não há garantia formal. A entrega prioriza precisão e uma
-avaliação honesta; não afirmamos que os 95\% foram atingidos.
+\bd{Meta de 95\%.} Sem gabarito humano não há garantia formal: não afirmamos que os 95\% foram
+atingidos.
 
 % ================================= d) MEMO ================================
 \clearpage

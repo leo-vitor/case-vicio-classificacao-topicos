@@ -34,16 +34,17 @@ verificação já feita permanece **não documentado** — e não é estimado aq
 (4 votos por questão, a partir da média medida. É extrapolação, não medição.)
 
 > **Atenção ao teto.** Esta projeção usa a média do run de **fallback** (a mais alta
-> possível), por isso dá ~33,8 M/1.000. A entrega real somou **~5,2 M de tokens de
-> entrada** (juiz + verificação + etapas registradas) → **~14,4 M por 1.000** e
-> **~US$ 2,1**, conforme `README.md` ("Modelos, custo e tempo"). O 33,8 M é **pior
-> caso**, não expectativa.
+> possível), por isso dá ~33,8 M/1.000. O número citado em `README.md` ("Modelos, custo e
+> tempo") é outra conta: **~14,4 M por 1.000** e **~US$ 2,1**, somando **medido**
+> (fallback e A/B, em `uso.json`/`uso_etapas.jsonl`) e **estimado** (juiz base e
+> verificador, cujos tokens **não** foram gravados). O 33,8 M é **pior caso**, não
+> expectativa.
 
 ## Custo por abordagem
 
 | Abordagem | Custo de API | Precisão/recall observado |
 |---|---|---|
-| Retrieval local (TF-IDF / dicionário / irmãos) | **0** | recall_hier 0,914 (k=10) |
+| Retrieval local (TF-IDF / dicionário / irmãos) | **0** | recall_hier 0,957 (k=10, irmãos + dic; atual 0,667) |
 | SVM linear local (Fase 2) | **0** | top-10 hier 0,441 |
 | Juiz LLM (4 votos) | medido acima | precisão observada 0,90 (publicadas) |
 
@@ -71,8 +72,8 @@ arquitetura. Serve como **piso** de comparação — e mostra que o ganho real e
 
 ## Conclusão (tabela de decisão)
 
-- A parte **local e gratuita** (recuperação) resolve o gargalo de busca (recall 0,914) sem
-  API. Vale sempre, e não depende de fornecedor.
+- A parte **local e gratuita** (recuperação) resolve o gargalo de busca (recall_hier 0,957 com
+  irmãos + dicionário; 0,667 na config atual) sem API. Vale sempre, e não depende de fornecedor.
 - O **juiz de fronteira** continua necessário para a decisão, mas é onde está o custo.
 - Um **embedding privado/treinado** só se justifica com **GPU + volume de rótulos** — hoje
   não supera a opção lexical + estrutural (ver `docs/metodologia_avaliacao.md`, seção 6).

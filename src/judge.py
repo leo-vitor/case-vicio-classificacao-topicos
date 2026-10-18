@@ -176,15 +176,19 @@ def main():
 
     with ThreadPoolExecutor(max_workers=JUDGE_WORKERS) as ex:
         res = list(ex.map(tarefa, range(len(q))))
-    with open(OUT / "votos.jsonl", "w", encoding="utf-8") as f:
+    destino = OUT / ("votos_mock.jsonl" if JUDGE_BACKEND == "mock" else "votos.jsonl")
+    with open(destino, "w", encoding="utf-8") as f:
         for r in res:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     STATS["segundos"] = round(time.time() - t0, 1)
     STATS["modelos"] = JUDGE_MODELS
     STATS["rodadas_por_modelo"] = RUNS_PER_MODEL
-    (OUT / "uso.json").write_text(json.dumps(STATS, indent=2), encoding="utf-8")
-    from src import uso  # log append-only, sobrevive a execucoes futuras
-    uso.registrar("judge", STATS, extra={"questoes": len(res)})
+    if JUDGE_BACKEND == "mock":
+        print("(backend mock: uso.json e uso_etapas.jsonl preservados)")
+    else:
+        (OUT / "uso.json").write_text(json.dumps(STATS, indent=2), encoding="utf-8")
+        from src import uso  # log append-only, sobrevive a execucoes futuras
+        uso.registrar("judge", STATS, extra={"questoes": len(res)})
     print("Resumo:", STATS)
 
 

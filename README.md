@@ -76,7 +76,7 @@ python -m src.validate
 | `outputs/publicacao_congelada.csv` | cópia do `publicacao.csv` antes do verificador |
 | `outputs/votos_verificacao.jsonl` | `src.verificar_arvore --rodar` |
 
-Teste sem custo e sem internet: `JUDGE_BACKEND=mock python -m src.judge`. O mock não é IA, só verifica o fluxo.
+Teste sem custo e sem internet: `JUDGE_BACKEND=mock python -m src.judge`. O mock não é IA, só verifica o fluxo, e grava em `outputs/votos_mock.jsonl` (não toca em `votos.jsonl` nem em `uso.json`).
 As chamadas ao modelo ficam em cache (`outputs/cache`). Rodar de novo não gasta de novo.
 **Reproduzir sem API** (com os dados em `data/`): `python -m src.clean && python -m src.decide && python -m src.validate`.
 O `decide` usa `outputs/questoes_limpas.csv` (a disciplina de origem, para a regra dos gêmeos),
@@ -166,8 +166,8 @@ baseline segue em `outputs/publicacao_congelada.csv`.
 `previsao.txt`: precisão **0,86 (0,74 a 0,94)**, cobertura 0,62, revisada após a
 segunda rotulagem. O 0,90 é a concordância observada, **não** a previsão.
 
-> `previsao.txt` foi escrito **à mão** nesta entrega (o `src.estimate previsao`
-> mantém o método antigo por grupos, preservado apenas como histórico).
+> `previsao.txt` foi escrito **à mão** nesta entrega. O `src.estimate previsao` mantém o
+> método antigo por grupos e grava em `previsao_automatica.txt` (não sobrescreve o entregue).
 
 ## Modelos, custo e tempo
 
@@ -181,14 +181,17 @@ Valores de `outputs/uso.json` (execução real; **parciais**; ver escopo no arqu
 | Tokens de entrada / saída (último run do juiz) | 945.992 / 9.188 (+30.660 de raciocínio) |
 | Chamadas novas / cache | 112 / 1.324 |
 | Erros de provedor | 4 (inclui Q0227, `PROHIBITED_CONTENT`) |
-| Verificação | 261 votos; 246 chamadas novas (~2,14 M de entrada + 18 mil de saída) |
+| Verificação | 261 votos; 246 chamadas novas **contadas** (tokens não gravados: ~2,14 M estimados, a ~8,7 mil/chamada) |
 
-O `src/judge.py` grava `uso.json` a cada run (só o último fica); as demais etapas
-registram em `outputs/uso_etapas.jsonl`. Somando as etapas medidas: **~5,2 M tokens de
-entrada → ~US$ 2,1** (**~14,4 M por 1.000 questões**) e **~US$ 0,0058 por questão**
-(~US$ 5,8 por mil; ~US$ 290 por semana para 50 mil). É um **piso**: conta só tokens de
-entrada, sem raciocínio nem saída: a primeira rodada completa consumiu **~R$ 14** no
-painel, mais que o US$ 1,04 do juiz na tabela.
+O `src/judge.py` grava `uso.json` a cada run (só o último fica) e as etapas
+instrumentadas registram em `outputs/uso_etapas.jsonl`. **Medido:** o último run do juiz
+(≈0,9 M, o fallback) e o A/B do dicionário (≈0,9 M). **Estimado:** o juiz base
+(≈1,5 mil tok/chamada) e o verificador (as 246 chamadas foram contadas, mas o módulo não
+gravou tokens). Somando medido e estimado: **~5,2 M tokens de entrada → ~US$ 2,1**
+(**~14,4 M por 1.000 questões**) e **~US$ 0,0058 por questão** (~US$ 5,8 por mil; ~US$ 290
+por semana para 50 mil). É um **piso**: só tokens de entrada, sem raciocínio nem saída. A
+primeira rodada completa consumiu **~R$ 14** no painel, mais que o US$ 1,04 do juiz na
+tabela.
 
 ### Tempo
 

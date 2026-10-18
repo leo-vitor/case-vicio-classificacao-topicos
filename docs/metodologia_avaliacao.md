@@ -57,7 +57,7 @@ adjudicação é de **não especialista**, ela é sensibilidade, não medição:
 
 ## 4. Por que um único rotulador não é gabarito
 
-`src/audit.py votos` trata os 4 votos do juiz como anotadores de um modelo
+`python -m src.experimentos.audit votos` trata os 4 votos do juiz como anotadores de um modelo
 latente *one-coin* e estima a confiabilidade de cada um **sem gabarito**:
 
 | Anotador | Acurácia estimada |
@@ -119,4 +119,4 @@ Detalhes: `outputs/experimentos/recall_resumo.md`.
 - Angelopoulos et al. (2024), *Conformal Risk Control*.
 - Dawid & Skene (1979); Raykar et al. (2010) — rótulos ruidosos / classes latentes.
 - Silveira et al. (2023) — Legal-BERTimbau / LegalBert-pt (proposta de produção).
-- Cormack et al. (2009) — Reciprocal Rank Fusion (testada em `src/recall_recuperacao.py`).
+- Cormack et al. (2009) — Reciprocal Rank Fusion (testada em `src/experimentos/recall_recuperacao.py`).
