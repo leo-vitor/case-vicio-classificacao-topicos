@@ -189,9 +189,9 @@ instrumentadas registram em `outputs/uso_etapas.jsonl`. **Medido:** o último ru
 (≈1,5 mil tok/chamada) e o verificador (as 246 chamadas foram contadas, mas o módulo não
 gravou tokens). Somando medido e estimado: **~5,2 M tokens de entrada → ~US$ 2,1**
 (**~14,4 M por 1.000 questões**) e **~US$ 0,0058 por questão** (~US$ 5,8 por mil; ~US$ 290
-por semana para 50 mil). É um **piso**: só tokens de entrada, sem raciocínio nem saída. A
-primeira rodada completa consumiu **~R$ 14** no painel, mais que o US$ 1,04 do juiz na
-tabela.
+por semana para 50 mil). É um **piso**: só tokens de entrada, sem raciocínio nem saída. O gasto
+total no painel foi **~R$ 32,98** (todas as rodadas, com experimentos), acima do
+**US$ 2,1** que a tabela estima para o pipeline.
 
 ### Tempo
 
