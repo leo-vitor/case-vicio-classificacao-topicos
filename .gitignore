@@ -14,7 +14,12 @@ data/*
 outputs/questoes_limpas.csv
 outputs/amostra_rotulagem.csv
 outputs/cobertura_diagnostico.csv
-outputs/backups/amostra_rotulagem.*.csv
+
+# Resíduo de desenvolvimento (snapshots/backups locais): não versionar
+outputs/antes/
+outputs/antes_fallback/
+outputs/antes_verificacao/
+outputs/backups/
 
 # Saida do metodo antigo de estimativa (nao sobrescreve o previsao.txt entregue)
 previsao_automatica.txt

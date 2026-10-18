@@ -80,13 +80,16 @@ O `decide` usa `outputs/questoes_limpas.csv` (a disciplina de origem, para a reg
 que **não** vem versionado; `outputs/candidatos.json`, `outputs/votos.jsonl` e
 `outputs/votos_verificacao.jsonl` **vêm** no repositório.
 
-### Experimentos (não fazem parte da entrega)
+### O que é entrega × o que é experimento
 
-Módulos opt-in em `src/experimentos/` (avaliação de recuperação, baselines, A/B do
-dicionário, classificador, irmãos/gêmeos, custo, auditoria e congelamento de
-métricas), além do `src.contexto_cache` (cache do prefixo repetido). **Nenhum**
-entra no `publicacao.csv`; só o pipeline de `src/` gera a entrega. A lista dos
-módulos está em [`src/experimentos/README.md`](src/experimentos/README.md).
+**Entrega** (o que o case pede): `publicacao.csv`, `previsao.txt`, `report/relatorio.pdf`
+(+ `report/relatorio.tex`) e o núcleo `src/` com este README. Nada mais compõe a resposta.
+
+**Experimento:** módulos opt-in em `src/experimentos/` (avaliação de recuperação,
+baselines, A/B do dicionário, classificador, irmãos/gêmeos, custo, auditoria e
+congelamento de métricas), além do `src.contexto_cache` (cache do prefixo repetido).
+**Nenhum** entra no `publicacao.csv`; só o pipeline de `src/` gera a entrega. A lista
+dos módulos está em [`src/experimentos/README.md`](src/experimentos/README.md).
 
 **Flags opt-in (não mudam a entrega):** `RETRIEVAL_DIC=1` aplica o **dicionário na consulta**
 do `src.candidates` (mesma lógica do `+dic` do `src.eval`); `CANDIDATOS_OUT=<arquivo>` grava a
@@ -212,8 +215,8 @@ src/        núcleo do pipeline (clean, candidates, expandir_fora, fallback_arvo
             judge, verificar_arvore, decide, validate) + apoio (eval, recuperacao,
             dicionario, contexto_cache, uso, estimate)
 src/experimentos/  módulos de experimentação, opt-in (ab_juiz, ab_dic, experimento_irmaos,
-            avaliacao_pipeline, classificador, baseline_svm, audit, seletiva,
-            recall_recuperacao, snapshot_metricas, custo); ver o README da pasta
+            avaliacao_pipeline, classificador, baseline_svm, audit, diagnostico_erros,
+            seletiva, recall_recuperacao, snapshot_metricas, custo); ver o README da pasta
 data/       copie dos anexos do case: questoes.jsonl, temas.csv e entrega_modelo.csv
             (não versionados); dicionario_juridico.csv e rotulos_opus.tsv vêm no repo
 prompts/    prompt do juiz
@@ -222,6 +225,8 @@ report/     relatorio.tex (fonte, Overleaf/pdfLaTeX) e relatorio.pdf (5 páginas
 docs/       decisões manuais, metodologia, transparência, auditoria do verificador,
             adjudicação dos erros, A/B do dicionário
 outputs/    artefatos intermediários (votos, agregado, uso, candidatos, experimentos)
+            e a entrada do grupo A/B do src.estimate (outputs/baseline/publicacao_pre_fallback.csv);
+            resíduos de desenvolvimento (antes*/, backups/) NÃO são versionados
 ```
 
 ## O que faria com mais tempo

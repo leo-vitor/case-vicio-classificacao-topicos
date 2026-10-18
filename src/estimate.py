@@ -33,7 +33,7 @@ N_AMOSTRA = 80
 SEED = 42
 ROTULOS = OUT / "amostra_rotulagem.csv"
 GRUPOS = OUT / "amostra_grupos.csv"
-ANTES = OUT / "antes_fallback" / "publicacao.csv"
+ANTES = OUT / "baseline" / "publicacao_pre_fallback.csv"
 SELETIVA = OUT / "seletiva_resumo.json"
 
 

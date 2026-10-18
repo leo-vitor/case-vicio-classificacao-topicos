@@ -14,6 +14,7 @@ expandir_fora, fallback_arvore, judge, verificar_arvore, decide, validate, eval)
 | `classificador.py` | Classificador treinado (TF-IDF + regressão logística); piso de comparação. |
 | `baseline_svm.py` | Baseline supervisionado (TF-IDF + SVM linear). |
 | `audit.py` | Auditoria offline (recall, erros, votos, Dawid-Skene). |
+| `diagnostico_erros.py` | Diagnóstico dos erros das publicadas contra a amostra rotulada (offline; usa o baseline congelado). |
 | `seletiva.py` | Política seletiva testada e **não adotada**. |
 | `recall_recuperacao.py` | Experimento histórico de recuperação; superado por `src.eval`, mantido por rastreabilidade. |
 | `snapshot_metricas.py` | Congela todas as métricas atuais em `outputs/experimentos/baseline_snapshot/`. |

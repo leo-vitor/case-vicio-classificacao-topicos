@@ -2,7 +2,7 @@
 
   python -m src.experimentos.seletiva curva    escolhe o limiar na metade de calibracao,
                                   avalia na metade de validacao e escreve a curva
-  python -m src.experimentos.seletiva aplicar  escreve outputs/publicacao_seletiva.csv
+  python -m src.experimentos.seletiva aplicar  escreve outputs/experimentos/seletiva/publicacao_seletiva.csv
   python -m src.experimentos.seletiva apply    idem, mas sobrescreve publicacao.csv (cuidado)
 
 Ideia (Classificacao Seletiva / Learning to Reject):
@@ -34,7 +34,7 @@ from src.temas import Arvore
 
 CURVA = OUT / "curva_precisao_cobertura.csv"
 RESUMO = OUT / "seletiva_resumo.json"
-SAIDA = OUT / "publicacao_seletiva.csv"
+SAIDA = OUT / "experimentos" / "seletiva" / "publicacao_seletiva.csv"
 # Snapshot das decisoes ANTES de aplicar a politica seletiva. Calibramos e
 # reaplicamos sempre sobre ele, para que rodar de novo nao "aninha" rebaixamentos.
 BASELINE = OUT / "publicacao_congelada.csv"
@@ -333,6 +333,7 @@ def aplicar(write=False, promote=False, usar_sim=False, regra="score"):
             }
         )
     out = pd.DataFrame(linhas)
+    SAIDA.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(SAIDA, index=False)
     print(f"publicacao_seletiva.csv: {len(out)} linhas, {mudou} mudancas, limiar {t:.3f}")
     print(out["decisao"].value_counts().to_dict())
