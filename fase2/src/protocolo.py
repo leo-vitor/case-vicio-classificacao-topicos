@@ -159,6 +159,21 @@ def wilson(k, n, z=Z_CONFIANCA):
     return max(0.0, centro - meia), min(1.0, centro + meia)
 
 
+def beta_binomial(acertos, publicadas, a0=1.0, b0=1.0):
+    """Posterior Beta-Binomial da precisao (intervalo credivel de 95%).
+
+    Substitui a formula artesanal de previsao: com 20 publicadas e 19 acertos, o
+    intervalo tem de vir da distribuicao, nao de um desconto escolhido a mao.
+    Prior Beta(1,1) = uniforme, ou seja, o numero sai dos dados.
+    """
+    from scipy.stats import beta as _beta
+
+    a, b = a0 + acertos, b0 + (publicadas - acertos)
+    lo, hi = _beta.ppf([0.025, 0.975], a, b)
+    return {"acertos": int(acertos), "publicadas": int(publicadas),
+            "media": float(a / (a + b)), "lo": float(lo), "hi": float(hi)}
+
+
 def curva(scores, corretos, n_grade=200):
     """Curva precisao x cobertura variando o limiar. Nao aprende nada: so descreve."""
     scores = np.asarray(scores, dtype=float)

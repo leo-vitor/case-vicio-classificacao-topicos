@@ -90,22 +90,29 @@ chute. `revisar` é a resposta conservadora correta — não afeta a precisão d
 
 ## Previsão para as 559 (`previsao.txt`)
 
-- **precisão 0,92**, intervalo **0,82–0,97**
+- **precisão 0,91**, intervalo **0,76–0,99** (posterior Beta-Binomial da regra fixa)
 - **cobertura 0,20** (111/559), intervalo 0,18–0,22
   - antigas (259): 35 publicadas = 0,14
   - novas (300): 76 publicadas = 0,25
+
+O intervalo é largo porque 20 publicadas são poucas — é o dado, não uma escolha. A versão
+artesanal (0,92 [0,82–0,97]) foi substituída na auditoria por um número rastreável; ver
+[`auditoria.md`](auditoria.md), seção 4.
 
 **Ressalva honesta:** o modelo fica *mais* confiante nas 300 novas (pontuação média 0,59
 contra 0,49) e por isso publica mais nelas. Pode ser que sejam mais fáceis, pode ser
 excesso de confiança fora da distribuição. Sem rótulo, não há como decidir — daí o
 intervalo assimétrico.
 
-## O teto estatístico
+## O teto estatístico (medido, não estimado)
 
 Com 100 rótulos, provar 95% pelo limite inferior de Wilson exige ~73 acertos em 73
-publicadas. Não existe caminho para "95% com 60% de cobertura" nessa amostra. O que dá
-para fazer — e foi feito — é publicar pouco, escolher o limiar fora do grupo medido e
-dizer o intervalo com honestidade.
+publicadas. A auditoria transformou isso em número: usando a cota exata de
+Clopper-Pearson, **não se certifica 95% nem 90% em cobertura alguma** (0 publicações). O
+primeiro nível certificável é 15% de erro — 22 publicadas com 21 acertos in-sample — e, no
+protocolo aninhado sem vazamento, a certificação honesta fica em **~80%**. O que dá para
+fazer — e foi feito — é publicar pouco, escolher o limiar fora do grupo medido e dizer o
+intervalo com honestidade. Detalhes em [`auditoria.md`](auditoria.md).
 
 ## Estrutura do código
 
@@ -121,4 +128,7 @@ dizer o intervalo com honestidade.
 | `embeddings.py` | Etapa 2 — testado e **descartado** (top-1 pior) |
 | `confianca.py` | confiança no nível da questão + regra do pai |
 | `decisao.py` | regra seletiva → `publicacao.csv` |
-| `previsao.py` | `previsao.txt` |
+| `previsao.py` | `previsao.txt` (posterior Beta-Binomial + teto certificável) |
+| `artefato.py` | carrega a base uma vez, compartilhada por conformal/auditoria |
+| `conformal.py` | controle de risco (CRC), precisão certificável, conjuntos + ancestral comum |
+| `auditoria.py` | sensibilidade da métrica, aninhado corrigido, regras × logística, manifesto |

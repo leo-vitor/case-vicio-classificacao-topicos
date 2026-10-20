@@ -40,6 +40,12 @@ mede a precisão infla o número. A escolha é nested (treino da dobra) e a medi
 teste. A curva completa é reportada à parte, porque para um limiar *fixo* ela não tem
 viés.
 
+A auditoria encontrou um vazamento nessa escolha: as probabilidades usadas para calibrar o
+limiar no treino vinham dos mesmos 25 folds, e podiam ter visto o grupo de teste externo.
+Corrigido (`src/auditoria.py`, `p_interno`), a leitura honesta cai de 15 para **10
+publicadas** (9 acertos). O τ também não é estável entre folds (0,797–0,982), então
+reescolhê-lo por fold é ruído: a regra entregue é fixa.
+
 ## 6. Wilson, não calibração mágica
 
 Calibração (Platt/isotônica) ajusta score → probabilidade; **não cria evidência**.
@@ -48,6 +54,12 @@ de Wilson** da precisão, que é o que se pode afirmar com 95% de confiança.
 
 Referência dura: para o limite inferior bater 95% são necessários ~**73 acertos em 73
 publicadas**. A meta é publicar pouco e bem.
+
+A auditoria levou isso ao limite com a cota exata de Clopper-Pearson: com 100 rótulos
+**não se certifica 95% nem 90%** em cobertura alguma. O primeiro nível certificável é 15%
+de erro (22 publicadas, 21 acertos in-sample); no protocolo aninhado, sem vazamento, a
+certificação honesta fica em **~80% de precisão**. 95% continua sendo a meta e o ponto
+estimado — o que a amostra *prova* é ~80%.
 
 ## 7. `fora` é conservador
 
@@ -74,6 +86,16 @@ conta a evolução (entrega → crítica → melhoria) melhor do que dois projet
 A Fase 2 copia os módulos reaproveitáveis em vez de importar de `fase1/`, para poder
 rodar sozinha.
 
+## 11. A auditoria não muda a arquitetura
+
+A auditoria mexe só na camada de decisão e na previsão. **Entrou:** controle de risco
+conformal (CRC), precisão certificável por Clopper-Pearson, conjuntos conformais + regra do
+ancestral comum, posterior Beta-Binomial no lugar da fórmula artesanal de previsão, bagging
+da logística como medida de estabilidade (desvio médio de 0,15 entre reajustes) e o
+protocolo aninhado sem vazamento. **Não entrou na regra:** bagging (empata dentro do ruído
+— 13/14 contra 13/15) e conjuntos conformais (publicam 0). A regra ficou congelada:
+`publicacao.csv` não mudou de hash.
+
 ## Regra de parada
 
 Cada etapa só avança se superar a anterior **fora da dobra**, com ganho pré-definido.
@@ -84,6 +106,11 @@ complexidade sem evidência.
 
 - Classificador plano de 371 classes.
 - Fine-tuning de encoder (com 100 rótulos, não se justifica).
-- Conformal prediction e learning-to-rank: secundários, só depois de uma curva
-  precisão × cobertura competitiva com regras simples.
+- Learning-to-rank: secundário, só depois de uma curva precisão × cobertura competitiva com
+  regras simples.
+- Conjuntos conformais + ancestral comum: **testados** na auditoria. Válidos, mas inúteis
+  aqui — o conjunto que cobre 95% precisa de 90 temas de 371, que nunca cabem num ramo.
+  Ficam como diagnóstico (o gargalo é o ranqueamento, não o limiar), não como regra.
+- Conformal sob *covariate shift* sem modelo de deslocamento; BN profunda, GP, CRF,
+  isotônica: sem justificativa com 100 rótulos.
 - ECE como métrica principal (ruidoso com 100 pontos).

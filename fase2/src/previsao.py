@@ -4,6 +4,16 @@ A folha-verdade (100) serve para desenvolver e estimar. A avaliacao real e sobre
 559 restantes (259 antigas + 300 novas). Como as 300 novas NAO tem rotulo, a previsao
 e estratificada e conservadora.
 
+Diferente da versao anterior, a precisao NAO sai mais de uma formula artesanal
+(`min(in-sample, 0.92)`, piso `nested - 0.05`, teto `in-sample + 0.02`). Agora:
+
+  - o ponto e o intervalo vem do posterior Beta-Binomial (`protocolo.beta_binomial`),
+    que e rastreavel: 19 acertos em 20 publicadas com prior uniforme -> Beta(20, 2);
+  - a leitura aninhada CORRIGIDA (limiar escolhido sem ver o grupo medido) entra como
+    limite de honestidade, nao como parcela de uma media ponderada a mao;
+  - a secao "o que se pode certificar" usa a cota de Clopper-Pearson (`src.conformal`)
+    para dizer, sem rodeios, o que 100 rotulos sustentam.
+
 Escreve `previsao.txt` no formato pedido pelo LEIA-ME.
 
 Uso (da pasta fase2/):
@@ -15,8 +25,15 @@ import numpy as np
 import pandas as pd
 
 from src.config import ARTEFATOS, ROOT
-from src.protocolo import carregar_gold, carregar_questoes, wilson
+from src.protocolo import beta_binomial, carregar_gold, carregar_questoes
 from src.temas import Arvore
+
+
+def _ler(p, padrao=None):
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return padrao
 
 
 def main():
@@ -26,6 +43,8 @@ def main():
     pub = pd.read_csv(ROOT / "publicacao.csv", dtype=str).fillna("")
     pont = pd.read_csv(ARTEFATOS / "pontuacao_659.csv")
     res = json.loads((ARTEFATOS / "decisao_resumo.json").read_text(encoding="utf-8"))
+    aud = _ler(ARTEFATOS / "auditoria.json", {})
+    conf = _ler(ARTEFATOS / "conformal.json", {})
 
     fora_folha = set(gold.index)
     alvo = [i for i in q["id"] if i not in fora_folha]
@@ -43,15 +62,38 @@ def main():
 
     nested = res["avaliacao_aninhada_100"]
     fixa = res["regra_fixa_in_sample_100"]
-    # Estimativa pontual: entre a leitura conservadora (nested) e a leitura in-sample,
-    # fica-se com um valor abaixo do ponto otimo, porque a folha e pequena e as 300
-    # novas tem distribuicao diferente (a confianca media sobe nelas).
-    base_nested = nested["precisao"]
-    base_fixa = fixa["precisao"]
-    ponto = round(min(base_fixa, 0.92), 2)
-    lo = min(base_nested, ponto) - 0.05
-    hi = min(base_fixa + 0.02, 0.99)
-    lo, hi = max(lo, 0.50), min(hi, 0.99)
+    tau = res["regra"]["tau"]
+
+    # Ponto e intervalo: posterior Beta-Binomial da regra fixa (a que e aplicada).
+    post = beta_binomial(fixa["acertos"], fixa["publicados"])
+    ponto = round(post["media"], 2)
+    lo, hi = round(post["lo"], 2), round(post["hi"], 2)
+
+    # Leitura aninhada corrigida (se a auditoria tiver rodado) e o teto certificavel.
+    corr = aud.get("aninhado", {}).get("corrigido_sem_vazamento")
+    cert_nested = aud.get("certificado_nested", {})
+    cert_insample = {c["alpha_erro"]: c for c in conf.get("certificado", [])}
+    cert_alpha = min([a for a in cert_insample if cert_insample[a]["publicados"]], default=None)
+
+    bloco_corr = ""
+    if corr:
+        bloco_corr = (
+            f"  - Aninhada CORRIGIDA (limiar escolhido em probabilidades internas, que nunca\n"
+            f"    viram o grupo medido; a versao anterior tinha esse vazamento):\n"
+            f"    {corr['acertos']}/{corr['publicados']} = {corr['precisao']:.3f} "
+            f"[IC {corr['precisao_lo']:.2f}-{corr['precisao_hi']:.2f}], cobertura {corr['cobertura']:.2f}\n"
+        )
+
+    bloco_cert = "com 100 rotulos, a amostra NAO sustenta 95% (nem 90%) em nenhuma cobertura."
+    if cert_alpha is not None:
+        c = cert_insample[cert_alpha]
+        bloco_cert = (
+            f"Com 100 rotulos, a amostra NAO sustenta 95% nem 90%: nenhuma cobertura tem cota\n"
+            f"superior de erro abaixo disso. O primeiro nivel certificavel e {cert_alpha:.0%} de erro,\n"
+            f"com {c['publicados']} publicadas e {c['acertos']} acertos (cota superior de erro\n"
+            f"{c['cota_superior_erro']:.3f} <= {cert_alpha}). Na versao aninhada desse mesmo criterio,\n"
+            f"a certificacao honesta cai para ~80% de precisao."
+        )
 
     texto = f"""precisao_prevista: {ponto:.2f}
 precisao_intervalo: {lo:.2f}-{hi:.2f}
@@ -71,23 +113,31 @@ Regra de decisao usada (sem LLM em nenhum ponto):
   3. Confianca: regressao logistica sobre 14 features do topo do ranking
      (margem, consenso entre recuperadores, relacao hierarquica, disciplina
      de origem, lei citada, prior do tema...).
-  4. Publica se confianca >= {res['regra']['tau']:.3f} E os 4 recuperadores concordam
-     no mesmo no (consenso = 1,00). Caso contrario, revisar.
+  4. Publica se confianca >= {tau:.6f} E os 4 recuperadores concordam no mesmo no
+     (consenso = 1,00). Caso contrario, revisar. Esse limiar e o valor EXATO usado em
+     `publicacao.csv` (o arredondado, 0,8715, publicaria 19 em vez de 20).
 
-Por que 95% nao pode ser afirmado com folga
--------------------------------------------
-Com 100 rotulos, o limite inferior de 95% (Wilson) exige cerca de 73 acertos em 73
-publicadas. Em outras palavras: so se prova 95% publicando pouco. Duas leituras do
-mesmo experimento:
+A precisao prevista ({ponto:.2f}) e a MEDIA do posterior Beta-Binomial, nao um numero
+escolhido a mao: {fixa['acertos']} acertos em {fixa['publicados']} publicadas com prior
+uniforme Beta(1,1) dao Beta({1 + fixa['acertos']}, {1 + fixa['publicados'] - fixa['acertos']});
+a media e {post['media']:.3f} e o intervalo de 95% e [{post['lo']:.2f}, {post['hi']:.2f}].
+O intervalo e largo porque 20 publicadas sao poucas — e esse e o dado, nao uma escolha.
 
-  - In-sample (regra fixa, 20 publicadas): {fixa['acertos']}/{fixa['publicados']} = {fixa['precisao']:.3f}
-    [IC 95% {fixa['precisao_lo']:.2f}-{fixa['precisao_hi']:.2f}], cobertura {fixa['cobertura']:.2f}
-  - Aninhada (limiar escolhido fora do grupo medido, 15 publicadas):
-    {nested['acertos']}/{nested['publicados']} = {nested['precisao']:.3f} [IC {nested['precisao_lo']:.2f}-{nested['precisao_hi']:.2f}],
+Tres leituras do mesmo experimento
+----------------------------------
+  - In-sample (regra fixa, {fixa['publicados']} publicadas): {fixa['acertos']}/{fixa['publicados']} = {fixa['precisao']:.3f}
+    [IC 95% de Wilson {fixa['precisao_lo']:.2f}-{fixa['precisao_hi']:.2f}], cobertura {fixa['cobertura']:.2f}
+  - Aninhada (limiar escolhido fora do grupo medido): {nested['acertos']}/{nested['publicados']} = {nested['precisao']:.3f},
     cobertura {nested['cobertura']:.2f}
+{bloco_corr}
+O limiar final foi escolhido de forma conservadora: entre as regras que sustentam 95% com
+pelo menos 20 publicadas nos 100, fica-se com a de maior limiar ({tau:.6f}).
 
-A leitura aninhada e a mais honesta (o limiar nao ve o grupo que mede) e por isso entra
-como piso. A previsao ({ponto:.2f}) fica entre as duas, mais perto do piso do que do teto.
+O que se pode CERTIFICAR (e o que nao se pode)
+----------------------------------------------
+{bloco_cert}
+Traduzindo: 95% e a meta do case e o ponto estimado, mas nao e um numero que 100 rotulos
+provem. O que a amostra prova fica em torno de 80%.
 
 Cobertura
 ---------
@@ -103,23 +153,33 @@ O modelo fica sistematicamente MAIS confiante nas 300 novas do que nas antigas
 (pontuacao media {pont[pont.faixa=='nova'].p.mean():.2f} contra {pont[pont.faixa=='antiga'].p.mean():.2f}),
 e por isso a cobertura sobe nelas ({por_faixa['nova']['cobertura']:.2f} contra {por_faixa['antiga']['cobertura']:.2f}).
 Pode ser que os enunciados recentes sejam mais "de manual"; pode ser excesso de confianca
-fora da distribuicao. Nao ha como decidir sem rotulo. Por isso o intervalo de precisao
-e largo e assimetrico, puxado para baixo.
+fora da distribuicao. Nao ha como decidir sem rotulo.
+
+E a sensibilidade da regua: o acerto da regra final muda bastante conforme a leitura —
+literal (regua do case) {aud.get('metrica', [{}])[0].get('literal', float('nan')):.2f},
+so o tema exato {aud.get('metrica', [{}])[0].get('estrita', float('nan')):.2f},
+mesmo ramo {aud.get('metrica', [{}])[0].get('frouxa', float('nan')):.2f}.
+Como o LEIA-ME aceita pai e filho, a leitura literal e a que vale; as outras duas servem
+para mostrar quanto do resultado depende da regua.
 
 O que isso significa na pratica
 -------------------------------
 Publicar cerca de {cobertura:.0%} das questoes com precisao estimada em {ponto:.0%} e mandar
-o resto para revisao humana e a leitura conservadora dos dados que temos. E a unica
-forma de sustentar a meta de 95% sem confiar em um numero que a amostra nao sustenta;
-aumentar a cobertura exige rotular mais questoes (ou aceitar precisao menor).
+o resto para revisao humana. E a forma de chegar perto da meta de 95% sem afirmar mais do que
+a amostra sustenta; aumentar a cobertura, ou provar 95%, exige rotular mais questoes.
 """
     (ROOT / "previsao.txt").write_text(texto, encoding="utf-8")
     print(texto)
     (ARTEFATOS / "previsao_resumo.json").write_text(
         json.dumps({"precisao_prevista": ponto, "precisao_intervalo": [lo, hi],
+                    "metodo": "posterior Beta-Binomial (prior Beta(1,1)) da regra fixa",
+                    "posterior": post,
                     "cobertura": round(cobertura, 4), "por_faixa": por_faixa,
-                    "nested": nested, "fixa": fixa}, ensure_ascii=False, indent=2),
-        encoding="utf-8")
+                    "nested": nested, "fixa": fixa,
+                    "aninhado_corrigido": corr,
+                    "certificado_nested": cert_nested,
+                    "certificado_in_sample": cert_insample},
+                   ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

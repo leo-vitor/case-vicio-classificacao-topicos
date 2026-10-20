@@ -40,8 +40,13 @@ questão → limpeza → recuperação de candidatos → features → reranker
 - [x] **Etapa 3 — reranker de candidatos**: **descartado**. Empata ou perde da regra v0.
 - [x] **Etapa 4 — decisão seletiva** (`src/decisao.py`): regra do pai + consenso entre
       recuperadores + confiança. Publica 131/659.
-- [x] **Etapa 5 — entrega**: `publicacao.csv` e `previsao.txt` (precisão 0,92 [0,82–0,97],
+- [x] **Etapa 5 — entrega**: `publicacao.csv` e `previsao.txt` (precisão 0,91 [0,76–0,99],
       cobertura 0,20).
+- [x] **Auditoria da camada de decisão** (`src/conformal.py`, `src/auditoria.py`): controle
+      de risco conformal, precisão certificável (95% é impossível com 100 rótulos),
+      conjuntos conformais + ancestral comum, protocolo aninhado **sem vazamento**,
+      comparação com regras manuais e manifesto de proveniência.
+      Resultado em [`docs/auditoria.md`](docs/auditoria.md).
 
 Resumo da entrega, resultados e limites: [`docs/entrega.md`](docs/entrega.md).
 
@@ -60,6 +65,8 @@ python3 -m venv .venv
 .venv/bin/python -m src.baseline    # recall@k, curva precisão x cobertura, ponto out-of-fold
 .venv/bin/python -m src.confianca   # confiança no nível da questão + regra do pai
 .venv/bin/python -m src.decisao     # decisão seletiva -> publicacao.csv
+.venv/bin/python -m src.conformal   # controle de risco, precisão certificável, conformal
+.venv/bin/python -m src.auditoria   # aninhado corrigido, regras × logística, manifesto
 .venv/bin/python -m src.previsao    # previsao.txt
 ```
 
@@ -84,8 +91,14 @@ fase2/
 │   ├── temas.py         árvore + régua de acerto (pai/filho; irmão não conta)
 │   ├── dicionario.py    expansão de consulta (offline, curado à mão)
 │   ├── recuperacao.py   TF-IDF palavra/char, BM25, RRF
-│   ├── protocolo.py     folds, Wilson, curva, limiar out-of-fold
-│   └── baseline.py      Etapa 1 (A0/A1)
+│   ├── protocolo.py     folds, Wilson, curva, limiar out-of-fold, Beta-Binomial
+│   ├── baseline.py      Etapa 1 (A0/A1)
+│   ├── confianca.py     confiança no nível da questão + regra do pai
+│   ├── decisao.py       regra seletiva → publicacao.csv
+│   ├── previsao.py      previsao.txt
+│   ├── artefato.py      base compartilhada (folds, p_oof, features)
+│   ├── conformal.py     CRC, precisão certificável, conjuntos + ancestral comum
+│   └── auditoria.py     aninhado corrigido, regras × logística, manifesto
 ├── artefatos/       saídas geradas (não versionadas)
 └── docs/            resultados e decisões
 ```

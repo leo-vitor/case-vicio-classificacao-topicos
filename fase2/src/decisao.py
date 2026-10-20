@@ -247,9 +247,10 @@ def main():
                   "decisao": decisao, "faixa": faixa}).to_csv(ARTEFATOS / "pontuacao_659.csv", index=False)
 
     resumo = {
-        "regra": {"consenso_min": c_f, "tau": round(tau_f, 4), "min_publicadas_treino": MIN_PUB},
+        "regra": {"consenso_min": c_f, "tau": tau_f, "tau_arredondado": round(tau_f, 4),
+                  "min_publicadas_treino": MIN_PUB},
         "regras_por_fold_nested": [
-            {"tau": None if t is None else round(t, 4), "consenso": c} for t, c in regras
+            {"tau": t, "consenso": c} for t, c in regras
         ],
         "avaliacao_aninhada_100": {
             "publicados": m, "acertos": ac, "precisao": round(ac / m, 4) if m else None,

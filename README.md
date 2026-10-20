@@ -7,7 +7,7 @@ a **Fase 2** vive em [`fase2/`](fase2/) e é autocontida (não importa nada de `
 | Fase | O que é | Onde | Entrega |
 |---|---|---|---|
 | **1** | Classificação assistida com LLM verificador (359 questões) | [`fase1/`](fase1/) | `fase1/publicacao.csv`, `fase1/previsao.txt`, [relatório](fase1/report/relatorio.pdf) |
-| **2** | Classificação seletiva **sem LLM** (659 questões) | [`fase2/`](fase2/) | em construção — ver [`fase2/README.md`](fase2/README.md) |
+| **2** | Classificação seletiva **sem LLM** (659 questões) | [`fase2/`](fase2/) | `fase2/publicacao.csv`, `fase2/previsao.txt`, [entrega](fase2/docs/entrega.md) + [auditoria](fase2/docs/auditoria.md) |
 
 ## A evolução entre as fases
 
@@ -38,10 +38,12 @@ As decisões estão registradas em [`docs/decisoes.md`](docs/decisoes.md).
 │   ├── publicacao.csv   359 questões
 │   └── previsao.txt     precisão 0,86 [0,74–0,94]
 └── fase2/               CASE NOVO (sem LLM)
-    ├── src/             recuperação + protocolo + baseline
+    ├── src/             recuperação + protocolo + decisão + auditoria
     ├── data/            anexos do case (não versionados)
     ├── artefatos/       saídas geradas (não versionadas)
-    └── docs/            resultados por etapa
+    ├── publicacao.csv   659 questões (131 publicar / 528 revisar)
+    ├── previsao.txt     precisão 0,91 [0,76–0,99], cobertura 0,20
+    └── docs/            entrega, baseline e auditoria
 ```
 
 ## Como rodar
@@ -66,17 +68,28 @@ Os anexos (`data/questoes.jsonl`, `data/temas.csv`) não são versionados.
 cd fase2
 python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt
 # coloque os anexos em fase2/data/
-.venv/bin/python -m src.clean
-.venv/bin/python -m src.baseline
+.venv/bin/python -m src.clean       # anexos -> texto limpo
+.venv/bin/python -m src.decisao     # regra seletiva -> publicacao.csv
+.venv/bin/python -m src.conformal   # controle de risco e precisão certificável
+.venv/bin/python -m src.auditoria   # aninhado corrigido + manifesto
+.venv/bin/python -m src.previsao    # previsao.txt
 ```
 
 Detalhes em [`fase2/README.md`](fase2/README.md).
 
-## Números da Fase 2 (Etapa 1, baseline lexical)
+## Números da Fase 2
 
-- Melhor recuperador: TF-IDF de caracteres — recall hierárquico 0,91 no top-10.
-- Precisão 95% só aparece em ~10% de cobertura; a cobertura teórica máxima é ~84%.
-- Nenhuma configuração lexical passa no critério Wilson ≥ 0,95 fora da dobra.
+| Item | Valor |
+|---|---|
+| Decisões nas 659 | 131 `publicar` / 528 `revisar` / 0 `fora` |
+| Cobertura nas 559 fora da folha | 0,20 (111/559 — antigas 0,14, novas 0,25) |
+| Precisão prevista | 0,91 [0,76–0,99] (posterior Beta-Binomial) |
+| Regra | consenso = 1,00 **e** confiança ≥ 0,8714634… (logística de 14 features) |
+| Precisão in-sample nos 100 | 19/20 = 0,95 (leitura literal da régua; estrita 0,45) |
+| Precisão aninhada, sem vazamento | 9/10 = 0,90 |
+| O que 100 rótulos **certificam** | ~80%. 95% e 90% são impossíveis em qualquer cobertura. |
 
-Ou seja: o baseline justifica as próximas etapas (reranker + regra do pai + `fora`
-conservador). Resultado completo em [`fase2/docs/etapa1_baseline.md`](fase2/docs/etapa1_baseline.md).
+Três achados que valem mais que o número final: a régua do case é o que sustenta a meta
+(na leitura estrita a precisão cai para 0,45); a validação aninhada anterior tinha
+vazamento (15 → 10 publicadas ao corrigir); e não existe limiar que prove 95% com 100
+rótulos. Detalhes em [`fase2/docs/auditoria.md`](fase2/docs/auditoria.md).

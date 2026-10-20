@@ -1,5 +1,5 @@
-precisao_prevista: 0.92
-precisao_intervalo: 0.82-0.97
+precisao_prevista: 0.91
+precisao_intervalo: 0.76-0.99
 cobertura_prevista: 0.20
 cobertura_intervalo: 0.18-0.22
 
@@ -16,23 +16,38 @@ Regra de decisao usada (sem LLM em nenhum ponto):
   3. Confianca: regressao logistica sobre 14 features do topo do ranking
      (margem, consenso entre recuperadores, relacao hierarquica, disciplina
      de origem, lei citada, prior do tema...).
-  4. Publica se confianca >= 0.872 E os 4 recuperadores concordam
-     no mesmo no (consenso = 1,00). Caso contrario, revisar.
+  4. Publica se confianca >= 0.871463 E os 4 recuperadores concordam no mesmo no
+     (consenso = 1,00). Caso contrario, revisar. Esse limiar e o valor EXATO usado em
+     `publicacao.csv` (o arredondado, 0,8715, publicaria 19 em vez de 20).
 
-Por que 95% nao pode ser afirmado com folga
--------------------------------------------
-Com 100 rotulos, o limite inferior de 95% (Wilson) exige cerca de 73 acertos em 73
-publicadas. Em outras palavras: so se prova 95% publicando pouco. Duas leituras do
-mesmo experimento:
+A precisao prevista (0.91) e a MEDIA do posterior Beta-Binomial, nao um numero
+escolhido a mao: 19 acertos em 20 publicadas com prior
+uniforme Beta(1,1) dao Beta(20, 2);
+a media e 0.909 e o intervalo de 95% e [0.76, 0.99].
+O intervalo e largo porque 20 publicadas sao poucas — e esse e o dado, nao uma escolha.
 
+Tres leituras do mesmo experimento
+----------------------------------
   - In-sample (regra fixa, 20 publicadas): 19/20 = 0.950
-    [IC 95% 0.76-0.99], cobertura 0.20
-  - Aninhada (limiar escolhido fora do grupo medido, 15 publicadas):
-    13/15 = 0.867 [IC 0.62-0.96],
+    [IC 95% de Wilson 0.76-0.99], cobertura 0.20
+  - Aninhada (limiar escolhido fora do grupo medido): 13/15 = 0.867,
     cobertura 0.15
+  - Aninhada CORRIGIDA (limiar escolhido em probabilidades internas, que nunca
+    viram o grupo medido; a versao anterior tinha esse vazamento):
+    9/10 = 0.900 [IC 0.60-0.98], cobertura 0.10
 
-A leitura aninhada e a mais honesta (o limiar nao ve o grupo que mede) e por isso entra
-como piso. A previsao (0.92) fica entre as duas, mais perto do piso do que do teto.
+O limiar final foi escolhido de forma conservadora: entre as regras que sustentam 95% com
+pelo menos 20 publicadas nos 100, fica-se com a de maior limiar (0.871463).
+
+O que se pode CERTIFICAR (e o que nao se pode)
+----------------------------------------------
+Com 100 rotulos, a amostra NAO sustenta 95% nem 90%: nenhuma cobertura tem cota
+superior de erro abaixo disso. O primeiro nivel certificavel e 15% de erro,
+com 22 publicadas e 21 acertos (cota superior de erro
+0.145 <= 0.15). Na versao aninhada desse mesmo criterio,
+a certificacao honesta cai para ~80% de precisao.
+Traduzindo: 95% e a meta do case e o ponto estimado, mas nao e um numero que 100 rotulos
+provem. O que a amostra prova fica em torno de 80%.
 
 Cobertura
 ---------
@@ -48,12 +63,17 @@ O modelo fica sistematicamente MAIS confiante nas 300 novas do que nas antigas
 (pontuacao media 0.59 contra 0.49),
 e por isso a cobertura sobe nelas (0.25 contra 0.14).
 Pode ser que os enunciados recentes sejam mais "de manual"; pode ser excesso de confianca
-fora da distribuicao. Nao ha como decidir sem rotulo. Por isso o intervalo de precisao
-e largo e assimetrico, puxado para baixo.
+fora da distribuicao. Nao ha como decidir sem rotulo.
+
+E a sensibilidade da regua: o acerto da regra final muda bastante conforme a leitura —
+literal (regua do case) 0.95,
+so o tema exato 0.45,
+mesmo ramo 0.75.
+Como o LEIA-ME aceita pai e filho, a leitura literal e a que vale; as outras duas servem
+para mostrar quanto do resultado depende da regua.
 
 O que isso significa na pratica
 -------------------------------
-Publicar cerca de 20% das questoes com precisao estimada em 92% e mandar
-o resto para revisao humana e a leitura conservadora dos dados que temos. E a unica
-forma de sustentar a meta de 95% sem confiar em um numero que a amostra nao sustenta;
-aumentar a cobertura exige rotular mais questoes (ou aceitar precisao menor).
+Publicar cerca de 20% das questoes com precisao estimada em 91% e mandar
+o resto para revisao humana. E a forma de chegar perto da meta de 95% sem afirmar mais do que
+a amostra sustenta; aumentar a cobertura, ou provar 95%, exige rotular mais questoes.
