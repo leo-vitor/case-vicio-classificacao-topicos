@@ -4,3 +4,7 @@
 .DS_Store
 __pycache__/
 *.pyc
+
+# Artefato local da Fase 1 nao versionado no momento da entrega (mantido fora do git
+# de proposito: a entrega da Fase 1 esta congelada na tag v1-fase1).
+fase1/docs/adjudicacao_veredito.csv

@@ -1,0 +1,59 @@
+precisao_prevista: 0.92
+precisao_intervalo: 0.82-0.97
+cobertura_prevista: 0.20
+cobertura_intervalo: 0.18-0.22
+
+Como cheguei nesses numeros
+===========================
+Base de tudo: as 100 questoes da folha-verdade, a UNICA amostra rotulada por
+especialistas. As 300 novas (Q0360-Q0659) nao tem rotulo, entao nao existe medicao
+direta do desempenho nelas; o que segue e uma previsao, com essa limitacao explicita.
+
+Regra de decisao usada (sem LLM em nenhum ponto):
+  1. Recuperacao lexical: TF-IDF palavra, TF-IDF caractere, BM25 e RRF.
+  2. Regra do pai: se o top-1 e um subtema (nivel 2), publica-se o TEMA pai.
+     Isso nunca piora: a regua aceita o pai, e o pai cobre tambem os irmaos.
+  3. Confianca: regressao logistica sobre 14 features do topo do ranking
+     (margem, consenso entre recuperadores, relacao hierarquica, disciplina
+     de origem, lei citada, prior do tema...).
+  4. Publica se confianca >= 0.872 E os 4 recuperadores concordam
+     no mesmo no (consenso = 1,00). Caso contrario, revisar.
+
+Por que 95% nao pode ser afirmado com folga
+-------------------------------------------
+Com 100 rotulos, o limite inferior de 95% (Wilson) exige cerca de 73 acertos em 73
+publicadas. Em outras palavras: so se prova 95% publicando pouco. Duas leituras do
+mesmo experimento:
+
+  - In-sample (regra fixa, 20 publicadas): 19/20 = 0.950
+    [IC 95% 0.76-0.99], cobertura 0.20
+  - Aninhada (limiar escolhido fora do grupo medido, 15 publicadas):
+    13/15 = 0.867 [IC 0.62-0.96],
+    cobertura 0.15
+
+A leitura aninhada e a mais honesta (o limiar nao ve o grupo que mede) e por isso entra
+como piso. A previsao (0.92) fica entre as duas, mais perto do piso do que do teto.
+
+Cobertura
+---------
+A cobertura NAO e estimada: ela e consequencia da regra, e pode ser contada.
+Nas 559 fora da folha: 111/559 = 0.20.
+Por faixa:
+  antigas (Q0001-Q0359 fora da folha, n=259): 35 publicadas = 0.14
+  novas   (Q0360-Q0659, n=300): 76 publicadas = 0.25
+
+Ressalva de distribuicao (o ponto mais fragil)
+----------------------------------------------
+O modelo fica sistematicamente MAIS confiante nas 300 novas do que nas antigas
+(pontuacao media 0.59 contra 0.49),
+e por isso a cobertura sobe nelas (0.25 contra 0.14).
+Pode ser que os enunciados recentes sejam mais "de manual"; pode ser excesso de confianca
+fora da distribuicao. Nao ha como decidir sem rotulo. Por isso o intervalo de precisao
+e largo e assimetrico, puxado para baixo.
+
+O que isso significa na pratica
+-------------------------------
+Publicar cerca de 20% das questoes com precisao estimada em 92% e mandar
+o resto para revisao humana e a leitura conservadora dos dados que temos. E a unica
+forma de sustentar a meta de 95% sem confiar em um numero que a amostra nao sustenta;
+aumentar a cobertura exige rotular mais questoes (ou aceitar precisao menor).

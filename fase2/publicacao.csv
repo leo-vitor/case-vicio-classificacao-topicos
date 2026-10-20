@@ -1,0 +1,660 @@
+id,decisao,tema_central_id,extras_ids,confianca,motivo
+Q0001,revisar,5524,,0.85,confianca 0.85 abaixo do limiar 0.87
+Q0002,revisar,4384,,0.36,confianca 0.36 abaixo do limiar 0.87
+Q0003,revisar,5560,,0.59,recuperadores divergem (consenso 0.75)
+Q0004,revisar,5480,,0.83,confianca 0.83 abaixo do limiar 0.87
+Q0005,revisar,5572,,0.64,confianca 0.64 abaixo do limiar 0.87
+Q0006,revisar,5157,,0.84,confianca 0.84 abaixo do limiar 0.87
+Q0007,revisar,5466,,0.78,confianca 0.78 abaixo do limiar 0.87
+Q0008,revisar,6727,,0.05,recuperadores divergem (consenso 0.25)
+Q0009,revisar,5066,,0.31,recuperadores divergem (consenso 0.75)
+Q0010,revisar,6717,,0.23,recuperadores divergem (consenso 0.50)
+Q0011,revisar,5066,,0.04,recuperadores divergem (consenso 0.50)
+Q0012,publicar,5560,,0.92,
+Q0013,publicar,5498,,0.88,
+Q0014,revisar,5476,,0.36,recuperadores divergem (consenso 0.75)
+Q0015,revisar,5498,,0.68,confianca 0.68 abaixo do limiar 0.87
+Q0016,revisar,5517,,0.34,recuperadores divergem (consenso 0.75)
+Q0017,revisar,5466,,0.61,recuperadores divergem (consenso 0.75)
+Q0018,revisar,5539,,0.51,recuperadores divergem (consenso 0.50)
+Q0019,publicar,5466,,0.98,
+Q0020,revisar,5138,,0.15,recuperadores divergem (consenso 0.50)
+Q0021,revisar,5498,,0.61,recuperadores divergem (consenso 0.75)
+Q0022,revisar,5087,,0.34,recuperadores divergem (consenso 0.50)
+Q0023,publicar,5524,,0.92,
+Q0024,revisar,4377,,0.02,recuperadores divergem (consenso 0.25)
+Q0025,revisar,5087,,0.61,recuperadores divergem (consenso 0.75)
+Q0026,revisar,5128,,0.27,recuperadores divergem (consenso 0.75)
+Q0027,revisar,5138,,0.27,recuperadores divergem (consenso 0.50)
+Q0028,revisar,5487,,0.28,recuperadores divergem (consenso 0.75)
+Q0029,revisar,5184,,0.17,recuperadores divergem (consenso 0.75)
+Q0030,revisar,5134,,0.33,recuperadores divergem (consenso 0.50)
+Q0031,revisar,4385,,0.45,confianca 0.45 abaixo do limiar 0.87
+Q0032,revisar,5498,,0.65,recuperadores divergem (consenso 0.75)
+Q0033,revisar,5530,,0.63,recuperadores divergem (consenso 0.75)
+Q0034,revisar,5498,,0.38,recuperadores divergem (consenso 0.75)
+Q0035,revisar,4706,,0.39,recuperadores divergem (consenso 0.75)
+Q0036,revisar,6724,,0.06,recuperadores divergem (consenso 0.50)
+Q0037,revisar,5079,,0.67,recuperadores divergem (consenso 0.75)
+Q0038,revisar,5543,,0.31,recuperadores divergem (consenso 0.50)
+Q0039,revisar,4687,,0.1,recuperadores divergem (consenso 0.50)
+Q0040,revisar,5524,,0.36,recuperadores divergem (consenso 0.50)
+Q0041,revisar,5184,,0.78,confianca 0.78 abaixo do limiar 0.87
+Q0042,revisar,5218,,0.58,recuperadores divergem (consenso 0.75)
+Q0043,revisar,6727,,0.12,recuperadores divergem (consenso 0.50)
+Q0044,revisar,5543,,0.58,recuperadores divergem (consenso 0.75)
+Q0045,publicar,5087,,0.88,
+Q0046,revisar,5580,,0.69,confianca 0.69 abaixo do limiar 0.87
+Q0047,revisar,5157,,0.42,recuperadores divergem (consenso 0.50)
+Q0048,revisar,5199,,0.27,recuperadores divergem (consenso 0.50)
+Q0049,revisar,5149,,0.82,confianca 0.82 abaixo do limiar 0.87
+Q0050,revisar,5543,,0.38,recuperadores divergem (consenso 0.75)
+Q0051,revisar,5572,,0.09,recuperadores divergem (consenso 0.50)
+Q0052,revisar,6726,,0.04,recuperadores divergem (consenso 0.50)
+Q0053,publicar,5539,,0.9,
+Q0054,revisar,5543,,0.13,recuperadores divergem (consenso 0.50)
+Q0055,revisar,5487,,0.31,recuperadores divergem (consenso 0.75)
+Q0056,revisar,5066,,0.83,confianca 0.83 abaixo do limiar 0.87
+Q0057,publicar,5175,,0.9,
+Q0058,revisar,4384,,0.23,confianca 0.23 abaixo do limiar 0.87
+Q0059,revisar,4384,,0.28,confianca 0.28 abaixo do limiar 0.87
+Q0060,revisar,5087,,0.64,recuperadores divergem (consenso 0.75)
+Q0061,revisar,5138,,0.18,recuperadores divergem (consenso 0.50)
+Q0062,revisar,5066,,0.69,confianca 0.69 abaixo do limiar 0.87
+Q0063,revisar,5517,,0.11,recuperadores divergem (consenso 0.25)
+Q0064,revisar,5138,,0.3,recuperadores divergem (consenso 0.50)
+Q0065,revisar,5157,,0.87,confianca 0.87 abaixo do limiar 0.87
+Q0066,revisar,4371,,0.44,confianca 0.44 abaixo do limiar 0.87
+Q0067,publicar,5087,,0.89,
+Q0068,revisar,5116,,0.66,confianca 0.66 abaixo do limiar 0.87
+Q0069,revisar,5505,,0.7,confianca 0.70 abaixo do limiar 0.87
+Q0070,revisar,5199,,0.1,recuperadores divergem (consenso 0.25)
+Q0071,revisar,5228,,0.3,recuperadores divergem (consenso 0.75)
+Q0072,revisar,5498,,0.76,confianca 0.76 abaixo do limiar 0.87
+Q0073,revisar,5087,,0.31,recuperadores divergem (consenso 0.50)
+Q0074,revisar,6727,,0.14,recuperadores divergem (consenso 0.75)
+Q0075,revisar,5191,,0.27,recuperadores divergem (consenso 0.75)
+Q0076,revisar,5584,,0.32,recuperadores divergem (consenso 0.75)
+Q0077,revisar,5170,,0.12,recuperadores divergem (consenso 0.25)
+Q0078,revisar,5138,,0.1,recuperadores divergem (consenso 0.50)
+Q0079,revisar,5580,,0.69,confianca 0.69 abaixo do limiar 0.87
+Q0080,revisar,4368,,0.79,confianca 0.79 abaixo do limiar 0.87
+Q0081,revisar,4371,,0.4,confianca 0.40 abaixo do limiar 0.87
+Q0082,revisar,5087,,0.84,confianca 0.84 abaixo do limiar 0.87
+Q0083,revisar,5149,,0.89,recuperadores divergem (consenso 0.75)
+Q0084,revisar,5580,,0.13,recuperadores divergem (consenso 0.50)
+Q0085,revisar,5087,,0.21,recuperadores divergem (consenso 0.50)
+Q0086,revisar,5066,,0.11,recuperadores divergem (consenso 0.50)
+Q0087,revisar,4703,,0.41,recuperadores divergem (consenso 0.75)
+Q0088,revisar,4389,,0.46,confianca 0.46 abaixo do limiar 0.87
+Q0089,revisar,5572,,0.03,recuperadores divergem (consenso 0.25)
+Q0090,revisar,5524,,0.4,recuperadores divergem (consenso 0.75)
+Q0091,revisar,5572,,0.17,recuperadores divergem (consenso 0.50)
+Q0092,revisar,5487,,0.42,recuperadores divergem (consenso 0.75)
+Q0093,revisar,5138,,0.28,recuperadores divergem (consenso 0.50)
+Q0094,revisar,4385,,0.34,confianca 0.34 abaixo do limiar 0.87
+Q0095,revisar,5066,,0.65,recuperadores divergem (consenso 0.75)
+Q0096,revisar,5480,,0.64,recuperadores divergem (consenso 0.75)
+Q0097,revisar,6728,,0.73,recuperadores divergem (consenso 0.75)
+Q0098,revisar,5543,,0.29,recuperadores divergem (consenso 0.50)
+Q0099,revisar,4368,,0.05,recuperadores divergem (consenso 0.25)
+Q0100,revisar,5102,,0.65,recuperadores divergem (consenso 0.75)
+Q0101,revisar,5128,,0.46,recuperadores divergem (consenso 0.75)
+Q0102,revisar,5572,,0.34,recuperadores divergem (consenso 0.50)
+Q0103,revisar,5476,,0.81,confianca 0.81 abaixo do limiar 0.87
+Q0104,revisar,5498,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0105,revisar,4385,,0.33,confianca 0.33 abaixo do limiar 0.87
+Q0106,revisar,5157,,0.65,recuperadores divergem (consenso 0.75)
+Q0107,publicar,5116,,0.92,
+Q0108,revisar,5530,,0.36,recuperadores divergem (consenso 0.50)
+Q0109,revisar,5125,,0.03,recuperadores divergem (consenso 0.25)
+Q0110,revisar,5480,,0.84,confianca 0.84 abaixo do limiar 0.87
+Q0111,revisar,4384,,0.36,confianca 0.36 abaixo do limiar 0.87
+Q0112,revisar,5087,,0.12,recuperadores divergem (consenso 0.50)
+Q0113,revisar,5498,,0.51,recuperadores divergem (consenso 0.75)
+Q0114,revisar,5498,,0.28,recuperadores divergem (consenso 0.50)
+Q0115,revisar,4385,,0.34,confianca 0.34 abaixo do limiar 0.87
+Q0116,revisar,4708,,0.33,recuperadores divergem (consenso 0.50)
+Q0117,revisar,4384,,0.48,confianca 0.48 abaixo do limiar 0.87
+Q0118,revisar,5580,,0.4,recuperadores divergem (consenso 0.75)
+Q0119,revisar,5505,,0.67,confianca 0.67 abaixo do limiar 0.87
+Q0120,revisar,5580,,0.69,confianca 0.69 abaixo do limiar 0.87
+Q0121,publicar,5466,,0.94,
+Q0122,revisar,6726,,0.05,recuperadores divergem (consenso 0.50)
+Q0123,revisar,4368,,0.41,confianca 0.41 abaixo do limiar 0.87
+Q0124,revisar,4384,,0.39,confianca 0.39 abaixo do limiar 0.87
+Q0125,revisar,6734,,0.07,recuperadores divergem (consenso 0.50)
+Q0126,revisar,5071,,0.24,recuperadores divergem (consenso 0.50)
+Q0127,revisar,5572,,0.29,recuperadores divergem (consenso 0.50)
+Q0128,revisar,5184,,0.12,recuperadores divergem (consenso 0.75)
+Q0129,revisar,5530,,0.08,recuperadores divergem (consenso 0.25)
+Q0130,publicar,5199,,0.91,
+Q0131,publicar,5071,,0.89,
+Q0132,revisar,5543,,0.06,recuperadores divergem (consenso 0.25)
+Q0133,revisar,5524,,0.66,confianca 0.66 abaixo do limiar 0.87
+Q0134,revisar,5138,,0.34,recuperadores divergem (consenso 0.50)
+Q0135,publicar,5157,,0.87,
+Q0136,revisar,6724,,0.56,confianca 0.56 abaixo do limiar 0.87
+Q0137,revisar,5498,,0.67,confianca 0.67 abaixo do limiar 0.87
+Q0138,publicar,5199,,0.88,
+Q0139,publicar,5211,,0.91,
+Q0140,revisar,5066,,0.6,recuperadores divergem (consenso 0.75)
+Q0141,revisar,4385,,0.48,confianca 0.48 abaixo do limiar 0.87
+Q0142,revisar,5584,,0.15,recuperadores divergem (consenso 0.50)
+Q0143,revisar,5505,,0.68,confianca 0.68 abaixo do limiar 0.87
+Q0144,publicar,5560,,0.9,
+Q0145,revisar,6723,,0.02,recuperadores divergem (consenso 0.25)
+Q0146,revisar,5543,,0.59,recuperadores divergem (consenso 0.75)
+Q0147,publicar,5498,,0.88,
+Q0148,revisar,5199,,0.85,confianca 0.85 abaixo do limiar 0.87
+Q0149,revisar,5498,,0.61,recuperadores divergem (consenso 0.75)
+Q0150,revisar,4708,,0.24,recuperadores divergem (consenso 0.75)
+Q0151,publicar,5517,,0.93,
+Q0152,revisar,5466,,0.77,recuperadores divergem (consenso 0.75)
+Q0153,revisar,5175,,0.63,confianca 0.63 abaixo do limiar 0.87
+Q0154,revisar,5134,,0.35,recuperadores divergem (consenso 0.50)
+Q0155,revisar,5184,,0.76,confianca 0.76 abaixo do limiar 0.87
+Q0156,revisar,5199,,0.8,confianca 0.80 abaixo do limiar 0.87
+Q0157,revisar,5498,,0.66,confianca 0.66 abaixo do limiar 0.87
+Q0158,revisar,6727,,0.15,recuperadores divergem (consenso 0.75)
+Q0159,revisar,5149,,0.61,recuperadores divergem (consenso 0.75)
+Q0160,revisar,6727,,0.36,recuperadores divergem (consenso 0.75)
+Q0161,publicar,5517,,0.93,
+Q0162,revisar,5087,,0.03,recuperadores divergem (consenso 0.25)
+Q0163,revisar,5066,,0.37,recuperadores divergem (consenso 0.75)
+Q0164,revisar,6727,,0.02,recuperadores divergem (consenso 0.25)
+Q0165,revisar,5087,,0.03,recuperadores divergem (consenso 0.25)
+Q0166,revisar,5228,,0.1,recuperadores divergem (consenso 0.50)
+Q0167,revisar,5487,,0.39,recuperadores divergem (consenso 0.75)
+Q0168,revisar,5218,,0.52,recuperadores divergem (consenso 0.75)
+Q0169,publicar,5490,,0.96,
+Q0170,revisar,5199,,0.27,recuperadores divergem (consenso 0.50)
+Q0171,revisar,5199,,0.04,recuperadores divergem (consenso 0.25)
+Q0172,revisar,5185,,0.33,recuperadores divergem (consenso 0.75)
+Q0173,revisar,5572,,0.14,recuperadores divergem (consenso 0.50)
+Q0174,revisar,5218,,0.1,recuperadores divergem (consenso 0.25)
+Q0175,revisar,5087,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0176,revisar,5079,,0.75,recuperadores divergem (consenso 0.75)
+Q0177,revisar,5543,,0.36,recuperadores divergem (consenso 0.50)
+Q0178,revisar,5079,,0.7,recuperadores divergem (consenso 0.75)
+Q0179,revisar,4368,,0.38,confianca 0.38 abaixo do limiar 0.87
+Q0180,publicar,5543,,0.88,
+Q0181,revisar,5138,,0.08,recuperadores divergem (consenso 0.50)
+Q0182,revisar,5138,,0.59,recuperadores divergem (consenso 0.75)
+Q0183,revisar,5560,,0.18,recuperadores divergem (consenso 0.50)
+Q0184,revisar,5066,,0.15,recuperadores divergem (consenso 0.75)
+Q0185,revisar,5572,,0.46,recuperadores divergem (consenso 0.75)
+Q0186,publicar,5199,,0.92,
+Q0187,revisar,5102,,0.43,recuperadores divergem (consenso 0.50)
+Q0188,revisar,5228,,0.33,recuperadores divergem (consenso 0.75)
+Q0189,revisar,5063,,0.77,confianca 0.77 abaixo do limiar 0.87
+Q0190,revisar,5199,,0.1,recuperadores divergem (consenso 0.50)
+Q0191,publicar,5560,,0.93,
+Q0192,revisar,5087,,0.8,confianca 0.80 abaixo do limiar 0.87
+Q0193,revisar,5543,,0.57,recuperadores divergem (consenso 0.75)
+Q0194,revisar,5218,,0.69,recuperadores divergem (consenso 0.75)
+Q0195,revisar,4371,,0.42,confianca 0.42 abaixo do limiar 0.87
+Q0196,revisar,4385,,0.49,confianca 0.49 abaixo do limiar 0.87
+Q0197,revisar,5498,,0.68,confianca 0.68 abaixo do limiar 0.87
+Q0198,publicar,5071,,0.93,
+Q0199,revisar,5218,,0.34,recuperadores divergem (consenso 0.75)
+Q0200,revisar,5087,,0.03,recuperadores divergem (consenso 0.25)
+Q0201,publicar,5102,,0.9,
+Q0202,revisar,5102,,0.29,recuperadores divergem (consenso 0.50)
+Q0203,revisar,6723,,0.74,confianca 0.74 abaixo do limiar 0.87
+Q0204,publicar,5505,,0.87,
+Q0205,revisar,5560,,0.51,recuperadores divergem (consenso 0.75)
+Q0206,revisar,5487,,0.71,confianca 0.71 abaixo do limiar 0.87
+Q0207,revisar,4684,,0.06,recuperadores divergem (consenso 0.50)
+Q0208,revisar,5149,,0.23,recuperadores divergem (consenso 0.50)
+Q0209,revisar,5498,,0.66,confianca 0.66 abaixo do limiar 0.87
+Q0210,revisar,5066,,0.25,recuperadores divergem (consenso 0.50)
+Q0211,revisar,5138,,0.07,recuperadores divergem (consenso 0.50)
+Q0212,revisar,5543,,0.14,recuperadores divergem (consenso 0.25)
+Q0213,revisar,4694,,0.03,recuperadores divergem (consenso 0.50)
+Q0214,publicar,5490,,0.92,
+Q0215,revisar,5572,,0.39,recuperadores divergem (consenso 0.75)
+Q0216,revisar,5466,,0.17,recuperadores divergem (consenso 0.25)
+Q0217,revisar,4384,,0.51,confianca 0.51 abaixo do limiar 0.87
+Q0218,revisar,5517,,0.82,confianca 0.82 abaixo do limiar 0.87
+Q0219,publicar,5071,,0.87,
+Q0220,publicar,5498,,0.92,
+Q0221,publicar,5199,,0.87,
+Q0222,revisar,4374,,0.11,recuperadores divergem (consenso 0.50)
+Q0223,publicar,5079,,0.94,
+Q0224,publicar,5199,,0.89,
+Q0225,revisar,5524,,0.06,recuperadores divergem (consenso 0.25)
+Q0226,revisar,5543,,0.27,recuperadores divergem (consenso 0.50)
+Q0227,publicar,5102,,0.9,
+Q0228,revisar,5560,,0.3,recuperadores divergem (consenso 0.50)
+Q0229,revisar,5505,,0.68,confianca 0.68 abaixo do limiar 0.87
+Q0230,revisar,5071,,0.33,recuperadores divergem (consenso 0.75)
+Q0231,publicar,5218,,0.94,
+Q0232,publicar,5079,,0.94,
+Q0233,publicar,5175,,0.93,
+Q0234,revisar,4380,,0.64,confianca 0.64 abaixo do limiar 0.87
+Q0235,revisar,6733,,0.36,recuperadores divergem (consenso 0.75)
+Q0236,revisar,5199,,0.29,recuperadores divergem (consenso 0.75)
+Q0237,publicar,5175,,0.94,
+Q0238,publicar,5466,,0.93,
+Q0239,revisar,5211,,0.12,recuperadores divergem (consenso 0.25)
+Q0240,revisar,5466,,0.61,recuperadores divergem (consenso 0.75)
+Q0241,publicar,5218,,0.9,
+Q0242,revisar,5580,,0.71,confianca 0.71 abaixo do limiar 0.87
+Q0243,publicar,5175,,0.95,
+Q0244,publicar,5087,,0.93,
+Q0245,revisar,5185,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0246,revisar,5524,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0247,revisar,5498,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0248,revisar,5138,,0.41,recuperadores divergem (consenso 0.50)
+Q0249,revisar,5079,,0.16,recuperadores divergem (consenso 0.50)
+Q0250,revisar,5572,,0.22,recuperadores divergem (consenso 0.50)
+Q0251,publicar,5191,,0.9,
+Q0252,revisar,5199,,0.61,confianca 0.61 abaixo do limiar 0.87
+Q0253,revisar,4384,,0.29,confianca 0.29 abaixo do limiar 0.87
+Q0254,revisar,5079,,0.02,recuperadores divergem (consenso 0.25)
+Q0255,revisar,5490,,0.04,recuperadores divergem (consenso 0.25)
+Q0256,publicar,5218,,0.9,
+Q0257,revisar,5218,,0.85,confianca 0.85 abaixo do limiar 0.87
+Q0258,publicar,5543,,0.89,
+Q0259,revisar,5228,,0.67,confianca 0.67 abaixo do limiar 0.87
+Q0260,revisar,4368,,0.4,confianca 0.40 abaixo do limiar 0.87
+Q0261,revisar,5466,,0.42,recuperadores divergem (consenso 0.75)
+Q0262,revisar,5184,,0.4,confianca 0.40 abaixo do limiar 0.87
+Q0263,revisar,5079,,0.38,recuperadores divergem (consenso 0.75)
+Q0264,revisar,5102,,0.8,confianca 0.80 abaixo do limiar 0.87
+Q0265,revisar,5066,,0.44,recuperadores divergem (consenso 0.75)
+Q0266,revisar,5524,,0.33,recuperadores divergem (consenso 0.75)
+Q0267,revisar,4708,,0.02,recuperadores divergem (consenso 0.25)
+Q0268,revisar,5228,,0.29,recuperadores divergem (consenso 0.75)
+Q0269,revisar,5170,,0.67,recuperadores divergem (consenso 0.75)
+Q0270,publicar,5087,,0.87,
+Q0271,revisar,5572,,0.1,recuperadores divergem (consenso 0.25)
+Q0272,revisar,4703,,0.47,recuperadores divergem (consenso 0.75)
+Q0273,revisar,5218,,0.64,recuperadores divergem (consenso 0.75)
+Q0274,publicar,5157,,0.91,
+Q0275,revisar,5487,,0.76,confianca 0.76 abaixo do limiar 0.87
+Q0276,revisar,5543,,0.36,recuperadores divergem (consenso 0.50)
+Q0277,revisar,4696,,0.15,recuperadores divergem (consenso 0.75)
+Q0278,revisar,5539,,0.4,recuperadores divergem (consenso 0.50)
+Q0279,publicar,5175,,0.88,
+Q0280,revisar,5487,,0.19,recuperadores divergem (consenso 0.75)
+Q0281,revisar,5580,,0.69,confianca 0.69 abaixo do limiar 0.87
+Q0282,revisar,4697,,0.17,recuperadores divergem (consenso 0.75)
+Q0283,revisar,5490,,0.24,recuperadores divergem (consenso 0.50)
+Q0284,revisar,5211,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0285,revisar,4374,,0.27,recuperadores divergem (consenso 0.75)
+Q0286,publicar,5066,,0.9,
+Q0287,publicar,5228,,0.91,
+Q0288,revisar,5066,,0.3,recuperadores divergem (consenso 0.50)
+Q0289,revisar,5128,,0.03,recuperadores divergem (consenso 0.25)
+Q0290,revisar,5530,,0.07,recuperadores divergem (consenso 0.25)
+Q0291,revisar,5498,,0.38,recuperadores divergem (consenso 0.75)
+Q0292,revisar,4374,,0.49,confianca 0.49 abaixo do limiar 0.87
+Q0293,revisar,5185,,0.64,recuperadores divergem (consenso 0.75)
+Q0294,revisar,5211,,0.87,confianca 0.87 abaixo do limiar 0.87
+Q0295,revisar,5487,,0.69,recuperadores divergem (consenso 0.75)
+Q0296,revisar,5063,,0.25,recuperadores divergem (consenso 0.50)
+Q0297,revisar,4689,,0.22,recuperadores divergem (consenso 0.75)
+Q0298,revisar,5228,,0.16,recuperadores divergem (consenso 0.75)
+Q0299,revisar,4384,,0.31,confianca 0.31 abaixo do limiar 0.87
+Q0300,publicar,5079,,0.94,
+Q0301,revisar,5120,,0.57,recuperadores divergem (consenso 0.75)
+Q0302,revisar,5218,,0.71,recuperadores divergem (consenso 0.75)
+Q0303,revisar,5180,,0.13,recuperadores divergem (consenso 0.25)
+Q0304,revisar,5539,,0.29,recuperadores divergem (consenso 0.75)
+Q0305,revisar,5466,,0.42,recuperadores divergem (consenso 0.50)
+Q0306,revisar,5144,,0.29,recuperadores divergem (consenso 0.50)
+Q0307,revisar,5498,,0.02,recuperadores divergem (consenso 0.25)
+Q0308,revisar,5498,,0.7,confianca 0.70 abaixo do limiar 0.87
+Q0309,revisar,5199,,0.33,recuperadores divergem (consenso 0.75)
+Q0310,revisar,5505,,0.85,confianca 0.85 abaixo do limiar 0.87
+Q0311,revisar,5487,,0.49,recuperadores divergem (consenso 0.75)
+Q0312,revisar,4384,,0.45,confianca 0.45 abaixo do limiar 0.87
+Q0313,revisar,5199,,0.4,recuperadores divergem (consenso 0.50)
+Q0314,revisar,5476,,0.64,recuperadores divergem (consenso 0.75)
+Q0315,revisar,5199,,0.21,recuperadores divergem (consenso 0.25)
+Q0316,revisar,5199,,0.02,recuperadores divergem (consenso 0.25)
+Q0317,revisar,5066,,0.74,confianca 0.74 abaixo do limiar 0.87
+Q0318,revisar,5149,,0.07,recuperadores divergem (consenso 0.25)
+Q0319,revisar,5071,,0.38,recuperadores divergem (consenso 0.75)
+Q0320,revisar,5498,,0.68,recuperadores divergem (consenso 0.75)
+Q0321,revisar,5071,,0.69,confianca 0.69 abaixo do limiar 0.87
+Q0322,publicar,5560,,0.93,
+Q0323,revisar,5498,,0.08,recuperadores divergem (consenso 0.25)
+Q0324,revisar,5572,,0.35,recuperadores divergem (consenso 0.75)
+Q0325,revisar,5466,,0.39,recuperadores divergem (consenso 0.50)
+Q0326,revisar,6728,,0.27,recuperadores divergem (consenso 0.75)
+Q0327,revisar,5199,,0.85,confianca 0.85 abaixo do limiar 0.87
+Q0328,revisar,4380,,0.36,recuperadores divergem (consenso 0.75)
+Q0329,revisar,5134,,0.03,recuperadores divergem (consenso 0.25)
+Q0330,publicar,5498,,0.89,
+Q0331,revisar,5476,,0.9,recuperadores divergem (consenso 0.75)
+Q0332,revisar,5539,,0.54,recuperadores divergem (consenso 0.75)
+Q0333,publicar,5175,,0.89,
+Q0334,revisar,4380,,0.1,recuperadores divergem (consenso 0.50)
+Q0335,revisar,5218,,0.59,recuperadores divergem (consenso 0.75)
+Q0336,publicar,5157,,0.89,
+Q0337,revisar,6716,,0.39,recuperadores divergem (consenso 0.75)
+Q0338,revisar,5580,,0.68,confianca 0.68 abaixo do limiar 0.87
+Q0339,revisar,5572,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0340,revisar,5071,,0.68,recuperadores divergem (consenso 0.75)
+Q0341,revisar,5066,,0.59,recuperadores divergem (consenso 0.75)
+Q0342,revisar,5543,,0.58,recuperadores divergem (consenso 0.75)
+Q0343,publicar,5466,,0.95,
+Q0344,revisar,6717,,0.23,recuperadores divergem (consenso 0.50)
+Q0345,revisar,5102,,0.56,recuperadores divergem (consenso 0.75)
+Q0346,revisar,5580,,0.65,recuperadores divergem (consenso 0.75)
+Q0347,revisar,5199,,0.7,recuperadores divergem (consenso 0.75)
+Q0348,revisar,5087,,0.6,recuperadores divergem (consenso 0.75)
+Q0349,revisar,5066,,0.28,recuperadores divergem (consenso 0.50)
+Q0350,revisar,4702,,0.27,recuperadores divergem (consenso 0.75)
+Q0351,revisar,5228,,0.28,recuperadores divergem (consenso 0.75)
+Q0352,revisar,5560,,0.11,recuperadores divergem (consenso 0.25)
+Q0353,revisar,5185,,0.08,recuperadores divergem (consenso 0.50)
+Q0354,revisar,5218,,0.43,recuperadores divergem (consenso 0.75)
+Q0355,revisar,5498,,0.04,recuperadores divergem (consenso 0.25)
+Q0356,revisar,5066,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0357,revisar,5138,,0.25,recuperadores divergem (consenso 0.50)
+Q0358,revisar,5128,,0.83,confianca 0.83 abaixo do limiar 0.87
+Q0359,revisar,5120,,0.02,recuperadores divergem (consenso 0.25)
+Q0360,revisar,4380,,0.12,recuperadores divergem (consenso 0.50)
+Q0361,revisar,5211,,0.66,recuperadores divergem (consenso 0.75)
+Q0362,revisar,5543,,0.81,confianca 0.81 abaixo do limiar 0.87
+Q0363,revisar,5087,,0.69,recuperadores divergem (consenso 0.75)
+Q0364,revisar,5087,,0.59,recuperadores divergem (consenso 0.75)
+Q0365,revisar,5087,,0.3,recuperadores divergem (consenso 0.50)
+Q0366,publicar,5199,,0.88,
+Q0367,publicar,5530,,0.89,
+Q0368,revisar,5498,,0.7,recuperadores divergem (consenso 0.75)
+Q0369,publicar,6723,,0.9,
+Q0370,revisar,5517,,0.61,recuperadores divergem (consenso 0.75)
+Q0371,publicar,5466,,0.95,
+Q0372,publicar,5543,,0.95,
+Q0373,revisar,5180,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0374,revisar,5147,,0.81,confianca 0.81 abaixo do limiar 0.87
+Q0375,publicar,5218,,0.92,
+Q0376,publicar,5218,,0.89,
+Q0377,revisar,5476,,0.87,confianca 0.87 abaixo do limiar 0.87
+Q0378,revisar,5079,,0.76,recuperadores divergem (consenso 0.75)
+Q0379,revisar,6724,,0.2,recuperadores divergem (consenso 0.75)
+Q0380,revisar,5490,,0.69,recuperadores divergem (consenso 0.75)
+Q0381,publicar,5498,,0.95,
+Q0382,revisar,5125,,0.13,recuperadores divergem (consenso 0.25)
+Q0383,revisar,6723,,0.71,recuperadores divergem (consenso 0.75)
+Q0384,publicar,5560,,0.9,
+Q0385,revisar,5543,,0.78,confianca 0.78 abaixo do limiar 0.87
+Q0386,revisar,4385,,0.09,recuperadores divergem (consenso 0.50)
+Q0387,revisar,5590,,0.67,confianca 0.67 abaixo do limiar 0.87
+Q0388,revisar,5539,,0.57,recuperadores divergem (consenso 0.75)
+Q0389,revisar,5218,,0.57,recuperadores divergem (consenso 0.75)
+Q0390,revisar,4368,,0.02,recuperadores divergem (consenso 0.25)
+Q0391,revisar,5498,,0.84,confianca 0.84 abaixo do limiar 0.87
+Q0392,publicar,5199,,0.9,
+Q0393,revisar,5157,,0.7,confianca 0.70 abaixo do limiar 0.87
+Q0394,revisar,5480,,0.6,recuperadores divergem (consenso 0.75)
+Q0395,publicar,5476,,0.96,
+Q0396,revisar,5087,,0.49,recuperadores divergem (consenso 0.75)
+Q0397,revisar,4380,,0.05,recuperadores divergem (consenso 0.50)
+Q0398,publicar,5175,,0.97,
+Q0399,revisar,5087,,0.76,recuperadores divergem (consenso 0.75)
+Q0400,revisar,5138,,0.32,recuperadores divergem (consenso 0.50)
+Q0401,publicar,5199,,0.88,
+Q0402,revisar,4684,,0.51,recuperadores divergem (consenso 0.75)
+Q0403,revisar,5180,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0404,publicar,5116,,0.9,
+Q0405,revisar,5543,,0.64,recuperadores divergem (consenso 0.75)
+Q0406,revisar,5087,,0.65,recuperadores divergem (consenso 0.75)
+Q0407,publicar,5572,,0.92,
+Q0408,publicar,5490,,0.95,
+Q0409,publicar,5211,,0.88,
+Q0410,revisar,5211,,0.61,recuperadores divergem (consenso 0.75)
+Q0411,revisar,5087,,0.64,recuperadores divergem (consenso 0.75)
+Q0412,publicar,5087,,0.91,
+Q0413,revisar,5087,,0.64,recuperadores divergem (consenso 0.75)
+Q0414,revisar,5157,,0.17,recuperadores divergem (consenso 0.50)
+Q0415,revisar,5180,,0.58,recuperadores divergem (consenso 0.75)
+Q0416,revisar,5138,,0.02,recuperadores divergem (consenso 0.25)
+Q0417,revisar,4368,,0.02,recuperadores divergem (consenso 0.25)
+Q0418,revisar,5128,,0.53,recuperadores divergem (consenso 0.75)
+Q0419,revisar,4385,,0.34,recuperadores divergem (consenso 0.75)
+Q0420,revisar,6724,,0.55,confianca 0.55 abaixo do limiar 0.87
+Q0421,revisar,5498,,0.57,recuperadores divergem (consenso 0.75)
+Q0422,revisar,5180,,0.63,recuperadores divergem (consenso 0.75)
+Q0423,revisar,5138,,0.18,recuperadores divergem (consenso 0.50)
+Q0424,revisar,5498,,0.74,confianca 0.74 abaixo do limiar 0.87
+Q0425,revisar,5572,,0.65,recuperadores divergem (consenso 0.75)
+Q0426,revisar,5175,,0.59,recuperadores divergem (consenso 0.75)
+Q0427,revisar,5572,,0.61,recuperadores divergem (consenso 0.75)
+Q0428,revisar,5466,,0.72,recuperadores divergem (consenso 0.75)
+Q0429,revisar,5149,,0.34,recuperadores divergem (consenso 0.50)
+Q0430,revisar,6724,,0.22,recuperadores divergem (consenso 0.75)
+Q0431,revisar,5466,,0.45,recuperadores divergem (consenso 0.50)
+Q0432,publicar,5466,,0.93,
+Q0433,revisar,5071,,0.68,confianca 0.68 abaixo do limiar 0.87
+Q0434,publicar,5498,,0.88,
+Q0435,revisar,4689,,0.03,recuperadores divergem (consenso 0.50)
+Q0436,revisar,6724,,0.55,confianca 0.55 abaixo do limiar 0.87
+Q0437,revisar,5180,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0438,revisar,5079,,0.31,recuperadores divergem (consenso 0.50)
+Q0439,revisar,5087,,0.63,recuperadores divergem (consenso 0.75)
+Q0440,revisar,5498,,0.68,confianca 0.68 abaixo do limiar 0.87
+Q0441,revisar,5539,,0.83,confianca 0.83 abaixo do limiar 0.87
+Q0442,revisar,5466,,0.8,confianca 0.80 abaixo do limiar 0.87
+Q0443,revisar,5211,,0.6,recuperadores divergem (consenso 0.75)
+Q0444,publicar,5543,,0.94,
+Q0445,revisar,5180,,0.11,recuperadores divergem (consenso 0.50)
+Q0446,revisar,5498,,0.08,recuperadores divergem (consenso 0.25)
+Q0447,publicar,5185,,0.91,
+Q0448,revisar,5572,,0.6,recuperadores divergem (consenso 0.75)
+Q0449,publicar,5228,,0.94,
+Q0450,publicar,5560,,0.88,
+Q0451,revisar,5498,,0.67,confianca 0.67 abaixo do limiar 0.87
+Q0452,revisar,5498,,0.7,confianca 0.70 abaixo do limiar 0.87
+Q0453,revisar,6724,,0.55,confianca 0.55 abaixo do limiar 0.87
+Q0454,revisar,5505,,0.31,recuperadores divergem (consenso 0.75)
+Q0455,revisar,5530,,0.24,recuperadores divergem (consenso 0.50)
+Q0456,revisar,5170,,0.3,recuperadores divergem (consenso 0.50)
+Q0457,publicar,5476,,0.96,
+Q0458,publicar,5218,,0.88,
+Q0459,revisar,5066,,0.11,recuperadores divergem (consenso 0.25)
+Q0460,publicar,5144,,0.87,
+Q0461,revisar,5560,,0.78,confianca 0.78 abaixo do limiar 0.87
+Q0462,revisar,5071,,0.65,confianca 0.65 abaixo do limiar 0.87
+Q0463,revisar,5087,,0.16,recuperadores divergem (consenso 0.25)
+Q0464,revisar,4689,,0.44,confianca 0.44 abaixo do limiar 0.87
+Q0465,revisar,5087,,0.22,recuperadores divergem (consenso 0.75)
+Q0466,revisar,5218,,0.65,recuperadores divergem (consenso 0.75)
+Q0467,revisar,5490,,0.76,confianca 0.76 abaixo do limiar 0.87
+Q0468,revisar,5184,,0.55,confianca 0.55 abaixo do limiar 0.87
+Q0469,revisar,4374,,0.2,recuperadores divergem (consenso 0.75)
+Q0470,revisar,5199,,0.87,confianca 0.87 abaixo do limiar 0.87
+Q0471,revisar,5087,,0.69,recuperadores divergem (consenso 0.75)
+Q0472,publicar,5116,,0.88,
+Q0473,revisar,5498,,0.68,confianca 0.68 abaixo do limiar 0.87
+Q0474,revisar,4690,,0.02,recuperadores divergem (consenso 0.25)
+Q0475,revisar,5218,,0.28,recuperadores divergem (consenso 0.50)
+Q0476,publicar,5524,,0.87,
+Q0477,revisar,5466,,0.35,recuperadores divergem (consenso 0.50)
+Q0478,publicar,5480,,0.87,
+Q0479,revisar,5490,,0.67,confianca 0.67 abaixo do limiar 0.87
+Q0480,revisar,5199,,0.85,confianca 0.85 abaixo do limiar 0.87
+Q0481,revisar,5218,,0.57,recuperadores divergem (consenso 0.75)
+Q0482,publicar,5505,,0.87,
+Q0483,publicar,5175,,0.92,
+Q0484,revisar,4702,,0.12,recuperadores divergem (consenso 0.50)
+Q0485,revisar,5180,,0.64,recuperadores divergem (consenso 0.75)
+Q0486,revisar,5560,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0487,publicar,5157,,0.91,
+Q0488,publicar,5087,,0.96,
+Q0489,revisar,5185,,0.67,recuperadores divergem (consenso 0.75)
+Q0490,revisar,5211,,0.64,recuperadores divergem (consenso 0.75)
+Q0491,revisar,5157,,0.28,recuperadores divergem (consenso 0.50)
+Q0492,revisar,5079,,0.28,recuperadores divergem (consenso 0.50)
+Q0493,publicar,5498,,0.92,
+Q0494,publicar,5498,,0.88,
+Q0495,revisar,5087,,0.4,recuperadores divergem (consenso 0.75)
+Q0496,publicar,5087,,0.93,
+Q0497,publicar,5560,,0.92,
+Q0498,revisar,5128,,0.12,recuperadores divergem (consenso 0.50)
+Q0499,revisar,5218,,0.58,recuperadores divergem (consenso 0.75)
+Q0500,revisar,5079,,0.25,recuperadores divergem (consenso 0.50)
+Q0501,revisar,6724,,0.56,confianca 0.56 abaixo do limiar 0.87
+Q0502,publicar,5087,,0.94,
+Q0503,revisar,4377,,0.28,recuperadores divergem (consenso 0.75)
+Q0504,publicar,5218,,0.93,
+Q0505,revisar,5087,,0.63,recuperadores divergem (consenso 0.75)
+Q0506,revisar,5180,,0.4,recuperadores divergem (consenso 0.50)
+Q0507,revisar,5211,,0.68,recuperadores divergem (consenso 0.75)
+Q0508,revisar,4700,,0.52,confianca 0.52 abaixo do limiar 0.87
+Q0509,revisar,5498,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0510,revisar,5590,,0.62,recuperadores divergem (consenso 0.75)
+Q0511,publicar,5543,,0.9,
+Q0512,revisar,4689,,0.18,recuperadores divergem (consenso 0.75)
+Q0513,revisar,4688,,0.62,confianca 0.62 abaixo do limiar 0.87
+Q0514,revisar,5071,,0.39,recuperadores divergem (consenso 0.75)
+Q0515,revisar,6724,,0.26,recuperadores divergem (consenso 0.75)
+Q0516,revisar,6723,,0.36,recuperadores divergem (consenso 0.50)
+Q0517,revisar,5466,,0.76,recuperadores divergem (consenso 0.75)
+Q0518,publicar,5087,,0.9,
+Q0519,revisar,5498,,0.65,confianca 0.65 abaixo do limiar 0.87
+Q0520,revisar,4694,,0.21,recuperadores divergem (consenso 0.75)
+Q0521,revisar,4689,,0.02,recuperadores divergem (consenso 0.25)
+Q0522,revisar,5524,,0.3,recuperadores divergem (consenso 0.50)
+Q0523,revisar,5466,,0.81,recuperadores divergem (consenso 0.75)
+Q0524,revisar,5066,,0.66,recuperadores divergem (consenso 0.75)
+Q0525,revisar,5199,,0.85,confianca 0.85 abaixo do limiar 0.87
+Q0526,revisar,4385,,0.28,recuperadores divergem (consenso 0.75)
+Q0527,revisar,5199,,0.71,confianca 0.71 abaixo do limiar 0.87
+Q0528,revisar,5180,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0529,publicar,5087,,0.92,
+Q0530,revisar,5543,,0.1,recuperadores divergem (consenso 0.25)
+Q0531,publicar,5466,,0.93,
+Q0532,publicar,5157,,0.89,
+Q0533,publicar,5134,,0.88,
+Q0534,revisar,4377,,0.34,recuperadores divergem (consenso 0.75)
+Q0535,revisar,6724,,0.23,recuperadores divergem (consenso 0.75)
+Q0536,publicar,5543,,0.89,
+Q0537,publicar,5480,,0.96,
+Q0538,revisar,5228,,0.62,recuperadores divergem (consenso 0.75)
+Q0539,revisar,5157,,0.42,recuperadores divergem (consenso 0.75)
+Q0540,revisar,5102,,0.09,recuperadores divergem (consenso 0.25)
+Q0541,revisar,5087,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0542,revisar,5517,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0543,revisar,5560,,0.63,recuperadores divergem (consenso 0.75)
+Q0544,revisar,5480,,0.83,confianca 0.83 abaixo do limiar 0.87
+Q0545,revisar,4374,,0.11,recuperadores divergem (consenso 0.50)
+Q0546,revisar,5087,,0.3,recuperadores divergem (consenso 0.75)
+Q0547,revisar,5199,,0.63,recuperadores divergem (consenso 0.75)
+Q0548,publicar,5560,,0.89,
+Q0549,revisar,4703,,0.26,recuperadores divergem (consenso 0.75)
+Q0550,revisar,5157,,0.85,confianca 0.85 abaixo do limiar 0.87
+Q0551,publicar,5466,,0.94,
+Q0552,revisar,5530,,0.3,recuperadores divergem (consenso 0.50)
+Q0553,revisar,5087,,0.62,confianca 0.62 abaixo do limiar 0.87
+Q0554,publicar,5128,,0.92,
+Q0555,publicar,5199,,0.95,
+Q0556,revisar,4385,,0.41,recuperadores divergem (consenso 0.75)
+Q0557,revisar,5498,,0.4,recuperadores divergem (consenso 0.50)
+Q0558,revisar,5572,,0.08,recuperadores divergem (consenso 0.25)
+Q0559,publicar,5087,,0.91,
+Q0560,revisar,4697,,0.08,recuperadores divergem (consenso 0.75)
+Q0561,revisar,5116,,0.41,recuperadores divergem (consenso 0.75)
+Q0562,revisar,5087,,0.75,confianca 0.75 abaixo do limiar 0.87
+Q0563,revisar,4385,,0.53,recuperadores divergem (consenso 0.75)
+Q0564,revisar,4368,,0.33,recuperadores divergem (consenso 0.50)
+Q0565,revisar,5498,,0.7,recuperadores divergem (consenso 0.75)
+Q0566,revisar,5079,,0.32,recuperadores divergem (consenso 0.50)
+Q0567,publicar,5199,,0.88,
+Q0568,publicar,5218,,0.91,
+Q0569,revisar,4385,,0.3,recuperadores divergem (consenso 0.75)
+Q0570,revisar,5560,,0.56,recuperadores divergem (consenso 0.75)
+Q0571,revisar,5543,,0.71,recuperadores divergem (consenso 0.75)
+Q0572,revisar,4697,,0.15,recuperadores divergem (consenso 0.75)
+Q0573,revisar,5157,,0.62,recuperadores divergem (consenso 0.75)
+Q0574,revisar,5116,,0.82,confianca 0.82 abaixo do limiar 0.87
+Q0575,revisar,5184,,0.02,recuperadores divergem (consenso 0.25)
+Q0576,revisar,5087,,0.74,confianca 0.74 abaixo do limiar 0.87
+Q0577,revisar,6724,,0.27,recuperadores divergem (consenso 0.75)
+Q0578,publicar,6723,,0.9,
+Q0579,revisar,5543,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0580,revisar,5087,,0.08,recuperadores divergem (consenso 0.25)
+Q0581,publicar,5466,,0.92,
+Q0582,revisar,5128,,0.57,recuperadores divergem (consenso 0.75)
+Q0583,revisar,5199,,0.38,recuperadores divergem (consenso 0.50)
+Q0584,revisar,5185,,0.3,recuperadores divergem (consenso 0.50)
+Q0585,revisar,5175,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0586,revisar,5517,,0.62,recuperadores divergem (consenso 0.75)
+Q0587,publicar,5185,,0.89,
+Q0588,revisar,4385,,0.61,confianca 0.61 abaixo do limiar 0.87
+Q0589,revisar,5517,,0.61,recuperadores divergem (consenso 0.75)
+Q0590,publicar,5228,,0.91,
+Q0591,publicar,5560,,0.92,
+Q0592,revisar,5087,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0593,revisar,5199,,0.32,recuperadores divergem (consenso 0.50)
+Q0594,revisar,5087,,0.67,recuperadores divergem (consenso 0.75)
+Q0595,publicar,5498,,0.88,
+Q0596,revisar,5180,,0.62,recuperadores divergem (consenso 0.75)
+Q0597,revisar,5498,,0.2,recuperadores divergem (consenso 0.50)
+Q0598,revisar,4385,,0.39,confianca 0.39 abaixo do limiar 0.87
+Q0599,revisar,5063,,0.2,recuperadores divergem (consenso 0.75)
+Q0600,revisar,5572,,0.58,confianca 0.58 abaixo do limiar 0.87
+Q0601,publicar,5539,,0.91,
+Q0602,revisar,5466,,0.7,recuperadores divergem (consenso 0.75)
+Q0603,publicar,5087,,0.94,
+Q0604,publicar,5087,,0.87,
+Q0605,revisar,5539,,0.3,recuperadores divergem (consenso 0.50)
+Q0606,revisar,5199,,0.74,recuperadores divergem (consenso 0.75)
+Q0607,revisar,4383,,0.02,recuperadores divergem (consenso 0.25)
+Q0608,revisar,5180,,0.64,recuperadores divergem (consenso 0.75)
+Q0609,revisar,5066,,0.06,recuperadores divergem (consenso 0.25)
+Q0610,revisar,5505,,0.27,recuperadores divergem (consenso 0.50)
+Q0611,revisar,5116,,0.46,recuperadores divergem (consenso 0.75)
+Q0612,revisar,5466,,0.71,confianca 0.71 abaixo do limiar 0.87
+Q0613,revisar,4689,,0.07,recuperadores divergem (consenso 0.75)
+Q0614,revisar,5116,,0.1,recuperadores divergem (consenso 0.25)
+Q0615,revisar,5466,,0.66,recuperadores divergem (consenso 0.75)
+Q0616,revisar,5138,,0.31,recuperadores divergem (consenso 0.50)
+Q0617,revisar,5498,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0618,publicar,5218,,0.92,
+Q0619,publicar,5539,,0.89,
+Q0620,revisar,5147,,0.64,confianca 0.64 abaixo do limiar 0.87
+Q0621,revisar,4689,,0.08,recuperadores divergem (consenso 0.75)
+Q0622,revisar,5180,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0623,revisar,5543,,0.58,recuperadores divergem (consenso 0.75)
+Q0624,revisar,6724,,0.55,confianca 0.55 abaixo do limiar 0.87
+Q0625,publicar,5087,,0.88,
+Q0626,publicar,5505,,0.88,
+Q0627,publicar,5125,,0.92,
+Q0628,revisar,5490,,0.27,recuperadores divergem (consenso 0.50)
+Q0629,revisar,4371,,0.11,recuperadores divergem (consenso 0.50)
+Q0630,publicar,5079,,0.89,
+Q0631,revisar,5087,,0.6,recuperadores divergem (consenso 0.75)
+Q0632,publicar,5087,,0.93,
+Q0633,revisar,5157,,0.27,recuperadores divergem (consenso 0.50)
+Q0634,revisar,5498,,0.6,recuperadores divergem (consenso 0.75)
+Q0635,revisar,5543,,0.06,recuperadores divergem (consenso 0.50)
+Q0636,revisar,5138,,0.55,recuperadores divergem (consenso 0.75)
+Q0637,publicar,5087,,0.88,
+Q0638,revisar,5087,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0639,revisar,5066,,0.09,recuperadores divergem (consenso 0.25)
+Q0640,revisar,5218,,0.86,confianca 0.86 abaixo do limiar 0.87
+Q0641,publicar,5087,,0.87,
+Q0642,revisar,6724,,0.56,confianca 0.56 abaixo do limiar 0.87
+Q0643,revisar,5199,,0.03,recuperadores divergem (consenso 0.25)
+Q0644,publicar,5180,,0.93,
+Q0645,publicar,5218,,0.92,
+Q0646,revisar,4385,,0.27,recuperadores divergem (consenso 0.75)
+Q0647,revisar,5487,,0.57,recuperadores divergem (consenso 0.75)
+Q0648,revisar,5543,,0.09,recuperadores divergem (consenso 0.25)
+Q0649,revisar,5199,,0.69,confianca 0.69 abaixo do limiar 0.87
+Q0650,revisar,5199,,0.12,recuperadores divergem (consenso 0.75)
+Q0651,revisar,6724,,0.26,recuperadores divergem (consenso 0.75)
+Q0652,revisar,5199,,0.05,recuperadores divergem (consenso 0.25)
+Q0653,revisar,6724,,0.33,recuperadores divergem (consenso 0.75)
+Q0654,revisar,5498,,0.15,recuperadores divergem (consenso 0.50)
+Q0655,revisar,4380,,0.14,recuperadores divergem (consenso 0.75)
+Q0656,revisar,6724,,0.55,confianca 0.55 abaixo do limiar 0.87
+Q0657,publicar,6716,,0.9,
+Q0658,revisar,4385,,0.15,recuperadores divergem (consenso 0.75)
+Q0659,revisar,6723,,0.72,recuperadores divergem (consenso 0.75)

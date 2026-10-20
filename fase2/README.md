@@ -35,10 +35,15 @@ questão → limpeza → recuperação de candidatos → features → reranker
       estratificados com near-duplicatas agrupadas, Wilson, limiar escolhido **fora da dobra**.
 - [x] **Etapa 1 — baseline lexical** (`src/baseline.py`): TF-IDF palavra/char, BM25, RRF.
       Resultado em [`docs/etapa1_baseline.md`](docs/etapa1_baseline.md).
-- [ ] Etapa 2 — embeddings densos locais + híbrido (só se houver ganho out-of-fold)
-- [ ] Etapa 3 — reranker logístico sobre features de candidato
-- [ ] Etapa 4 — decisão seletiva (pai quando a incerteza é entre irmãos; `fora` conservador)
-- [ ] Etapa 5 — `publicacao.csv`, `previsao.txt`, relatório 4 páginas + memo
+- [x] **Etapa 2 — embeddings densos locais**: **descartados**. `multilingual-e5-large`
+      piora o top-1 (0,46–0,51 contra 0,51–0,61 do léxico).
+- [x] **Etapa 3 — reranker de candidatos**: **descartado**. Empata ou perde da regra v0.
+- [x] **Etapa 4 — decisão seletiva** (`src/decisao.py`): regra do pai + consenso entre
+      recuperadores + confiança. Publica 131/659.
+- [x] **Etapa 5 — entrega**: `publicacao.csv` e `previsao.txt` (precisão 0,92 [0,82–0,97],
+      cobertura 0,20).
+
+Resumo da entrega, resultados e limites: [`docs/entrega.md`](docs/entrega.md).
 
 ## Como rodar
 
@@ -53,6 +58,9 @@ python3 -m venv .venv
 # Etapa 1: baseline lexical + protocolo honesto
 .venv/bin/python -m src.clean       # gera artefatos/questoes_limpas.csv
 .venv/bin/python -m src.baseline    # recall@k, curva precisão x cobertura, ponto out-of-fold
+.venv/bin/python -m src.confianca   # confiança no nível da questão + regra do pai
+.venv/bin/python -m src.decisao     # decisão seletiva -> publicacao.csv
+.venv/bin/python -m src.previsao    # previsao.txt
 ```
 
 Saídas em `artefatos/` (reconstruíveis, por isso fora do git):
