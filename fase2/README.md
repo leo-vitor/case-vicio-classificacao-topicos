@@ -47,6 +47,9 @@ questão → limpeza → recuperação de candidatos → features → reranker
       conjuntos conformais + ancestral comum, protocolo aninhado **sem vazamento**,
       comparação com regras manuais e manifesto de proveniência.
       Resultado em [`docs/auditoria.md`](docs/auditoria.md).
+- [ ] **Enriquecimento jurídico da taxonomia** (próximo passo): descrições
+      discriminativas geradas **offline**, versionadas, sem ver as questões.
+      Briefing de hand-off em [`docs/briefing_enriquecimento.md`](docs/briefing_enriquecimento.md).
 
 Resumo da entrega, resultados e limites: [`docs/entrega.md`](docs/entrega.md).
 
