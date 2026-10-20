@@ -1,0 +1,6 @@
+# Regras gerais do repositório.
+# Cada fase tem o seu próprio .gitignore (fase1/.gitignore, fase2/.gitignore).
+
+.DS_Store
+__pycache__/
+*.pyc

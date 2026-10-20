@@ -1,0 +1,63 @@
+tipo,chave,termos
+lei,11.340,Lei Maria da Penha violência doméstica familiar medidas protetivas descumprimento de medida protetiva violência contra a mulher
+lei,12.850,Organizações Criminosas organização criminosa colaboração premiada ação controlada infiltração de agentes
+lei,8.072,Crimes Hediondos hediondo
+lei,9.455,Tortura
+lei,10.826,Estatuto do Desarmamento arma de fogo porte
+lei,11.343,Tráfico de Drogas entorpecentes drogas
+lei,9.613,Lavagem de Dinheiro lavagem ocultação
+lei,13.869,Abuso de Autoridade
+lei,7.960,Prisão Temporária
+lei,7.210,Lei de Execução Penal execução penal LEP livramento condicional
+lei,9.099,Juizado Especial Criminal transação penal composição civil dos danos suspensão condicional do processo
+lei,9.296,Interceptação Telefônica interceptação interceptação telemática interceptação de comunicações
+lei,7.716,Crimes de Racismo racismo
+lei,9.503,Crimes de Trânsito
+lei,8.069,Violência contra Criança e Adolescente Estatuto da Criança e do Adolescente ECA ato infracional medidas socioeducativas proteção integral
+lei,10.741,Estatuto da Pessoa Idosa Estatuto do Idoso crimes contra pessoa idosa
+lei,8.078,Crimes previstos no CDC Código de Defesa do Consumidor consumidor
+lei,9.605,Crimes contra o meio ambiente ambiental
+lei,13.260,Terrorismo
+lei,13.964,Pacote Anticrime acordo de não persecução penal ANPP cadeia de custódia juiz das garantias
+lei,12.037,Identificação Criminal identificação do civilmente identificado
+sinonimo,delação,Colaboração Premiada
+sinonimo,colaboração premiada,Colaboração Premiada
+sinonimo,resposta à acusação,Defesa Preliminar
+sinonimo,defesa preliminar,Defesa Preliminar
+sinonimo,fiança,Liberdade Provisória
+sinonimo,liberdade provisória,Liberdade Provisória
+sinonimo,prisão temporária,Prisão Temporária
+sinonimo,prisão preventiva,Prisão Preventiva
+sinonimo,prisão em flagrante,Prisão em Flagrante
+sinonimo,prisão domiciliar,Prisão Domiciliar
+sinonimo,condescendência criminosa,Condescendência Criminosa
+sinonimo,excesso de exação,Concussão e Excesso de Exação
+sinonimo,concussão,Concussão e Excesso de Exação
+sinonimo,vantagem indevida,Concussão e Excesso de Exação
+sinonimo,organização criminosa,Organizações Criminosas
+sinonimo,associação criminosa,Organizações Criminosas
+sinonimo,hediondo,Crimes Hediondos
+sinonimo,lavagem de dinheiro,Lavagem de Dinheiro
+sinonimo,tráfico de drogas,Tráfico de Drogas
+sinonimo,arma de fogo,Estatuto do Desarmamento
+sinonimo,pacote anticrime,Abuso de Autoridade Prisão Preventiva
+sinonimo,juizado especial criminal,Juizado Especial Criminal
+sinonimo,estatuto da criança e do adolescente,Violência contra Criança e Adolescente
+sinonimo,eca,Violência contra Criança e Adolescente
+sinonimo,lei de execução penal,Lei de Execução Penal
+sinonimo,lep,Lei de Execução Penal
+sinonimo,acordo de não persecução penal,Acordo de Não Persecução Penal
+sinonimo,anpp,Acordo de Não Persecução Penal
+sinonimo,audiência de custódia,Audiência de Custódia
+sinonimo,cadeia de custódia,Cadeia de Custódia
+sinonimo,reconhecimento de pessoas,Reconhecimento de Pessoas e Coisas
+sinonimo,livramento condicional,Livramento Condicional
+sinonimo,stalking,Ameaça e Perseguição
+sinonimo,perseguição,Ameaça e Perseguição
+sinonimo,violência psicológica,Violência Psicológica contra a Mulher
+sinonimo,estatuto do idoso,Estatuto da Pessoa Idosa
+sinonimo,estatuto da pessoa idosa,Estatuto da Pessoa Idosa
+sinonimo,interceptação telefônica,Interceptação Telefônica
+sinonimo,interceptação telemática,Interceptação Telefônica
+sinonimo,transação penal,Transação Penal
+sinonimo,suspensão condicional do processo,Suspensão Condicional do Processo
