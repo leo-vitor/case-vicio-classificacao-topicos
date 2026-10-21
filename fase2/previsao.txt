@@ -45,9 +45,9 @@ pelo menos 20 publicadas nos 100, fica-se com a de maior limiar (0.896173).
 O que se pode CERTIFICAR (e o que nao se pode)
 ----------------------------------------------
 Com 100 rotulos, a amostra NAO sustenta 95% nem 90%: nenhuma cobertura tem cota
-superior de erro abaixo disso. O primeiro nivel certificavel e 15% de erro,
-com 22 publicadas e 21 acertos (cota superior de erro
-0.145 <= 0.15). Na versao aninhada desse mesmo criterio,
+superior de erro abaixo disso. O primeiro nivel certificavel e 14% de erro,
+com 29 publicadas e 28 acertos (cota superior de erro
+0.114 <= 0.14). Na versao aninhada desse mesmo criterio,
 a certificacao honesta cai para ~80% de precisao.
 Traduzindo: 95% e a meta do case e o ponto estimado, mas nao e um numero que 100 rotulos
 provem. O que a amostra prova fica em torno de 80%.

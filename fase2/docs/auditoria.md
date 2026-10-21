@@ -199,7 +199,7 @@ local.
 |---|---|
 | `enriquecimento_v01.jsonl` | `d906aa5a5619e450` |
 | `publicacao.csv` | `ed240561590c5786` |
-| `previsao.txt` | `98296b0104a8aa00` |
+| `previsao.txt` | `56113d13b413b573` |
 
 O hash de `publicacao.csv` muda a cada reexecução legítima do pipeline (é o entregável), por
 isso o manifesto grava o valor da execução que gerou o `previsao.txt` ao lado. Os demais
