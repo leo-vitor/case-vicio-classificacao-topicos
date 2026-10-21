@@ -173,7 +173,7 @@ Regras de cada campo:
 | Campo | Regra |
 |---|---|
 | `id_tema`, `titulo` | copiados do anexo 1, sem alteração |
-| `sinonimos` | **2–5** formas como o examinador escreveria, ≤ 40 caracteres cada. Não repetir o título. O piso original era 3; foi relaxado para 2 durante a geração porque nenhuma métrica depende dele e forçar um terceiro termo produz preenchimento. Volta a 3 se a ablação por campo mostrar ganho |
+| `sinonimos` | **2–5** formas como o examinador escreveria, ≤ 40 caracteres cada. Não repetir o título. O piso original era 3; foi relaxado para 2 durante a geração e **fica em 2**: a ablação por campo mostrou que sinônimos isolados ficam *abaixo* da base (0,609 vs 0,641 em `ramo@1`), então forçar um terceiro termo só produziria preenchimento. Ver `docs/etapa2_pisos.md` |
 | `institutos` | 0–5 nomes próprios de institutos, doutrinas, autores ou princípios, ≤ 35 caracteres cada |
 | `leis` | 0–4 chaves **existentes** no dicionário. `[]` é resposta perfeitamente válida |
 | `distincoes` | 0–3 itens, `id_tema` **apenas de irmãos reais** (mesmo `parent_id`). Escreva o critério *jurídico* da diferença, não a diferença de palavras |
@@ -205,6 +205,13 @@ do formato errado.
 6. Sem caracteres de controle; UTF-8.
 
 ## 6. Como o artefato será avaliado
+
+> **Resultado (Etapa 2):** artefato completo (351/351). Pisos gratuitos medidos:
+> melhor `ramo@1` = 0,641 (`base`/`rrf_all`); `+filhos`, `+dicionario_tema` e a combinação
+> não passam de 0,641. Com o artefato: 0,728 (`enri`/`rrf_all`, +0,087) e 0,739
+> (`inst+texto`/`tfidf_char`). Precisão a 20% de cobertura não cai (0,72 vs 0,67).
+> **Critério atendido → o enriquecimento entra**, com `rrf_all` e sem troca de arquitetura.
+> Números e ablação em `docs/etapa2_pisos.md`; artefato em `artefatos/pisos.csv`.
 
 O experimento é: **congelar toda a decisão** (recuperadores, regra do pai, consenso,
 limiar) e trocar **apenas** o texto do tema. Mesmos folds, sempre.
