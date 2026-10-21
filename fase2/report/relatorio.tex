@@ -165,8 +165,10 @@ folgado.}
 \end{center}
 
 Também tentei o que parecia natural e não funcionou. Reranker de candidatos empata ou perde.
-Embeddings densos (\texttt{multilingual-e5-large}) melhoram o recall no top-10 e pioram o
-top-1, que é onde a decisão vive. $k$-NN entre questões também perde. A cascata de ramo em
+Embeddings densos (\texttt{multilingual-e5-large}) com os temas enriquecidos também não
+superaram o léxico: 0,53--0,68 sozinhos e 66--69/92 em fusão, contra 68/92 do \texttt{rrf\_all};
+a melhor fusão ganha uma questão, com IC pareado $[-0{,}054;\,+0{,}076]$. O recall no top-10
+é alto, mas a decisão vive do top-1. $k$-NN entre questões também perde. A cascata de ramo em
 dois estágios --- decidir o ramo, depois o subtema --- não muda nada: agregar os filhos por
 máximo é exatamente a mesma decisão que promover o top-1, e publicar o subtema nunca salva um
 ramo errado (0 casos em 92). A disciplina de origem como prior dá +0,033, dentro do ruído

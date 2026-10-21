@@ -1,0 +1,6 @@
+variante,n,acertos_ramo1,ramo1,ramo1_lo,ramo1_hi,ramo5,ramo10,exato1,ganho_questoes,ganhas,perdidas,delta_pp,delta,delta_lo,delta_hi,ic_pareado_acima_zero,mcnemar_p,adotar
+rrf_all,92,68,0.7391,0.6411,0.818,0.9348,0.9457,0.4457,0,0,0,0.0,0.0,0.0,0.0,False,,False
+emb_passage,92,49,0.5326,0.4314,0.6312,0.7391,0.8913,0.3152,-19,3,22,-20.65,-0.2065,-0.3043,-0.1087,False,0.000157,False
+rrf_emb_passage,92,66,0.7174,0.6181,0.7992,0.913,0.9348,0.4348,-2,5,7,-2.17,-0.0217,-0.0978,0.0543,False,0.774414,False
+emb_query,92,63,0.6848,0.5841,0.7707,0.8478,0.9022,0.3804,-5,6,11,-5.43,-0.0543,-0.1413,0.0326,False,0.332306,False
+rrf_emb_query,92,69,0.75,0.6527,0.8272,0.8804,0.9565,0.4457,1,5,4,1.09,0.0109,-0.0543,0.0761,False,1.0,False

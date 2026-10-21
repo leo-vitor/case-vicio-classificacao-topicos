@@ -79,6 +79,11 @@ Se embeddings entrarem (Etapa 2), serão **locais** (`bge-m3` / `multilingual-e5
 com modelo, revisão, dimensão e hash dos textos registrados. Nada de API externa na
 execução final.
 
+Teste controlado em 21/10/2026, com os temas enriquecidos e critério escrito antes
+(`fase2/docs/experimento_embeddings_v2.md`): o embedding **não** superou o `rrf_all`.
+Melhor fusão 69/92 contra 68/92, IC pareado [−0,054; +0,076]; sozinho, 0,533–0,685.
+Não entrou.
+
 ## 10. Repositório único, em fases
 
 Fase 1 congelada na tag `v1-fase1`; Fase 2 em `fase2/`, autocontida. Um repositório

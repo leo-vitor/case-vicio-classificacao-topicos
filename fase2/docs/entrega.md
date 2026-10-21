@@ -60,11 +60,18 @@ com o top-1, gêmeo, lei citada, prior). Resultado: melhor caso empata com a reg
 em geral, perde. **Decisão: não entra na entrega** (regra de parada: sem ganho, sem
 complexidade).
 
-### 4. Embeddings densos também não — por ora
+### 4. Embeddings densos também não — mesmo com os temas enriquecidos
 
-`intfloat/multilingual-e5-large` (local, MPS, vetores versionados): hier@10 = 0,79
-isolado e 0,92 no híbrido com o char, mas **top-1 pior**. Como a decisão vive do top-1,
-embeddings ficam de fora. `k`-NN entre questões (usando os rótulos) também foi pior.
+O teste anterior usou os temas **crus** e comparou com o léxico enriquecido — uma
+comparação injusta. Refiz uma vez, com o **mesmo texto enriquecido** nos temas e critério
+escrito antes (`docs/experimento_embeddings_v2.md`): adotar só com ganho de 5 questões no
+`ramo@1` e IC pareado acima de zero. Resultado: `passage` sozinho 0,533; `query` sozinho
+0,685; fusão RRF 0,717 e 0,750; o `rrf_all` atual fica em 0,739. A melhor fusão ganha
+**1 questão** (69/92 contra 68/92), com IC [−0,054; +0,076] — não passa. A quebra por
+disciplina explica: a fusão com `query` ganha +3 em Processo Penal, mas perde −3 em
+Legislação Especial. **Decisão: não entra.** O recall no top-10 é alto (0,89–0,96), mas a
+decisão vive do top-1. Resultados completos em `artefatos/embeddings_v2_*.csv`; `k`-NN
+entre questões também foi pior.
 
 ### 5. O que funcionou: **consenso entre recuperadores**
 
@@ -203,7 +210,7 @@ em [`etapa5_cascata.md`](etapa5_cascata.md).
 | `pisos.py` | pisos gratuitos + ablação por campo (Etapa 2) |
 | `cascata.py` | ramo em 2 estágios, agregação e prior de disciplina |
 | `reranker.py` | testado e **descartado** (empata/perde) |
-| `embeddings.py` | testado e **descartado** (top-1 pior) |
+| `embeddings.py` | testado e **descartado** (mesmo enriquecido, top-1 não supera) |
 | `confianca.py` | confiança no nível da questão + regra do pai |
 | `decisao.py` | regra seletiva → `publicacao.csv` |
 | `diagnostico.py` | recuperação × decisão (categorias exclusivas, denominadores explícitos) |

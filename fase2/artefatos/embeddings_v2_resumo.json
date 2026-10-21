@@ -1,0 +1,209 @@
+{
+  "experimento": "embeddings_v2_temas_enriquecidos",
+  "data": "2026-10-21T10:16:17",
+  "modelo": "intfloat/multilingual-e5-large",
+  "n_questoes": 100,
+  "n_validas": 92,
+  "n_temas": 371,
+  "n_enriquecidos": 351,
+  "criterio": {
+    "ganho_minimo_questoes": 5,
+    "ic_pareado": "bootstrap 95% das questoes, 2000 reamostragens, semente 42",
+    "adotar": "ganho >= 5 e delta_lo > 0 contra rrf_all"
+  },
+  "prefixos": {
+    "passage": "passage: ",
+    "query": "query: "
+  },
+  "hash_textos_temas": "cbb41dc5acb4",
+  "hash_textos_questoes": "514989c649f1",
+  "matrizes": {
+    "rrf_all": [
+      100,
+      371
+    ],
+    "emb_passage": [
+      100,
+      371
+    ],
+    "rrf_emb_passage": [
+      100,
+      371
+    ],
+    "emb_query": [
+      100,
+      371
+    ],
+    "rrf_emb_query": [
+      100,
+      371
+    ]
+  },
+  "rrf_k": 60,
+  "seed": 42,
+  "por_disciplina": [
+    {
+      "disciplina": "Criminologia",
+      "n": 10,
+      "rrf_all_acertos": 9,
+      "rrf_all_ramo1": 0.9,
+      "emb_passage_acertos": 7,
+      "emb_passage_ramo1": 0.7,
+      "rrf_emb_passage_acertos": 9,
+      "rrf_emb_passage_ramo1": 0.9,
+      "emb_query_acertos": 9,
+      "emb_query_ramo1": 0.9,
+      "rrf_emb_query_acertos": 9,
+      "rrf_emb_query_ramo1": 0.9
+    },
+    {
+      "disciplina": "Direito Penal - Legislação Especial",
+      "n": 12,
+      "rrf_all_acertos": 6,
+      "rrf_all_ramo1": 0.5,
+      "emb_passage_acertos": 3,
+      "emb_passage_ramo1": 0.25,
+      "rrf_emb_passage_acertos": 4,
+      "rrf_emb_passage_ramo1": 0.3333,
+      "emb_query_acertos": 3,
+      "emb_query_ramo1": 0.25,
+      "rrf_emb_query_acertos": 3,
+      "rrf_emb_query_ramo1": 0.25
+    },
+    {
+      "disciplina": "Penal",
+      "n": 40,
+      "rrf_all_acertos": 31,
+      "rrf_all_ramo1": 0.775,
+      "emb_passage_acertos": 25,
+      "emb_passage_ramo1": 0.625,
+      "rrf_emb_passage_acertos": 28,
+      "rrf_emb_passage_ramo1": 0.7,
+      "emb_query_acertos": 26,
+      "emb_query_ramo1": 0.65,
+      "rrf_emb_query_acertos": 32,
+      "rrf_emb_query_ramo1": 0.8
+    },
+    {
+      "disciplina": "Processo Penal",
+      "n": 30,
+      "rrf_all_acertos": 22,
+      "rrf_all_ramo1": 0.7333,
+      "emb_passage_acertos": 14,
+      "emb_passage_ramo1": 0.4667,
+      "rrf_emb_passage_acertos": 25,
+      "rrf_emb_passage_ramo1": 0.8333,
+      "emb_query_acertos": 25,
+      "emb_query_ramo1": 0.8333,
+      "rrf_emb_query_acertos": 25,
+      "rrf_emb_query_ramo1": 0.8333
+    }
+  ],
+  "resultado": [
+    {
+      "variante": "rrf_all",
+      "n": 92,
+      "acertos_ramo1": 68,
+      "ramo1": 0.7391,
+      "ramo1_lo": 0.6411,
+      "ramo1_hi": 0.818,
+      "ramo5": 0.9348,
+      "ramo10": 0.9457,
+      "exato1": 0.4457,
+      "ganho_questoes": 0,
+      "ganhas": 0,
+      "perdidas": 0,
+      "delta_pp": 0.0,
+      "delta": 0.0,
+      "delta_lo": 0.0,
+      "delta_hi": 0.0,
+      "ic_pareado_acima_zero": false,
+      "mcnemar_p": NaN,
+      "adotar": false
+    },
+    {
+      "variante": "emb_passage",
+      "n": 92,
+      "acertos_ramo1": 49,
+      "ramo1": 0.5326,
+      "ramo1_lo": 0.4314,
+      "ramo1_hi": 0.6312,
+      "ramo5": 0.7391,
+      "ramo10": 0.8913,
+      "exato1": 0.3152,
+      "ganho_questoes": -19,
+      "ganhas": 3,
+      "perdidas": 22,
+      "delta_pp": -20.65,
+      "delta": -0.2065,
+      "delta_lo": -0.3043,
+      "delta_hi": -0.1087,
+      "ic_pareado_acima_zero": false,
+      "mcnemar_p": 0.000157,
+      "adotar": false
+    },
+    {
+      "variante": "rrf_emb_passage",
+      "n": 92,
+      "acertos_ramo1": 66,
+      "ramo1": 0.7174,
+      "ramo1_lo": 0.6181,
+      "ramo1_hi": 0.7992,
+      "ramo5": 0.913,
+      "ramo10": 0.9348,
+      "exato1": 0.4348,
+      "ganho_questoes": -2,
+      "ganhas": 5,
+      "perdidas": 7,
+      "delta_pp": -2.17,
+      "delta": -0.0217,
+      "delta_lo": -0.0978,
+      "delta_hi": 0.0543,
+      "ic_pareado_acima_zero": false,
+      "mcnemar_p": 0.774414,
+      "adotar": false
+    },
+    {
+      "variante": "emb_query",
+      "n": 92,
+      "acertos_ramo1": 63,
+      "ramo1": 0.6848,
+      "ramo1_lo": 0.5841,
+      "ramo1_hi": 0.7707,
+      "ramo5": 0.8478,
+      "ramo10": 0.9022,
+      "exato1": 0.3804,
+      "ganho_questoes": -5,
+      "ganhas": 6,
+      "perdidas": 11,
+      "delta_pp": -5.43,
+      "delta": -0.0543,
+      "delta_lo": -0.1413,
+      "delta_hi": 0.0326,
+      "ic_pareado_acima_zero": false,
+      "mcnemar_p": 0.332306,
+      "adotar": false
+    },
+    {
+      "variante": "rrf_emb_query",
+      "n": 92,
+      "acertos_ramo1": 69,
+      "ramo1": 0.75,
+      "ramo1_lo": 0.6527,
+      "ramo1_hi": 0.8272,
+      "ramo5": 0.8804,
+      "ramo10": 0.9565,
+      "exato1": 0.4457,
+      "ganho_questoes": 1,
+      "ganhas": 5,
+      "perdidas": 4,
+      "delta_pp": 1.09,
+      "delta": 0.0109,
+      "delta_lo": -0.0543,
+      "delta_hi": 0.0761,
+      "ic_pareado_acima_zero": false,
+      "mcnemar_p": 1.0,
+      "adotar": false
+    }
+  ]
+}

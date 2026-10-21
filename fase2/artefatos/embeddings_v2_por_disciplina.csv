@@ -1,0 +1,5 @@
+disciplina,n,rrf_all_acertos,rrf_all_ramo1,emb_passage_acertos,emb_passage_ramo1,rrf_emb_passage_acertos,rrf_emb_passage_ramo1,emb_query_acertos,emb_query_ramo1,rrf_emb_query_acertos,rrf_emb_query_ramo1
+Criminologia,10,9,0.9,7,0.7,9,0.9,9,0.9,9,0.9
+Direito Penal - Legislação Especial,12,6,0.5,3,0.25,4,0.3333,3,0.25,3,0.25
+Penal,40,31,0.775,25,0.625,28,0.7,26,0.65,32,0.8
+Processo Penal,30,22,0.7333,14,0.4667,25,0.8333,25,0.8333,25,0.8333

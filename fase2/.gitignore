@@ -16,3 +16,8 @@ data/*
 # Artefatos gerados (reconstruiveis sem rede e sem LLM).
 artefatos/*
 !artefatos/.gitkeep
+
+# Excecao: resultados do experimento de embeddings v2, pequenos e citados no relatorio.
+!artefatos/embeddings_v2_resumo.csv
+!artefatos/embeddings_v2_por_disciplina.csv
+!artefatos/embeddings_v2_resumo.json
