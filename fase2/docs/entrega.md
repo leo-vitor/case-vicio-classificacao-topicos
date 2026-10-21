@@ -180,6 +180,7 @@ em [`etapa5_cascata.md`](etapa5_cascata.md).
 | `embeddings.py` | testado e **descartado** (top-1 pior) |
 | `confianca.py` | confiança no nível da questão + regra do pai |
 | `decisao.py` | regra seletiva → `publicacao.csv` |
+| `diagnostico.py` | recuperação × decisão (categorias exclusivas, denominadores explícitos) |
 | `previsao.py` | `previsao.txt` (posterior Beta-Binomial + teto certificável) |
 | `artefato.py` | carrega a base uma vez, compartilhada por conformal/auditoria |
 | `conformal.py` | controle de risco (CRC), precisão certificável, conjuntos + ancestral comum |
