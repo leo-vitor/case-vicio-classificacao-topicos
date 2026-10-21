@@ -1,0 +1,403 @@
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------------------
+% Classificacao de topicos - case VDE - Fase 2
+% Fonte oficial do relatorio. Compila com pdfLaTeX (duas passadas).
+% ---------------------------------------------------------------------------
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[scaled=1.0]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{azul}{HTML}{1F4E79}
+\definecolor{cinza}{HTML}{F2F4F7}
+\definecolor{cinzaforte}{HTML}{DCE3EB}
+
+\newcommand{\bd}[1]{\textbf{#1}}
+\setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=2pt}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+
+\titleformat{\section}{\normalfont\large\bfseries\color{azul}}{}{0pt}{\MakeUppercase}[{\vspace{-0.15em}\color{azul}\titlerule[0.8pt]}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+
+\fancypagestyle{rodape}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[L]{\small\color{black!55}Classificação de tópicos --- case VDE (Fase 2)}%
+  \fancyfoot[R]{\small\color{black!55}Página \thepage\ de \pageref{LastPage}}%
+}
+\pagestyle{rodape}
+
+\newcommand{\kpi}[2]{%
+  \fcolorbox{azul!55}{white}{\parbox[c][13mm][c]{0.225\textwidth}{\centering
+    {\Large\bfseries\color{azul}#1}\\[2pt]{\scriptsize\bfseries\color{black!65}#2}}}%
+}
+
+\tikzset{
+  box/.style={draw=azul,rounded corners,fill=white,align=center,inner sep=3pt,
+              minimum height=8mm,text width=21mm,font=\small},
+  arr/.style={-{Latex[length=2mm]},thick,draw=azul}
+}
+
+\begin{document}
+{\LARGE\bfseries\color{azul}Classificação de tópicos: case VDE\par}
+\vspace{2pt}
+{\large Fase 2 --- decidir sem LLM e provar o que 100 rótulos permitem\par}
+\vspace{4pt}
+{\small Autor: Léo Vitor\par}
+\vspace{4pt}
+{\color{azul}\hrule height 0.8pt}
+\vspace{7pt}
+\thispagestyle{rodape}
+
+\begin{tcolorbox}[colback=cinza,colframe=azul!35,
+                  borderline west={2.5pt}{0pt}{azul},
+                  title={\bfseries SUMÁRIO EXECUTIVO},coltitle=azul,colbacktitle=cinza,
+                  boxrule=0.6pt,arc=2pt,left=6pt]
+\begin{itemize}
+\item \bd{Resultado:} publiquei 130 das 659 questões (19,7\%), mandei 529 para revisão e
+      nenhuma para \emph{fora}.
+\item \bd{Qualidade:} 19 acertos em 20 publicadas (0,95) na regra fixa; 18 em 20 (0,90)
+      quando o limiar é escolhido fora do grupo medido. A previsão é 0,91 [0,76--0,99].
+\item \bd{A meta de 95\% não é certificável com 100 rótulos.} O primeiro nível que a amostra
+      prova é 15\% de erro (33 publicadas, 31 acertos); no protocolo honesto, ~85\%.
+\item \bd{Nenhuma chamada de modelo na decisão:} o pipeline roda em 26 segundos, sem rede,
+      e o único insumo novo é um arquivo de 351 temas enriquecidos, versionado por hash.
+\end{itemize}
+\end{tcolorbox}
+
+\vspace{2pt}
+\noindent
+\kpi{19,7\%}{COBERTURA (130/659)}\hfill
+\kpi{0,91}{PRECISÃO PREVISTA}\hfill
+\kpi{0,73}{RAMO@1 (PISO: 0,64)}\hfill
+\kpi{R\$ 0}{CUSTO DE INFERÊNCIA}
+\vspace{4pt}
+
+A Fase 1 respondia com modelos de linguagem e media concordância com outro modelo. A Fase 2
+faz a pergunta oposta: até onde vai um sistema determinístico, auditável e barato? A resposta
+é que ele chega a 0,95 de precisão publicando um quinto das questões --- e que essa precisão
+não pode ser \emph{provada} com a amostra disponível. O relatório separa o que foi medido do
+que foi estimado em cada número.
+
+\section*{a) Como eu pensei}
+
+Comecei congelando a Fase 1 (tag \texttt{v1-fase1}) e tratando a Fase 2 como um experimento
+independente. A decisão é sempre a mesma pergunta de três partes: qual é o tema mais provável
+(busca lexical), qual é o ramo dessa predição (regra do pai) e vale publicar (confiança
+logística + regra seletiva). Nada disso chama modelo em tempo de execução.
+
+O primeiro diagnóstico mudou o alvo. Como a regra do pai promove todo subtema ao tema de
+nível 1, \emph{todas} as 100 predições saem no nível do ramo. A métrica que importa não é
+acertar o subtema: é acertar o \textbf{ramo} --- e o teto de ramo no top-10 era 0,935 contra
+0,641 no top-1. A pergunta virou: dá para subir o ramo@1 sem trocar a arquitetura?
+
+Testei primeiro o que era grátis. Anexar os títulos dos filhos ao tema e aplicar o dicionário
+jurídico ao lado do tema não moveram nada: 0,641 nas duas variantes, o mesmo que a base. A
+leitura é que o caminho hierárquico já carrega o vocabulário dos filhos, e que o dicionário é
+um mapa questão$\to$termo, não tema$\to$termo.
+
+Aí entrou o enriquecimento: 351 temas com sinônimos, institutos e uma definição curta,
+gerados offline e congelados num JSONL. O critério foi escrito antes de olhar o resultado:
+entrar só se \texttt{ramo@1} subisse $\geq +0{,}05$ sobre o melhor piso e a precisão não
+caísse na cobertura fixa de 20\%. Subiu para \textbf{0,728} (+0,087) e a precisão a 20\% de
+cobertura foi de 0,67 para 0,72. Entrou. A ablação por campo mostrou por que: nenhum campo
+sozinho basta, e sinônimos isolados ficam \emph{abaixo} da base --- o ganho está na
+combinação com institutos e texto.
+
+\begin{tcolorbox}[colback=cinza,colframe=azul!30,boxrule=0.6pt,arc=2pt,
+                  title={\small\bfseries\color{azul}PIPELINE DA FASE 2 (SEM LLM NA DECISÃO)},
+                  coltitle=azul,colbacktitle=cinza,left=4pt,right=4pt,top=6pt,bottom=5pt]
+\centering
+\begin{tikzpicture}[node distance=5mm]
+\node[box] (clean) {Limpeza\\\scriptsize HTML $\to$ texto};
+\node[box,right=of clean] (busca) {Busca híbrida\\\scriptsize TF-IDF + char + BM25};
+\node[box,right=of busca] (rrf) {Fusão RRF\\\scriptsize top-10};
+\node[box,right=of rrf] (pai) {Regra do pai\\\scriptsize nível 2 $\to$ 1};
+\node[box,right=of pai] (conf) {Confiança\\\scriptsize logística (14 features)};
+\node[box,right=of conf] (out) {publicar\\\scriptsize / revisar};
+\draw[arr] (clean)--(busca); \draw[arr] (busca)--(rrf); \draw[arr] (rrf)--(pai);
+\draw[arr] (pai)--(conf); \draw[arr] (conf)--(out);
+\end{tikzpicture}
+\\[2pt]
+{\scriptsize\itshape\color{black!60}O texto de cada tema é enriquecido (sinônimos + institutos + definição).
+A confiança só publica com consenso entre os quatro recuperadores e limiar escolhido fora da dobra.}
+\end{tcolorbox}
+
+
+\begin{center}
+\small
+\begin{tabular}{lcc}
+\toprule
+\rowcolor{azul}\color{white}\bfseries Texto do tema & \color{white}\bfseries ramo@1 &
+\color{white}\bfseries $\Delta$ vs.\ base \\
+\midrule
+base (caminho + título) & 0,641 & --- \\
+$+$ títulos dos filhos & 0,641 & 0,000 \\
+$+$ termos do dicionário & 0,620 & $-0{,}021$ \\
+só sinônimos, sem institutos nem texto & 0,609 & $-0{,}032$ \\
+\rowcolor{cinzaforte}\textbf{enriquecido (sinônimos + institutos + texto)} & \textbf{0,728} & $\mathbf{+0{,}087}$ \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\parbox{0.9\textwidth}{\small \emph{Nota:} 92 questões com tema; recuperador \texttt{rrf\_all}.
+Os pisos gratuitos empatam com a base, e o artefato só vence quando os três campos entram
+juntos. Delta pareado com IC bootstrap de 95\%: $[0{,}000;\,0{,}174]$ --- positivo, mas não
+folgado.}
+\end{center}
+
+Também tentei o que parecia natural e não funcionou. Reranker de candidatos empata ou perde.
+Embeddings densos (\texttt{multilingual-e5-large}) melhoram o recall no top-10 e pioram o
+top-1, que é onde a decisão vive. $k$-NN entre questões também perde. A cascata de ramo em
+dois estágios --- decidir o ramo, depois o subtema --- não muda nada: agregar os filhos por
+máximo é exatamente a mesma decisão que promover o top-1, e publicar o subtema nunca salva um
+ramo errado (0 casos em 92). A disciplina de origem como prior dá +0,022, dentro do ruído;
+registrei e não adotei.
+
+Por fim, auditei a própria avaliação e achei um vazamento: o limiar aninhado era escolhido
+com probabilidades que já tinham visto o grupo de teste. Corrigido, a cobertura a 95\% caiu
+de 32 para 20 publicadas. O número que entrego é o corrigido.
+
+\section*{b) Diagnóstico}
+
+\bd{A régua faz metade do trabalho.} Na leitura literal do case (aceita tema, extra, pai ou
+filho) a regra final acerta 0,95; no tema exato, 0,55; no mesmo ramo, 0,90. Publicar o pai é
+ótimo para esta régua e não é trapaça --- é o contrato ---, mas quem julgar pelo tema exato vê
+um sistema diferente. O relatório mostra as três leituras para que ninguém precise descobrir
+isso sozinho.
+
+\bd{Legislação Especial saiu do zero.} Antes do enriquecimento, nenhuma questão desse estrato
+era publicada: os quatro recuperadores nunca concordavam. Agora são 4 publicações, e
+Criminologia passou a 13. O efeito não é do acaso: o enriquecimento deu aos temas desse
+estrato o vocabulário que os enunciados usam, e a assimetria entre questões antigas e novas
+caiu de 0,14/0,25 para 0,19/0,20 de cobertura. É o resultado mais consistente da intervenção.
+
+\bd{O custo do ganho é instabilidade.} Trocar o texto do tema mudou 268 dos 659 temas
+(40,7\%) e 177 decisões (26,9\%); das 130 publicadas, só 42 estavam publicadas antes. O
+sistema opera com margens pequenas: pequenas mudanças de vocabulário movem questões através do
+limiar. Isso não invalida a precisão medida, mas impede tratá-la como garantia.
+
+\bd{Onde o erro mora.} Das 100 questões, 67 acertam pela régua literal quando se publica
+tudo. O erro restante se divide entre 8 questões fora da taxonomia --- que o sistema não marca
+como \emph{fora}, porque não há sinal discriminante em 8 exemplos --- e confusões entre ramos
+vizinhos. Marcar \emph{fora} seria chute; \emph{revisar} é a resposta conservadora e não afeta
+a precisão das publicadas.
+
+\bd{Duas ambiguidades de catálogo, registradas e não resolvidas por mim.} ``Instituições
+Democráticas'' (3 questões) e ``Estado Democrático de Direito'' (21) são o mesmo capítulo da
+Lei 14.197/2021, ambos de nível 1; e ``Funcionamento dos Serviços Essenciais'' não é capítulo
+do Código Penal --- interpretei como arts.~265--266. As duas decisões são do professor, não
+minhas.
+
+
+A auditoria da camada de decisão foi refeita depois disso, com seis verificações:
+
+\begin{center}
+\small
+\begin{tabular}{p{0.24\textwidth}p{0.36\textwidth}p{0.31\textwidth}}
+\toprule
+\rowcolor{azul}\color{white}\bfseries Item & \color{white}\bfseries O que foi medido &
+\color{white}\bfseries Resultado \\
+\midrule
+Métrica & leitura literal, estrita e frouxa da mesma predição &
+0,95 / 0,55 / 0,90 \\
+Validação & limiar escolhido fora do grupo medido (nested) &
+32 $\to$ 20 publicadas (havia vazamento) \\
+Regras & logística $\times$ regras manuais de margem &
+32/29 contra 0 publicadas \\
+Certificação & cota de Clopper-Pearson para o erro &
+95\% e 90\% impossíveis; 15\% $\to$ 33/31 \\
+Conformidade & conjunto conformal + ancestral comum &
+$k=60$ temas para 95\% $\Rightarrow$ 0 publicações \\
+Operação & origem das 130 publicações &
+70 antigas / 60 novas; 4 em Legislação Especial \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+\rowcolor{azul}\color{white}\bfseries Conjunto & \color{white}\bfseries Publicadas &
+\color{white}\bfseries Literal & \color{white}\bfseries Estrita \\
+\midrule
+Regra final (consenso $\geq 0{,}75$ e $p \geq 0{,}896$) & 20 & \textbf{0,950} & 0,550 \\
+Consenso $\geq 0{,}75$, sem limiar & 82 & 0,732 & 0,463 \\
+Publicando tudo & 100 & 0,670 & 0,420 \\
+\midrule
+\rowcolor{cinzaforte}\multicolumn{4}{l}{\emph{Fora da folha-verdade (559): 108 publicadas = 0,19}} \\
+Antigas (259) & 48 & \multicolumn{2}{c}{0,19} \\
+Novas (300) & 60 & \multicolumn{2}{c}{0,20} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{c) Produção (50 mil questões por semana)}
+
+\bd{O que escala e o que não escala.} O pipeline é vetorizado: indexar os 371 temas leva menos
+de um segundo, e classificar 659 questões leva 26 segundos em um núcleo. Cinquenta mil
+questões por semana cabem em uma máquina modesta, sem GPU e sem API --- o custo marginal é
+zero. O que não escala é a fila: publicar 20\% significa mandar 80\% para revisão humana, ou
+seja, 40 mil questões por semana. Esse é o gargalo real, não o compute.
+
+\bd{Como eu atacaria a fila.} Primeiro, usar a confiança como ordenação: as revisões mais
+próximas do limiar são as que mais mudam de resposta e devem ser vistas antes. Segundo,
+acumular rótulos de professor e trocar a logística por um modelo calibrado --- com 100 rótulos
+não dá; com algumas centenas, a cobertura a 95\% cresce. Terceiro, atacar o ramo, que é o
+gargalo estrutural: o teto do ramo no top-10 é 0,935, então nenhuma regra de decisão conserta
+um top-1 que já nasceu errado.
+
+\bd{Manutenção do artefato.} O enriquecimento é um arquivo por taxonomia. Quando um tema
+muda, o objeto correspondente muda com ele; o validador (contrato de campos, whitelist de leis,
+blacklist, colisões pai/filho) roda em segundos e barra o resto. O hash do arquivo entra no
+manifesto de auditoria, então qualquer número do relatório é reproduzível a partir do commit.
+
+\bd{Custo de medir.} A meta de 95\% não é certificável com 100 rótulos: para 0 erros, seriam
+necessárias 60 publicadas perfeitas. O caminho barato é rotular os casos de \emph{desacordo}
+--- onde a regra e o modelo discordam ---, que é onde está a informação; o caminho caro é uma
+amostra aleatória de centenas. Enquanto isso, o honesto é publicar pouco e dizer o intervalo.
+
+\bd{Limitações que eu levaria para a produção.} (i) A amostra é de 100 questões e 1 acerto
+vale 1 ponto percentual; (ii) os gêmeos de catálogo continuam sem convenção; (iii) 8 exemplos
+de \emph{fora} não sustentam um classificador de fora; (iv) o enriquecimento foi escrito por
+um modelo e revisado por mim --- não é conhecimento de especialista; (v) a instabilidade de
+27\% nas decisões significa que a fila muda de composição a cada mudança de vocabulário.
+
+\bd{O que eu faria com mais tempo.} Quatro coisas, em ordem de retorno: rótulos de professor
+para 200--300 questões (é o único caminho para certificar 95\%); uma convenção para os gêmeos
+e para as duplicatas de nível 1; um classificador de disciplina treinado em texto, para
+substituir o metadado de origem, que erra em 21\% dos casos; e um teste A/B com alunos para
+medir o que interessa --- se a questão publicada no ramo certo ajuda mais do que a ausência de
+resposta.
+
+
+\bd{Fase 1 e Fase 2 lado a lado.} A Fase 1 respondia com modelo de linguagem e media
+concordância com outro modelo; a Fase 2 decide por regra e mede contra rótulo humano.
+
+\begin{center}
+\small
+\begin{tabular}{lll}
+\toprule
+\rowcolor{azul}\color{white}\bfseries Dimensão & \color{white}\bfseries Fase 1 &
+\color{white}\bfseries Fase 2 \\
+\midrule
+Quem decide & LLM + verificador & busca lexical + logística \\
+Custo por mil questões & chamada de API & R\$ 0 \\
+Determinismo & não (amostragem do modelo) & sim (saída reprodutível) \\
+Amostra de avaliação & 359 questões, 2 rotuladores de IA & 100 questões, rótulo humano \\
+Publicadas & 222/359 (61,8\%) & 130/659 (19,7\%) \\
+Qualidade medida & concordância 0,90--0,92 com IA & 0,95 (19/20) contra gabarito \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bd{Quando eu não usaria este sistema.} Em três situações. Primeira, se a avaliação for pelo
+tema exato: o sistema entrega o ramo, e a leitura estrita cai para 0,55. Segunda, se houver
+exigência de cobertura alta: publicar 20\% não serve para quem precisa responder 80\% das
+questões --- nesse caso é melhor aceitar menos precisão e usar a confiança só como ordenação
+da fila. Terceira, se o catálogo mudar toda semana: cada mudança de tema exige reenriquecer o
+objeto correspondente, e o custo de manutenção deixa de ser desprezível.
+
+\bd{O que eu levaria da Fase 1.} Duas coisas sobreviveram à troca de arquitetura: o dicionário
+jurídico curado à mão e a régua de aceitação (pai e filho contam, irmão não). A primeira
+alimenta a expansão de consulta; a segunda define o que é acerto. O resto --- prompt, verificador,
+cache de contexto --- não tem lugar num pipeline determinístico, e essa é a lição da fase.
+
+
+\bd{O que eu mediria no primeiro mês em produção.} Quatro números, todos baratos: (i) taxa de
+aceitação da sugestão publicada, na amostra revisada por humano; (ii) tempo médio de revisão
+por questão; (iii) proporção de revisões que mudam o tema sugerido; (iv) taxa de questões fora
+da taxonomia. Os dois primeiros medem custo, os dois últimos medem se o catálogo e o limiar
+estão calibrados. Nenhum deles exige novo modelo --- só registro do que o revisor fez.
+
+\begin{tcolorbox}[colback=cinza,colframe=azul!30,boxrule=0.6pt,arc=2pt,
+                  title={\small\bfseries\color{azul}REPRODUTIBILIDADE},
+                  coltitle=azul,colbacktitle=cinza,left=5pt,right=5pt,top=5pt,bottom=5pt]
+{\small
+\begin{tabular}{@{}ll@{}}
+\texttt{python -m src.decisao} & gera \texttt{publicacao.csv} (130 publicar / 529 revisar) \\
+\texttt{python -m src.previsao} & gera \texttt{previsao.txt} (0,91 [0,76--0,99]) \\
+\texttt{python -m src.pisos} & pisos gratuitos e ablação por campo \\
+\texttt{python -m src.auditoria} & manifesto com hashes de todos os insumos \\
+\end{tabular}
+\par\smallskip
+{\footnotesize\itshape Sem rede e sem LLM. 26 s em um núcleo; \texttt{sha256} do
+\texttt{enriquecimento\_v01.jsonl} = \texttt{d906aa5a5619e450}. O \texttt{publicacao.csv}
+sai idêntico em duas execuções seguidas (mesmo hash).}
+}
+\end{tcolorbox}
+
+\clearpage
+\section*{(d) Memo para o professor}
+{\small\itshape Este memo é para você, especialista em Direito, não em IA.}
+
+\bd{O que eu fiz}
+\begin{itemize}
+\item Montei um sistema que decide, para cada uma das 659 questões, se publica o tema ou manda
+      para revisão. Publiquei 130 (19,7\%) e mandei 529 para revisão.
+\item Nenhuma decisão é tomada por modelo de linguagem em tempo de execução. O sistema compara
+      o texto da questão com o texto dos temas, promove o subtema ao tema principal e só
+      publica quando os quatro métodos de busca concordam e a confiança passa de um limiar.
+\end{itemize}
+
+\bd{Por que a taxa de publicação é baixa}
+\begin{itemize}
+\item Porque a meta é 95\% de acerto. Com 100 questões rotuladas, cada acerto vale 1 ponto:
+      para \emph{provar} 95\% eu precisaria de 60 publicações sem nenhum erro. Preferi
+      publicar menos e dizer com honestidade o que a amostra sustenta.
+\item O que a amostra sustenta: 19 acertos em 20 publicadas. Quando o limiar é escolhido sem
+      olhar o grupo que está sendo medido, 18 em 20. A previsão para o restante é 0,91
+      [0,76--0,99].
+\end{itemize}
+
+\bd{O que mudou nesta fase}
+\begin{itemize}
+\item Tiramos o modelo de linguagem da decisão. O sistema é determinístico: a mesma entrada dá
+      a mesma saída, e o resultado é auditável linha por linha.
+\item Enriqueci os 351 temas com sinônimos, nomes técnicos e uma definição curta. Isso subiu o
+      acerto do \emph{ramo} de 0,64 para 0,73 --- e ramo é o que o sistema publica.
+\item Legislação Especial, que antes não tinha nenhuma questão publicada, passou a ter 4; e a
+      diferença de desempenho entre questões antigas e novas praticamente desapareceu.
+\end{itemize}
+
+\bd{O que eu preciso de você}
+\begin{itemize}
+\item \bd{Duas decisões de catálogo:} ``Instituições Democráticas'' e ``Estado Democrático de
+      Direito'' são o mesmo capítulo da Lei 14.197/2021 --- fundir ou tratar como sinônimo? E
+      ``Funcionamento dos Serviços Essenciais'' não é capítulo do Código Penal: mantém como
+      está ou corrige o título?
+\item \bd{Rótulos:} 200 a 300 questões classificadas por você (ou por um monitor) mudam o
+      patamar. É o único caminho para provar 95\% em vez de estimar.
+\item \bd{Leitura da régua:} se a avaliação for pelo tema exato e não pelo ramo, o resultado
+      cai de 0,95 para 0,55 --- e aí a conversa é outra. Vale confirmar qual leitura vale.
+\end{itemize}
+
+\bd{O que eu não afirmo}
+\begin{itemize}
+\item Não afirmo 95\% de precisão: afirmo 0,91 [0,76--0,99] e explico por que o intervalo é
+      largo.
+\item Não afirmo que o sistema acerta o subtema: ele acerta o ramo. Publicar o ramo é uma
+      escolha compatível com a régua, não um acidente.
+\item Não afirmo estabilidade: mudar o vocabulário dos temas muda 27\% das decisões. É a
+      limitação mais séria e está no relatório, não na nota de rodapé.
+\end{itemize}
+
+\end{document}

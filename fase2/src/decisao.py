@@ -23,6 +23,9 @@ from sklearn.preprocessing import StandardScaler
 
 from src.config import ALVO_PRECISAO, ARTEFATOS, N_REPEATS, SEED
 from src.dicionario import Dicionario, normalizar
+from src.enriquecimento import carregar as carregar_artefato
+from src.enriquecimento import textos as textos_enriquecidos
+from src.enriquecimento import versao as versao_artefato
 from src.protocolo import (
     acerto,
     carregar_gold,
@@ -164,7 +167,8 @@ def main():
     todos = list(q["id"])
     pool = [t for t in arv.ativos.tema_id if arv.publicavel(t)]
     temas1 = [t for t in arv.ativos.tema_id if arv.nivel[t] == 1]
-    busca = Busca([texto_tema(arv, t) for t in pool])
+    enr = carregar_artefato()
+    busca = Busca(textos_enriquecidos(arv, pool, enr))
     dic = Dicionario()
     gemeos = arv.gemeos()
     max_nq = max(arv.nq.get(t, 0) for t in pool) or 1
@@ -247,6 +251,12 @@ def main():
                   "decisao": decisao, "faixa": faixa}).to_csv(ARTEFATOS / "pontuacao_659.csv", index=False)
 
     resumo = {
+        "enriquecimento": {
+            "arquivo": "enriquecimento_v01.jsonl",
+            "sha256": versao_artefato(),
+            "objetos": len(enr),
+            "universo": len(pool),
+        },
         "regra": {"consenso_min": c_f, "tau": tau_f, "tau_arredondado": round(tau_f, 4),
                   "min_publicadas_treino": MIN_PUB},
         "regras_por_fold_nested": [

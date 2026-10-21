@@ -204,7 +204,7 @@ def _sha(p):
     return "sha256:" + hashlib.sha256(p.read_bytes()).hexdigest()[:16]
 
 
-def manifesto(tau=None):
+def manifesto(tau=None, c_final=1.0):
     def ver(mod):
         try:
             return getattr(__import__(mod), "__version__", "?")
@@ -229,7 +229,7 @@ def manifesto(tau=None):
         "plataforma": platform.platform(),
         "pacotes": {m: ver(m) for m in ("numpy", "pandas", "sklearn", "scipy")},
         "seed": SEED, "n_repeats": 5, "n_splits": 5,
-        "regra_final": {"consenso_min": 1.0, "tau": tau},
+        "regra_final": {"consenso_min": c_final, "tau": tau},
         "hash_algoritmo": "sha256 truncado em 16 hex",
         "hashes": {k: (_sha(v) if v.exists() else "ausente") for k, v in arquivos.items()},
     }
@@ -247,12 +247,13 @@ def main():
     # ---- 1. sensibilidade da metrica ------------------------------------
     resumo_dec = json.loads((ARTEFATOS / "decisao_resumo.json").read_text(encoding="utf-8"))
     tau_final = float(resumo_dec["regra"]["tau"])
-    sel_final = (cons >= 1.0) & (p_oof >= tau_final)
-    sel_cons = cons >= 1.0
+    c_final = float(resumo_dec["regra"]["consenso_min"])
+    sel_final = (cons >= c_final) & (p_oof >= tau_final)
+    sel_cons = cons >= c_final
     out["tau_final"] = tau_final
     out["metrica"] = [
-        sensibilidade_metrica(arv, gold, ids, pred, sel_final, f"regra final (consenso=1 e tau={tau_final})"),
-        sensibilidade_metrica(arv, gold, ids, pred, sel_cons, "consenso=1 (sem limiar)"),
+        sensibilidade_metrica(arv, gold, ids, pred, sel_final, f"regra final (consenso>={c_final:.2f} e tau={tau_final:.4f})"),
+        sensibilidade_metrica(arv, gold, ids, pred, sel_cons, f"consenso>={c_final:.2f} (sem limiar)"),
         sensibilidade_metrica(arv, gold, ids, pred, np.ones(len(y), bool), "publicando tudo"),
     ]
 
@@ -316,7 +317,7 @@ def main():
     }
 
     # ---- 6. manifesto --------------------------------------------------
-    out["manifesto"] = manifesto(tau_final)
+    out["manifesto"] = manifesto(tau_final, c_final)
 
     (ARTEFATOS / "auditoria.json").write_text(json.dumps(out, ensure_ascii=False, indent=2, default=str),
                                               encoding="utf-8")

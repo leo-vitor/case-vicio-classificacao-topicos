@@ -27,6 +27,7 @@ import numpy as np
 import pandas as pd
 
 from src.artefato import tema1
+from src.enriquecimento import carregar as carregar_artefato
 from src.config import ARTEFATOS, DATA, SEED
 from src.dicionario import Dicionario
 from src.protocolo import acerto, carregar_gold, carregar_questoes, wilson
@@ -37,16 +38,7 @@ B = 2000  # reamostragens do bootstrap pareado
 
 
 def carregar_enriquecimento():
-    p = ARTEFATOS.parent / "enriquecimento_v01.jsonl"
-    out = {}
-    if not p.exists():
-        return out
-    for linha in p.read_text(encoding="utf-8").splitlines():
-        if not linha.strip():
-            continue
-        o = json.loads(linha)
-        out[str(o["id_tema"])] = o
-    return out
+    return carregar_artefato()
 
 
 def textos(arv, pool, dic, enr):

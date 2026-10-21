@@ -1,7 +1,7 @@
 precisao_prevista: 0.91
 precisao_intervalo: 0.76-0.99
-cobertura_prevista: 0.20
-cobertura_intervalo: 0.18-0.22
+cobertura_prevista: 0.19
+cobertura_intervalo: 0.17-0.21
 
 Como cheguei nesses numeros
 ===========================
@@ -16,28 +16,31 @@ Regra de decisao usada (sem LLM em nenhum ponto):
   3. Confianca: regressao logistica sobre 14 features do topo do ranking
      (margem, consenso entre recuperadores, relacao hierarquica, disciplina
      de origem, lei citada, prior do tema...).
-  4. Publica se confianca >= 0.871463 E os 4 recuperadores concordam no mesmo no
-     (consenso = 1,00). Caso contrario, revisar. Esse limiar e o valor EXATO usado em
-     `publicacao.csv` (o arredondado, 0,8715, publicaria 19 em vez de 20).
+  4. Publica se confianca >= 0.896173 E o consenso entre os 4 recuperadores e
+     >= 0.75 (1,00 = todos concordam; 0,75 = tres de quatro).
+     Caso contrario, revisar. Esse limiar e o valor EXATO usado em
+     `publicacao.csv`. A confianca publicada e arredondada para 2 casas no CSV,
+     entao o valor efetivo usado na decisao e o que esta em `pontuacao_659.csv`.
 
 A precisao prevista (0.91) e a MEDIA do posterior Beta-Binomial, nao um numero
 escolhido a mao: 19 acertos em 20 publicadas com prior
 uniforme Beta(1,1) dao Beta(20, 2);
 a media e 0.909 e o intervalo de 95% e [0.76, 0.99].
-O intervalo e largo porque 20 publicadas sao poucas — e esse e o dado, nao uma escolha.
+O intervalo e largo porque 20 publicadas sao poucas — e esse e o dado,
+nao uma escolha.
 
 Tres leituras do mesmo experimento
 ----------------------------------
   - In-sample (regra fixa, 20 publicadas): 19/20 = 0.950
     [IC 95% de Wilson 0.76-0.99], cobertura 0.20
-  - Aninhada (limiar escolhido fora do grupo medido): 13/15 = 0.867,
-    cobertura 0.15
+  - Aninhada (limiar escolhido fora do grupo medido): 32/34 = 0.941,
+    cobertura 0.34
   - Aninhada CORRIGIDA (limiar escolhido em probabilidades internas, que nunca
     viram o grupo medido; a versao anterior tinha esse vazamento):
-    9/10 = 0.900 [IC 0.60-0.98], cobertura 0.10
+    18/20 = 0.900 [IC 0.70-0.97], cobertura 0.20
 
 O limiar final foi escolhido de forma conservadora: entre as regras que sustentam 95% com
-pelo menos 20 publicadas nos 100, fica-se com a de maior limiar (0.871463).
+pelo menos 20 publicadas nos 100, fica-se com a de maior limiar (0.896173).
 
 O que se pode CERTIFICAR (e o que nao se pode)
 ----------------------------------------------
@@ -52,28 +55,28 @@ provem. O que a amostra prova fica em torno de 80%.
 Cobertura
 ---------
 A cobertura NAO e estimada: ela e consequencia da regra, e pode ser contada.
-Nas 559 fora da folha: 111/559 = 0.20.
+Nas 559 fora da folha: 108/559 = 0.19.
 Por faixa:
-  antigas (Q0001-Q0359 fora da folha, n=259): 35 publicadas = 0.14
-  novas   (Q0360-Q0659, n=300): 76 publicadas = 0.25
+  antigas (Q0001-Q0359 fora da folha, n=259): 48 publicadas = 0.19
+  novas   (Q0360-Q0659, n=300): 60 publicadas = 0.20
 
 Ressalva de distribuicao (o ponto mais fragil)
 ----------------------------------------------
 O modelo fica sistematicamente MAIS confiante nas 300 novas do que nas antigas
-(pontuacao media 0.59 contra 0.49),
-e por isso a cobertura sobe nelas (0.25 contra 0.14).
+(pontuacao media 0.59 contra 0.54),
+e por isso a cobertura sobe nelas (0.20 contra 0.19).
 Pode ser que os enunciados recentes sejam mais "de manual"; pode ser excesso de confianca
 fora da distribuicao. Nao ha como decidir sem rotulo.
 
 E a sensibilidade da regua: o acerto da regra final muda bastante conforme a leitura —
 literal (regua do case) 0.95,
-so o tema exato 0.45,
-mesmo ramo 0.75.
+so o tema exato 0.55,
+mesmo ramo 0.90.
 Como o LEIA-ME aceita pai e filho, a leitura literal e a que vale; as outras duas servem
 para mostrar quanto do resultado depende da regua.
 
 O que isso significa na pratica
 -------------------------------
-Publicar cerca de 20% das questoes com precisao estimada em 91% e mandar
+Publicar cerca de 19% das questoes com precisao estimada em 91% e mandar
 o resto para revisao humana. E a forma de chegar perto da meta de 95% sem afirmar mais do que
 a amostra sustenta; aumentar a cobertura, ou provar 95%, exige rotular mais questoes.

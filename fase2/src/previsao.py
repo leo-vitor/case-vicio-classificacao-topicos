@@ -63,6 +63,7 @@ def main():
     nested = res["avaliacao_aninhada_100"]
     fixa = res["regra_fixa_in_sample_100"]
     tau = res["regra"]["tau"]
+    consenso = float(res["regra"].get("consenso_min", 1.0))
 
     # Ponto e intervalo: posterior Beta-Binomial da regra fixa (a que e aplicada).
     post = beta_binomial(fixa["acertos"], fixa["publicados"])
@@ -113,15 +114,18 @@ Regra de decisao usada (sem LLM em nenhum ponto):
   3. Confianca: regressao logistica sobre 14 features do topo do ranking
      (margem, consenso entre recuperadores, relacao hierarquica, disciplina
      de origem, lei citada, prior do tema...).
-  4. Publica se confianca >= {tau:.6f} E os 4 recuperadores concordam no mesmo no
-     (consenso = 1,00). Caso contrario, revisar. Esse limiar e o valor EXATO usado em
-     `publicacao.csv` (o arredondado, 0,8715, publicaria 19 em vez de 20).
+  4. Publica se confianca >= {tau:.6f} E o consenso entre os 4 recuperadores e
+     >= {consenso:.2f} (1,00 = todos concordam; 0,75 = tres de quatro).
+     Caso contrario, revisar. Esse limiar e o valor EXATO usado em
+     `publicacao.csv`. A confianca publicada e arredondada para 2 casas no CSV,
+     entao o valor efetivo usado na decisao e o que esta em `pontuacao_659.csv`.
 
 A precisao prevista ({ponto:.2f}) e a MEDIA do posterior Beta-Binomial, nao um numero
 escolhido a mao: {fixa['acertos']} acertos em {fixa['publicados']} publicadas com prior
 uniforme Beta(1,1) dao Beta({1 + fixa['acertos']}, {1 + fixa['publicados'] - fixa['acertos']});
 a media e {post['media']:.3f} e o intervalo de 95% e [{post['lo']:.2f}, {post['hi']:.2f}].
-O intervalo e largo porque 20 publicadas sao poucas — e esse e o dado, nao uma escolha.
+O intervalo e largo porque {fixa['publicados']} publicadas sao poucas — e esse e o dado,
+nao uma escolha.
 
 Tres leituras do mesmo experimento
 ----------------------------------

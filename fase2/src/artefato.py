@@ -11,6 +11,8 @@ import numpy as np
 from src.config import N_REPEATS, SEED
 from src.decisao import RETRIEVERS, PRIM, features as features_q, oof_probs, scores_temas
 from src.dicionario import Dicionario
+from src.enriquecimento import carregar as carregar_artefato
+from src.enriquecimento import textos as textos_enriquecidos
 from src.protocolo import (
     acerto,
     carregar_gold,
@@ -19,7 +21,7 @@ from src.protocolo import (
     folds_estratificados,
     grupos_duplicados,
 )
-from src.recuperacao import Busca, texto_questao, texto_tema
+from src.recuperacao import Busca, texto_questao
 from src.temas import Arvore
 
 
@@ -42,7 +44,7 @@ def base():
     qmap = q.set_index("id")
     pool = [t for t in arv.ativos.tema_id if arv.publicavel(t)]
     temas1 = [t for t in arv.ativos.tema_id if arv.nivel[t] == 1]
-    busca = Busca([texto_tema(arv, t) for t in pool])
+    busca = Busca(textos_enriquecidos(arv, pool, carregar_artefato()))
     dic = Dicionario()
     gemeos = arv.gemeos()
     max_nq = max(arv.nq.get(t, 0) for t in pool) or 1
