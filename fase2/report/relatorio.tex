@@ -81,7 +81,7 @@
       mesmos 100 rótulos, foram 19 em 20 (0,95): esse número é o teto otimista, não a previsão.
 \item \bd{A meta de 95\% não é demonstrável com 100 rótulos.} Pela cota unilateral de 95\%
       (Clopper-Pearson), seriam precisas umas 60 publicações auditadas sem nenhum erro; o
-      sistema publica 20.
+      sistema publica 20 na folha-verdade.
 \item \bd{Nenhum modelo de linguagem na decisão.} Um comando regenera a entrega em cerca de
       um minuto, sem rede. O único insumo gerado por LLM é o arquivo de temas enriquecidos,
       versionado por hash.
@@ -90,7 +90,7 @@
 
 \vspace{2pt}
 \noindent\kpi{17,4\%}{COBERTURA (115/659)}\hfill\kpi{0,76}{PRECISÃO PREVISTA}\hfill
-\kpi{0,74}{RAMO CERTO NO TOP-1}\hfill\kpi{R\$ 0}{CUSTO POR QUESTÃO}
+\kpi{0,74}{RAMO CERTO NO TOP-1}\hfill\kpi{R\$ 0}{CUSTO DE API POR QUESTÃO}
 
 % ================================= a) O SISTEMA ============================
 \section{a) O sistema}
@@ -113,9 +113,9 @@ ramo da árvore ele está e se vale publicar. Nenhuma das três chama modelo de 
 
 \begin{enumerate}
 \item \bd{Temas enriquecidos.} Os 351 temas ativos ganharam sinônimos, institutos e uma
-      definição curta, gerados por LLM uma única vez, revisados e congelados num arquivo
-      versionado. Um validador confere campos, leis citadas e colisões entre pai e filho. É a
-      peça que mais rendeu (tabela abaixo), e é exatamente o uso de LLM que o case permite.
+      definição curta, gerados por LLM uma única vez, validados automaticamente (campos, leis e
+      colisões) e congelados num arquivo versionado. É a peça que mais rendeu (tabela abaixo),
+      e é exatamente o uso de LLM que o case permite.
 \item \bd{Busca com quatro recuperadores.} TF-IDF por palavra, TF-IDF por caractere, BM25 e a
       fusão deles (RRF). A fusão é a que ranqueia; os quatro juntos servem para medir consenso.
 \item \bd{Regra do pai.} Se o mais provável é um subtema, publico o tema pai. Pela régua, o pai
@@ -257,6 +257,16 @@ enriquecer os temas novos ou alterados, uma vez por tema. O custo que não escal
 ordenada pela confiança, com as questões mais perto do limiar primeiro, porque são as que mais
 mudam de decisão com um rótulo.
 
+\bd{Como eu colocaria em produção.} Com precisão estimada de 0,76, eu não deixaria o sistema
+publicar sozinho no começo: uma em cada quatro publicadas estaria errada, que é o problema que a
+plataforma quer resolver. Hoje ele serve como triagem: o ramo certo está em primeiro lugar em 74\%
+das questões e entre os dez primeiros em 95\%, então o professor confirma uma sugestão ou escolhe
+numa lista curta, em vez de procurar entre 375 temas. O caminho seria: (1) modo sombra, em que o
+sistema sugere e o professor decide; (2) publicação liberada por partes, só nos temas e faixas de
+confiança em que a amostra auditada passar de 95\%; (3) auditoria separada das importações novas,
+porque o modelo publica um pouco mais nas 300 questões recentes (18\%, 54 de 300) do que nas
+antigas fora da folha (15\%, 40 de 259), e isso pode ser excesso de confiança.
+
 \bd{Como a correção do professor vira dado de treino.} Cada revisão gera uma linha: questão,
 tema sugerido, tema final e se a sugestão estava certa. Essa linha serve a quatro coisas:
 \begin{enumerate}
@@ -304,16 +314,20 @@ da folha.
 \bd{O que eu construí}
 \begin{itemize}
 \item Um sistema que decide, para cada uma das 659 questões, se publica o tema ou manda para a
-      sua revisão. Ele compara o texto da questão com a descrição dos temas e não usa
-      inteligência artificial na hora de decidir. Publiquei 115 (17\%) e mandei 544 para você.
+      sua revisão. Ele compara o texto da questão com a descrição dos temas e não consulta
+      nenhum modelo de linguagem, como o ChatGPT, na hora de decidir. Publiquei 115 (17\%) e
+      mandei 544 para você.
 \item Espero que umas 3 de cada 4 publicadas estejam certas. Não consigo prometer os 95\% pedidos:
       com 100 questões rotuladas, não há como provar isso.
+\item Na prática, hoje o sistema é mais útil para sugerir o tema do que para publicar sozinho:
+      ele coloca o tema certo entre as dez primeiras opções em 95\% das questões.
 \end{itemize}
 
 \bd{O que encontrei}
 \begin{itemize}
-\item O sistema quase sempre acerta o assunto geral; quando erra, confunde temas vizinhos. Ele
-      publica no tema principal, não no subtema, porque a régua aceita isso e é mais seguro.
+\item O sistema acerta o assunto geral em 3 de cada 4 questões; quando erra, em geral confunde
+      temas vizinhos. Ele publica no tema principal, não no subtema, porque a régua aceita isso
+      e é mais seguro.
 \item A maior dificuldade é Legislação Especial: metade das questões vai para o tema
       correspondente do Código. Questões de execução da pena vão para Teoria da Pena, e
       questões de Juizado Especial vão para procedimento ou ação penal.
