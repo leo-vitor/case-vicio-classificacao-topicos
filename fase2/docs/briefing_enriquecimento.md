@@ -123,6 +123,11 @@ têm filhos** (média 5,1; máximo 16). Os 2 nós `inactive` **não** devem ser 
 (podem ser ignorados na saída). O campo `descricao` do CSV original foi omitido de
 propósito: é metadado de origem, sem valor semântico.
 
+> **Atualização (geração):** 20 nós de nível 1 duplicados, sem filhos e sem descrição
+> (6716–6728 e 6732–6738) foram **excluídos** do enriquecimento — não têm o que enriquecer
+> e viram filtro de disciplina no passo 5. O universo efetivo é **351 objetos**. Onde este
+> documento diz 371, leia-se 371 publicáveis menos os 20 excluídos.
+
 **Anexo 2 — `dicionario_juridico.csv`** (62 linhas: **21 de tipo `lei`**, **41 de tipo
 `sinonimo`**). É o vocabulário jurídico já curado no projeto — mas aplicado **ao lado da
 questão**. Este trabalho leva o mesmo vocabulário para o **lado do tema**.
@@ -142,9 +147,10 @@ a whitelist de leis.
 
 ## 4. Saída exigida
 
-**JSON Lines**, um objeto por tema publicável (371 objetos; ordem livre; `\n` entre
-objetos), em `data/enriquecimento_v1.jsonl` (versionado no repositório, como já acontece
-com o dicionário).
+**JSON Lines**, um objeto por tema do universo enriquecível (351 objetos; ordem livre; `\n` entre
+objetos). O arquivo de trabalho é `fase2/enriquecimento_v01.jsonl` (parcial, em geração); o
+entregável final vai para `data/enriquecimento_v1.jsonl` (versionado no repositório, como já
+acontece com o dicionário).
 
 ```json
 {
@@ -167,22 +173,24 @@ Regras de cada campo:
 | Campo | Regra |
 |---|---|
 | `id_tema`, `titulo` | copiados do anexo 1, sem alteração |
-| `sinonimos` | 3–8 formas como o examinador escreveria. Não repetir o título |
-| `institutos` | 0–6 nomes próprios de institutos, doutrinas, autores ou princípios |
+| `sinonimos` | **2–5** formas como o examinador escreveria, ≤ 40 caracteres cada. Não repetir o título. O piso original era 3; foi relaxado para 2 durante a geração porque nenhuma métrica depende dele e forçar um terceiro termo produz preenchimento. Volta a 3 se a ablação por campo mostrar ganho |
+| `institutos` | 0–5 nomes próprios de institutos, doutrinas, autores ou princípios, ≤ 35 caracteres cada |
 | `leis` | 0–4 chaves **existentes** no dicionário. `[]` é resposta perfeitamente válida |
 | `distincoes` | 0–3 itens, `id_tema` **apenas de irmãos reais** (mesmo `parent_id`). Escreva o critério *jurídico* da diferença, não a diferença de palavras |
-| `texto_enriquecido` | **≤ 300 caracteres**, 1–2 frases. Deve dizer o que distingue o tema dos vizinhos. Sem jurisprudência, sem número de julgado, sem URL |
+| `texto_enriquecido` | **120–250 caracteres**, 2 frases. Deve dizer o que distingue o tema dos vizinhos. Sem jurisprudência, sem número de julgado, sem URL |
 
-O limite de 300 caracteres não é arbitrário: hoje um documento de tema tem 94 em média, e o
-objetivo é *acrescentar* vocabulário, não substituir o título — daí o teto de aproximadamente
-o dobro do tamanho atual.
+A faixa de 120–250 caracteres não é arbitrária: hoje um documento de tema tem 94 em média, e o
+objetivo é *acrescentar* vocabulário, não substituir o título — daí um teto de aproximadamente o
+dobro do tamanho atual e um piso que garanta conteúdo além do título. O contrato verificado é o
+dos limites **por campo**; o teto de 700 caracteres por linha foi descartado por conflitar com
+títulos longos e duas distinções.
 
 O texto que será indexado é montado por nós, campo a campo
 (`caminho + titulo + sinonimos + institutos + texto_enriquecido`), justamente para permitir
 a ablação. Não concatene nada você mesmo.
 
 **Piloto antes do lote completo:** entregue primeiro **10 temas** (2 por disciplina,
-escolhidos por você) para revisão. Só depois dos ajustes gere os 371. Isso evita 371 linhas
+escolhidos por você) para revisão. Só depois dos ajustes gere os 351. Isso evita 351 linhas
 do formato errado.
 
 ## 5. Regras de anti-alucinação (verificáveis por script)
@@ -229,10 +237,10 @@ sendo impossível certificar 95%.
 | Entregável | Formato |
 |---|---|
 | Piloto | 10 objetos, para revisão |
-| Artefato completo | `enriquecimento_v1.jsonl` (371 objetos) |
+| Artefato completo | `enriquecimento_v1.jsonl` (351 objetos; em curso, 172 gerados) |
 | Prompt de geração | texto versionado, com as regras da seção 5 explícitas |
 | Script de geração | reproduzível, com o modelo/versão registrados no cabeçalho |
-| Validador | Python puro, sem dependências novas: aplica os 6 itens da seção 5 e imprime um relatório (quantos temas sem sinônimos, quantas leis fora da whitelist, distribuição do tamanho do `texto_enriquecido`) |
+| Validador | Python puro, sem dependências novas: aplica os 6 itens da seção 5 e imprime um relatório (quantos temas sem sinônimos, quantas leis fora da whitelist, distribuição do tamanho do `texto_enriquecido`). Entregue em `src/validador_enriquecimento.py` + `scripts/ingerir.py` (`--auditar`, `--commit`) |
 
 Não é necessário: código de produção, integração com o índice, `Pydantic`, banco de dados,
 URLs de normas, campo de autoavaliação de confiança, ou qualquer coisa que só faça sentido
