@@ -117,9 +117,10 @@ Aí entrou o enriquecimento: 351 temas com sinônimos, institutos e uma definiç
 gerados offline e congelados num JSONL. O critério foi escrito antes de olhar o resultado:
 entrar só se \texttt{ramo@1} subisse $\geq +0{,}05$ sobre o melhor piso e a precisão não
 caísse na cobertura fixa de 20\%. Subiu para \textbf{0,739} (+0,109) e a precisão a 20\% de
-cobertura foi de 0,61 para 0,72. Entrou. A ablação por campo mostrou por que: nenhum campo
-sozinho basta, e sinônimos isolados ficam \emph{abaixo} da base --- o ganho está na
-combinação com institutos e texto.
+cobertura foi de 0,61 para 0,72. Entrou. A ablação mostrou por que: nenhum campo sozinho
+basta (sinônimos isolados ficam \emph{abaixo} da base) nem é individualmente necessário (toda
+remoção fica no ruído); o ganho está na combinação --- e somar o dicionário ao texto
+enriquecido chega a atrapalhar.
 
 \begin{tcolorbox}[colback=cinza,colframe=azul!30,boxrule=0.6pt,arc=2pt,
                   title={\small\bfseries\color{azul}PIPELINE DA FASE 2 (SEM LLM NA DECISÃO)},

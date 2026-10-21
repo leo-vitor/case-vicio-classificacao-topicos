@@ -63,6 +63,40 @@ Três conclusões:
    Forçar um terceiro termo só aumentaria o preenchimento sem mexer no `ramo@1`. O contrato
    permanece 2–5.
 
+## Ablação leave-one-out: o campo faz falta?
+
+A tabela anterior compara variantes; esta pergunta é outra: **tirar um campo do conjunto
+completo piora?** Referência `enri` (sinônimos + institutos + texto), recuperador `rrf_all`,
+n = 92, delta pareado com IC bootstrap:
+
+| variante | ramo@1 | Δ vs completo | IC 95% | leitura |
+|---|---|---|---|---|
+| completo (`enri`) | **0,739** | — | — | referência |
+| − sinônimos | 0,696 | −0,043 | −0,098..+0,011 | dentro do ruído |
+| − institutos | 0,674 | −0,065 | −0,141..+0,011 | dentro do ruído (maior queda) |
+| − texto | 0,696 | −0,043 | −0,098..0,000 | dentro do ruído |
+| + dicionário | 0,685 | −0,054 | −0,109..−0,011 | **atrapalha** |
+| + distinções | 0,750 | +0,011 | −0,044..+0,065 | dentro do ruído |
+
+**Leitura.**
+
+1. **Nenhum campo é individualmente necessário.** Todas as remoções ficam dentro do ruído —
+   o que é coerente com o que a tabela anterior já mostrava: os campos isolados ficam abaixo
+   da base e o ganho é da **combinação**. A conclusão vale só para as variantes testadas:
+   leave-one-out não elimina interação entre campos (tirar sinônimos muda o que sobra).
+2. **Institutos pesam mais** (−0,065), mas com 92 questões o IC não fecha.
+3. **Somar o dicionário ao texto enriquecido atrapalha** (−0,054, IC exclui zero). O
+   dicionário expande o texto base, que já está dentro do `enri`; a repetição dilui o sinal.
+   Ele continua útil como piso grátis e na expansão de consulta, não como camada extra aqui.
+4. **Distinções são neutras** (+0,011, IC inclui zero) e continuam fora do `texto_tema` —
+   ficam como documentação do artefato, não como feature.
+
+**Cuidado de seleção múltipla.** São 14 variantes × 5 recuperadores = **70 células**; o
+máximo da grade é `dic+enri`/`tfidf_char` (0,761). Ele **não** é adotado: contra a
+configuração entregue, o delta é +0,022 com IC [−0,044; +0,087] — indistinguível de zero —,
+e trocar o recuperador é mudança de arquitetura. Escolher o máximo de 70 células com 92
+questões é exatamente o erro que o protocolo evita.
+
 ## Critério de entrada
 
 Melhor piso gratuito: **0,641** (`base` / `rrf_all`). Alvo: **≥ 0,691**.
@@ -81,8 +115,8 @@ modesto e o relatório deve dizer isso.
 
 O `tfidf_char` ganha mais (+0,163, IC sem zero) porque o enriquecimento introduz variações
 morfológicas que o n-grama de caractere captura melhor. Ele já é um dos três componentes do
-`rrf_all`; trocar o campeão por ele seria mudança de arquitetura para perder 0,022 em
-`ramo@1` — e hoje **perderia** 0,022 (0,717 contra 0,739) —, sem sustentação — não é feito.
+`rrf_all`; trocá-lo pelo campeão custaria 0,022 de `ramo@1` (0,717 contra 0,739), dentro do
+ruído — e não se troca arquitetura por empate.
 
 Segundo critério: a precisão na cobertura fixa de 20% **não cai** — 0,72 no
 `enri`/`rrf_all` (0,67 na leitura literal), contra 0,61 do melhor piso (`base`/`tfidf`) e

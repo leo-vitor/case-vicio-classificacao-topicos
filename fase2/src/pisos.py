@@ -74,6 +74,8 @@ def textos(arv, pool, dic, enr):
         campos["sin"][t], campos["inst"][t], campos["texto"][t] = sin, inst, txt
         enri[t] = (base[t] + " " + " ".join([sin, inst, txt])).strip()
     tudo = {t: (filhos[t] + " " + dic.expandir(base[t]) + " " + enri[t]).strip() for t in pool}
+    dist = {t: " ".join(d.get("diferenca", "")
+                        for d in enr.get(t, {}).get("distincoes", [])) for t in pool}
 
     def junta(quais):
         return [(base[t] + " " + " ".join(campos[k][t] for k in quais)).strip() for t in pool]
@@ -92,6 +94,9 @@ def textos(arv, pool, dic, enr):
         "sin+inst": junta(["sin", "inst"]),
         "sin+texto": junta(["sin", "texto"]),
         "inst+texto": junta(["inst", "texto"]),
+        # testes de acrescimo (leave-one-out e feito pelos pares acima)
+        "dic+enri": [(enri[t] + " " + dic.expandir(base[t])).strip() for t in pool],
+        "enri+dist": [(enri[t] + " " + dist[t]).strip() for t in pool],
     }
     return out
 
@@ -199,7 +204,8 @@ def main():
     print("=== ramo@1 por variante de texto do tema ===")
     tab = df.pivot(index="variante", columns="recuperador", values="ramo1")
     ordem = ["base", "filhos", "dic", "filhos+dic", "enri", "tudo",
-             "so_sin", "so_inst", "so_texto", "sin+inst", "sin+texto", "inst+texto"]
+             "so_sin", "so_inst", "so_texto", "sin+inst", "sin+texto", "inst+texto",
+             "dic+enri", "enri+dist"]
     print(tab.loc[[o for o in ordem if o in tab.index]].to_string())
 
     print("\n=== melhor variante por recuperador (delta vs base, IC bootstrap) ===")
@@ -210,6 +216,34 @@ def main():
         .sort_values("ramo1", ascending=False)
     )
     print(melhor[["recuperador", "variante", "ramo1", "ramo1_lo", "ramo1_hi", "delta", "delta_lo", "delta_hi", "prec_frouxa_020", "prec_lit_020"]].to_string(index=False))
+
+    # --- ablacao leave-one-out: o campo faz falta? ----------------------
+    ref_loo = "enri"
+    testes = [("completo", "enri", ""), ("- sinonimos", "inst+texto", "remove"),
+              ("- institutos", "sin+texto", "remove"), ("- texto", "sin+inst", "remove"),
+              ("+ dicionario", "dic+enri", "add"), ("+ distincoes", "enri+dist", "add")]
+    loo = []
+    print("\n=== ablacao leave-one-out (rrf_all; delta vs completo) ===")
+    for nome, var, tipo in testes:
+        v = vetores[(var, "rrf_all")]
+        b = vetores[(ref_loo, "rrf_all")]
+        d = float(v.mean() - b.mean())
+        if var == ref_loo:
+            lo = hi = 0.0
+        else:
+            lo, hi = bootstrap_delta(v, b)
+        if var == ref_loo:
+            leitura = "referencia"
+        elif tipo == "remove":
+            leitura = "faz falta" if hi < 0 else ("prejudica" if lo > 0 else "dentro do ruido")
+        else:
+            leitura = "ajuda" if lo > 0 else ("atrapalha" if hi < 0 else "dentro do ruido")
+        loo.append({"variante": nome, "id": var, "ramo1": round(float(v.mean()), 4),
+                    "delta": round(d, 4), "delta_lo": round(lo, 4), "delta_hi": round(hi, 4),
+                    "leitura": leitura})
+        print(f"  {nome:14s} {var:12s} ramo@1={v.mean():.4f} delta={d:+.4f} "
+              f"[{lo:+.4f}; {hi:+.4f}]  {leitura}")
+    pd.DataFrame(loo).to_csv(ARTEFATOS / "ablacao_loo.csv", index=False)
 
     print("\n=== criterio de entrada (ramo@1 >= melhor piso + 0,05) ===")
     pisos_livres = df[df.variante.isin(["base", "filhos", "dic", "filhos+dic"])]
