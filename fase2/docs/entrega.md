@@ -29,8 +29,9 @@ Antes de gastar token, a pergunta era se hierarquia e dicionário já resolviam 
 Não resolvem: `+filhos`, `+dicionario_tema` e a combinação ficam em **0,641** de `ramo@1`,
 o mesmo que o `base`. Com o artefato, **0,739** (`+0,109`), e a precisão a 20% de cobertura
 sobe de 0,67 para 0,72. A ablação mostra que nenhum campo sozinho basta (sinônimos isolados
-ficam *abaixo* da base); o ganho vem da combinação sinônimos + institutos + texto. Detalhes
-em [`etapa2_pisos.md`](etapa2_pisos.md).
+ficam *abaixo* da base) nem é individualmente necessário (toda remoção fica no ruído); o
+ganho vem da combinação, e somar o dicionário ao texto enriquecido atrapalha (−0,054).
+Detalhes em [`etapa2_pisos.md`](etapa2_pisos.md).
 
 ### 1. A régua do case premia o nó pai
 
@@ -108,6 +109,20 @@ escolheu. O consenso mínimo caiu de 1,00 para 0,75 porque, com o texto melhor, 
 recuperadores concordando já é evidência suficiente para sustentar 95% com mais cobertura
 — e é isso que a escolha fora da dobra indica.
 
+A curva precisão × cobertura é plana entre 18% e 38% de cobertura (0,95 a 0,97): o
+conservadorismo custa 18 publicações sem ganho mensurável de precisão *nesta amostra*, mas a
+fronteira in-sample não corrige a seleção — o CRC a 10% dá 0,81 e o aninhado 0,87. Mover o
+limiar agora seria escolhê-lo no conjunto que mede. Detalhes em
+[`regra_final.md`](regra_final.md).
+
+## Diagnóstico: busca ou decisão?
+
+Das 92 válidas: 20 publicadas certas, 1 errada, **48 revisadas com o top-1 já no ramo certo**,
+18 com o ramo certo entre o 2º e o 10º e 5 fora do top-10. A busca não é o gargalo (o top-10
+cobre 94,6%); a decisão é. Detalhes em [`diagnostico.md`](diagnostico.md). Os recuperadores
+empatam no top-1, exceto o `tfidf`, que é pior; em
+[`etapa3_recuperadores.md`](etapa3_recuperadores.md).
+
 ## Resultado nas 659
 
 | Decisão | Antigas | Novas | Total |
@@ -182,6 +197,7 @@ em [`etapa5_cascata.md`](etapa5_cascata.md).
 | `decisao.py` | regra seletiva → `publicacao.csv` |
 | `diagnostico.py` | recuperação × decisão (categorias exclusivas, denominadores explícitos) |
 | `recuperadores.py` | recall@1/5/10 pareado por recuperador e disciplina |
+| `regra_final.py` | curva precisão × cobertura, fronteira certificável e robustez |
 | `previsao.py` | `previsao.txt` (posterior Beta-Binomial + teto certificável) |
 | `artefato.py` | carrega a base uma vez, compartilhada por conformal/auditoria |
 | `conformal.py` | controle de risco (CRC), precisão certificável, conjuntos + ancestral comum |
