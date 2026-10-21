@@ -1,0 +1,228 @@
+codigo,art_inicio,art_fim,tema_id,observacao
+CP,1,1,5180,anterioridade da lei penal
+CP,2,3,5181,lei penal no tempo; lei excepcional ou temporaria
+CP,4,4,5181,tempo do crime
+CP,5,7,5182,territorialidade e extraterritorialidade
+CP,8,12,5180,pena no estrangeiro; sentenca estrangeira; prazos; legislacao especial
+CP,13,13,5226,relacao de causalidade
+CP,14,14,5177,crime consumado e tentado
+CP,15,16,5178,desistencia voluntaria; arrependimento eficaz e posterior
+CP,17,17,5179,crime impossivel
+CP,18,19,5222,dolo; culpa; agravacao pelo resultado
+CP,20,20,5224,erro sobre elementos do tipo; descriminantes putativas
+CP,21,21,5214,erro sobre a ilicitude do fato
+CP,22,22,5211,coacao irresistivel e obediencia hierarquica
+CP,23,23,5228,exclusao de ilicitude
+CP,24,24,5230,estado de necessidade
+CP,25,25,5231,legitima defesa
+CP,26,28,5213,inimputaveis; menores; emocao e embriaguez
+CP,29,31,5071,concurso de pessoas
+CP,32,42,5201,especies de pena; penas privativas de liberdade
+CP,43,48,5205,penas restritivas de direitos
+CP,49,52,5206,pena de multa
+CP,53,58,5199,cominacao das penas
+CP,59,60,5202,fixacao da pena; circunstancias judiciais
+CP,61,67,5203,agravantes e atenuantes
+CP,68,68,5204,calculo da pena (terceira fase)
+CP,69,74,5066,concurso de crimes; erro na execucao; resultado diverso
+CP,75,76,5201,limite das penas; concurso de infracoes
+CP,77,82,5207,suspensao condicional da pena
+CP,83,90,5208,livramento condicional
+CP,91,92,5209,efeitos da condenacao
+CP,93,95,5210,reabilitacao
+CP,96,99,5184,medidas de seguranca
+CP,100,106,5063,acao penal
+CP,107,108,5191,extincao da punibilidade
+CP,109,119,5185,prescricao
+CP,120,120,5197,perdao judicial
+CP,121,121,5150,homicidio
+CP,121-A,121-A,5151,feminicidio (Lei 14.994/2024)
+CP,122,122,5152,induzimento instigacao ou auxilio a suicidio ou automutilacao
+CP,123,123,5153,infanticidio
+CP,124,128,5154,aborto
+CP,129,129,5077,lesao corporal
+CP,130,131,5139,perigo de contagio
+CP,132,132,5140,perigo para a vida ou saude de outrem
+CP,133,134,5141,abandono de incapaz; exposicao ou abandono de recem-nascido
+CP,135,135,5142,omissao de socorro
+CP,136,136,5143,maus-tratos
+CP,138,138,5122,calunia
+CP,139,139,5123,difamacao
+CP,140,140,5124,injuria
+CP,141,145,5121,disposicoes comuns aos crimes contra a honra
+CP,146,146,5128,constrangimento ilegal
+CP,146-A,146-A,5129,intimidacao sistematica (Lei 14.811/2024)
+CP,147,147,5130,ameaca
+CP,147-A,147-A,5130,perseguicao
+CP,147-B,147-B,5131,violencia psicologica contra a mulher
+CP,148,149,5132,sequestro e carcere privado; reducao a condicao analoga a de escravo
+CP,149-A,149-A,5132,trafico de pessoas
+CP,150,154,5133,inviolabilidade do domicilio da correspondencia e dos segredos
+CP,154-A,154-B,5133,invasao de dispositivo informatico
+CP,155,156,5159,furto
+CP,157,157,5160,roubo
+CP,158,160,5161,extorsao
+CP,161,161,5163,usurpacao (esbulho no par. 1o inciso II: ver 5162)
+CP,162,162,5163,supressao ou alteracao de marca em animais
+CP,163,167,5164,dano
+CP,168,170,5165,apropriacao indebita
+CP,171,172,5166,estelionato e outras fraudes
+CP,173,173,5167,abuso de incapazes
+CP,174,178,5166,outras fraudes
+CP,179,179,5168,fraude a execucao
+CP,180,180,5169,receptacao
+CP,181,183,5158,disposicoes gerais dos crimes contra o patrimonio
+CP,184,196,5134,propriedade imaterial
+CP,197,207,5134,organizacao do trabalho
+CP,208,212,5134,sentimento religioso e respeito aos mortos
+CP,213,213,5103,estupro
+CP,215,215,5104,violacao sexual mediante fraude
+CP,215-A,215-A,5105,importunacao sexual
+CP,216-A,216-A,5106,assedio sexual
+CP,216-B,216-B,5107,registro nao autorizado da intimidade sexual
+CP,217-A,217-A,5103,estupro de vulneravel
+CP,218,218,5108,corrupcao de menores
+CP,218-A,218-C,5109,outros crimes contra a dignidade sexual
+CP,225,226,5110,disposicoes gerais
+CP,227,232,5109,lenocinio e trafico
+CP,233,234,5109,ultraje publico ao pudor
+CP,234-A,234-C,5110,disposicoes gerais
+CP,235,240,5112,crimes contra o casamento
+CP,241,243,5113,crimes contra o estado de filiacao
+CP,244,247,5114,crimes contra a assistencia familiar
+CP,248,249,5115,crimes contra o patrio poder tutela e curatela
+CP,250,259,5126,crimes de perigo comum
+CP,260,266,5127,seguranca dos meios de comunicacao e transporte e outros servicos publicos
+CP,267,285,5145,crimes contra a saude publica
+CP,286,288,5146,crimes contra a paz publica
+CP,288-A,288-A,5146,constituicao de milicia privada
+CP,289,295,5117,moeda falsa; titulos e papeis publicos
+CP,296,305,5118,falsidade documental
+CP,306,311,5119,outras falsidades
+CP,311-A,311-A,5119,fraudes em certames de interesse publico
+CP,312,313,5089,peculato
+CP,313-A,313-B,5089,insercao de dados falsos em sistema
+CP,314,314,5087,extravio sonegacao ou inutilizacao de livro ou documento
+CP,315,315,5090,emprego irregular de verbas
+CP,316,316,5091,concussao e excesso de exacao
+CP,317,317,5092,corrupcao passiva
+CP,318,318,5094,facilitacao de contrabando ou descaminho
+CP,319,319,5095,prevaricacao
+CP,319-A,319-A,5095,prevaricacao impropria
+CP,320,320,5096,condescendencia criminosa
+CP,321,321,5097,advocacia administrativa
+CP,322,322,5098,violencia arbitraria
+CP,323,326,5087,abandono de funcao e outros
+CP,327,327,5088,conceito de funcionario publico
+CP,328,328,5099,usurpacao de funcao publica
+CP,329,331,5100,resistencia desobediencia e desacato
+CP,332,332,5101,trafico de influencia
+CP,333,333,5093,corrupcao ativa
+CP,334,334,5094,descaminho
+CP,334-A,334-A,5094,contrabando
+CP,335,337,5087,outros crimes de particular contra a administracao
+CP,337-A,337-A,5087,sonegacao de contribuicao previdenciaria
+CP,337-B,337-D,5087,administracao publica estrangeira
+CP,337-E,337-P,5087,licitacoes e contratos administrativos
+CP,338,338,5086,reingresso de estrangeiro expulso
+CP,339,340,5080,denunciacao caluniosa; comunicacao falsa de crime
+CP,341,341,5086,autoacusacao falsa
+CP,342,343,5081,falso testemunho ou falsa pericia; corrupcao ativa de testemunha
+CP,344,344,5086,coacao no curso do processo
+CP,345,346,5082,exercicio arbitrario das proprias razoes
+CP,347,347,5083,fraude processual
+CP,348,349,5084,favorecimento pessoal e real
+CP,349-A,349-A,5084,ingresso de aparelho de comunicacao em presidio
+CP,350,350,5085,exercicio arbitrario ou abuso de poder
+CP,351,359,5086,outros crimes contra a administracao da justica
+CP,359-A,359-H,5147,crimes contra as financas publicas
+CP,359-I,359-K,5155,soberania nacional
+CP,359-L,359-M,5148,instituicoes democraticas (catalogo original: tema irmao de 5155)
+CP,359-N,359-Q,5155,funcionamento das instituicoes no processo eleitoral
+CP,359-R,359-R,5156,funcionamento dos servicos essenciais (catalogo original: tema irmao de 5155)
+CP,359-T,359-T,5155,disposicao comum
+CPP,1,1,5506,lei processual no espaco
+CPP,2,2,5507,lei processual no tempo
+CPP,3,3,5508,interpretacao da lei processual
+CPP,3-A,3-A,5581,sistema acusatorio
+CPP,3-B,3-F,5503,juiz das garantias
+CPP,4,23,5498,inquerito policial
+CPP,24,27,5466,acao penal publica
+CPP,28,28,5501,arquivamento do inquerito
+CPP,28-A,28-A,5502,acordo de nao persecucao penal
+CPP,29,40,5466,acao penal (subsidiaria; queixa; representacao)
+CPP,41,41,5473,requisitos da denuncia ou queixa
+CPP,42,62,5466,acao penal (prazos; renuncia; perdao; perempcao)
+CPP,63,68,5475,acao civil ex delicto
+CPP,69,75,5480,competencia (lugar; domicilio; materia; distribuicao)
+CPP,76,82,5486,conexao e continencia
+CPP,83,83,5480,competencia por prevencao
+CPP,84,87,5484,competencia por prerrogativa de funcao
+CPP,88,91,5480,disposicoes especiais de competencia
+CPP,92,94,5491,questoes prejudiciais
+CPP,95,107,5492,excecoes; suspeicao
+CPP,108,109,5493,excecao de incompetencia
+CPP,110,111,5494,litispendencia e coisa julgada
+CPP,112,112,5492,impedimento e incompatibilidade
+CPP,113,117,5490,conflito de jurisdicao
+CPP,118,124,5495,restituicao das coisas apreendidas
+CPP,124-A,124-A,5495,destinacao de bens apreendidos
+CPP,125,144,5496,medidas assecuratorias
+CPP,144-A,144-A,5496,alienacao antecipada
+CPP,145,148,5497,incidente de falsidade
+CPP,149,154,5497,insanidade mental do acusado
+CPP,155,156,5591,disposicoes gerais da prova; onus
+CPP,157,157,5594,provas ilicitas
+CPP,158,158,5545,exame de corpo de delito
+CPP,158-A,158-F,5544,cadeia de custodia
+CPP,159,184,5546,pericias em geral
+CPP,185,196,5547,interrogatorio do acusado
+CPP,197,200,5548,confissao
+CPP,201,201,5549,declaracoes do ofendido
+CPP,202,225,5550,testemunhas
+CPP,226,228,5551,reconhecimento de pessoas e coisas
+CPP,229,230,5552,acareacao
+CPP,231,238,5553,documentos
+CPP,239,239,5590,indicios
+CPP,240,250,5554,busca e apreensao
+CPP,251,281,5583,juiz; ministerio publico; acusado; defensor; assistente; auxiliares
+CPP,282,283,5584,prisao e medidas cautelares: disposicoes gerais
+CPP,284,294,5584,prisao: disposicoes gerais
+CPP,295,296,5586,prisao especial
+CPP,297,300,5584,prisao: disposicoes gerais
+CPP,301,309,5518,prisao em flagrante
+CPP,310,310,5589,audiencia de custodia e decisao do juiz
+CPP,311,316,5519,prisao preventiva
+CPP,317,318-B,5521,prisao domiciliar
+CPP,319,320,5522,medidas cautelares diversas da prisao
+CPP,321,350,5523,liberdade provisoria com ou sem fianca
+CPP,351,369,5488,citacoes
+CPP,370,372,5489,intimacoes
+CPP,381,382,5572,sentenca
+CPP,383,384,5579,emendatio e mutatio libelli
+CPP,385,385,5578,correlacao entre acusacao e sentenca
+CPP,386,386,5574,sentenca absolutoria
+CPP,387,387,5575,sentenca condenatoria
+CPP,388,393,5572,sentenca: disposicoes
+CPP,394,394,5532,classificacao dos procedimentos
+CPP,394-A,394-A,5532,prioridade de tramitacao
+CPP,395,396,5531,rejeicao e recebimento da denuncia
+CPP,396-A,396-A,5533,resposta a acusacao
+CPP,397,397,5534,absolvicao sumaria
+CPP,398,402,5535,audiencia de instrucao e julgamento
+CPP,403,405,5536,alegacoes e sentenca em audiencia
+CPP,406,412,5526,juri: primeira fase
+CPP,413,421,5527,pronuncia; impronuncia; absolvicao sumaria; desclassificacao
+CPP,422,491,5528,organizacao do juri e sessao de julgamento
+CPP,492,493,5529,sentenca do juri
+CPP,494,497,5528,atribuicoes do presidente do tribunal do juri
+CPP,531,538,5538,procedimento sumario
+CPP,563,573,5509,nulidades
+CPP,574,580,5512,recursos: disposicoes gerais
+CPP,581,592,5561,recurso em sentido estrito
+CPP,593,603,5562,apelacao
+CPP,609,609,5564,embargos infringentes e de nulidade
+CPP,619,620,5565,embargos de declaracao
+CPP,621,631,5478,revisao criminal
+CPP,639,646,5567,carta testemunhavel
+CPP,647,667,5477,habeas corpus
