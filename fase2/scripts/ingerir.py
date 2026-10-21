@@ -118,42 +118,62 @@ def cmd_ingerir(args, tax: Taxonomia) -> int:
         return 1
 
     universo = tax.universo()
-    ids_lote = [i.id for i in itens]
-    if ids_lote != sorted(ids_lote, key=lambda t: universo.index(t)):
-        print("\nAviso: lote fora da ordem de geracao; sera gravado na ordem canonica.")
-
-    # contiguidade
     pos = {t: i for i, t in enumerate(universo)}
-    inicio = max((pos[t] for t in (o["id_tema"] for o in existentes)), default=-1) + 1
+    ids_lote = sorted((i.id for i in itens), key=pos.get)
+    por_id_lote = {str(o["id_tema"]): o for o in lote}
+
+    # O lote tem de ser um trecho contiguo do universo. Vale tanto para anexar
+    # no fim quanto para preencher buraco no meio: o que nao pode e pular id.
+    inicio = pos[ids_lote[0]]
     esperado = universo[inicio : inicio + len(ids_lote)]
+    presentes = {o["id_tema"] for o in existentes}
     if ids_lote != esperado:
-        faltando = [t for t in universo[: pos[ids_lote[-1]] + 1] if t not in set(ids_lote) | {o["id_tema"] for o in existentes}]
-        print("\nBLOQUEADO: o lote nao e contiguo ao arquivo.")
+        faltando = [t for t in esperado if t not in presentes | set(ids_lote)]
+        print("\nBLOQUEADO: o lote nao e um trecho contiguo do universo.")
+        print(f"  recebido: {', '.join(ids_lote)}")
+        print(f"  esperado: {', '.join(esperado)}")
         if faltando:
-            print(f"  Faltam antes/junto deste lote: {', '.join(faltando)}")
+            print(f"  faltam: {', '.join(faltando)}")
         print("  Use --permitir-buraco apenas se souber exatamente o que esta fazendo.")
         if not args.permitir_buraco:
             return 2
         print("  --permitir-buraco ativo: gravando mesmo assim.")
 
-    restantes = len(universo) - len(existentes) - len(ids_lote)
+    # merged na ordem canonica, preservando os objetos ja existentes
+    juntos = {o["id_tema"]: o for o in existentes}
+    for tid in ids_lote:
+        if tid in juntos:
+            print(f"\nBLOQUEADO: {tid} ja existe no arquivo.")
+            return 2
+        juntos[tid] = por_id_lote[tid]
+    ordenados = sorted(juntos, key=pos.get)
+
+    ordem_antiga = [o["id_tema"] for o in existentes]
+    if [t for t in ordenados if t in presentes] != ordem_antiga:
+        print("\nAviso: o arquivo sera reordenado para a ordem canonica (disciplina, id).")
+
+    total = len(ordenados)
+    restantes = len(universo) - total
+    faltam_depois = [t for t in universo if t not in juntos]
+
     if args.commit:
-        nova = [json.dumps(o, ensure_ascii=False) for o in lote]
-        linhas = [json.dumps(o, ensure_ascii=False) for o in existentes] + nova
+        linhas = [json.dumps(juntos[t], ensure_ascii=False) for t in ordenados]
         destino = Path(args.arquivo)
         tmp = destino.with_suffix(destino.suffix + ".tmp")
         tmp.write_text("\n".join(linhas) + "\n", encoding="utf-8")
         tmp.replace(destino)
-        total = len(linhas)
         print(f"\nGravado: {len(ids_lote)} objeto(s) em {destino}")
         print(f"  total: {total} | restantes: {restantes} | sha256: {_sha(destino)}")
-        if restantes > 0:
-            print(f"  proximo id: {universo[inicio + len(ids_lote)]}")
+        if faltam_depois:
+            print(f"  faltam {len(faltam_depois)}: {', '.join(faltam_depois[:12])}" + (" ..." if len(faltam_depois) > 12 else ""))
+            print(f"  proximo id: {faltam_depois[0]}")
         else:
             print("  universo enriquecivel completo.")
     else:
         print(f"\nDry-run: nada foi gravado. Seriam {len(ids_lote)} objeto(s).")
-        print(f"  total passaria a {len(existentes) + len(ids_lote)} | restantes: {restantes}")
+        print(f"  total passaria a {total} | restantes: {restantes}")
+        if faltam_depois:
+            print(f"  faltam {len(faltam_depois)}: {', '.join(faltam_depois[:12])}" + (" ..." if len(faltam_depois) > 12 else ""))
     return 0
 
 

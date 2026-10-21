@@ -391,7 +391,8 @@ def validar(
             + [x for x in (sin if isinstance(sin, list) else []) if isinstance(x, str)]
             + [x for x in (inst if isinstance(inst, list) else []) if isinstance(x, str)]
         ).lower()
-        achados = [w for w in BLACKLIST if w in corpo]
+        # palavra inteira: "cru" nao pode barrar "meio cruel"
+        achados = [w for w in BLACKLIST if re.search(rf"\b{re.escape(w)}\b", corpo)]
         if achados:
             it.erros.append(f"adjetivo da blacklist: {achados}")
 
