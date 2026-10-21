@@ -31,7 +31,14 @@ from src.enriquecimento import carregar as carregar_artefato
 from src.config import ARTEFATOS, DATA, SEED
 from src.dicionario import Dicionario
 from src.protocolo import acerto, carregar_gold, carregar_questoes, wilson
-from src.recuperacao import RETRIEVERS, Busca, sinais, texto_questao, texto_tema
+from src.recuperacao import (
+    RETRIEVERS,
+    Busca,
+    ordem_desc,
+    sinais,
+    texto_questao,
+    texto_tema,
+)
 from src.temas import Arvore
 
 B = 2000  # reamostragens do bootstrap pareado
@@ -145,7 +152,7 @@ def main():
             # precisao na cobertura fixa de 20% (sinal `rel`, o mais estavel)
             rel = np.array([sinais(M, ids.index(i))["rel"] for i in validos])
             k = max(1, int(round(0.20 * len(validos))))
-            top = np.argsort(-rel)[:k]
+            top = ordem_desc(rel)[:k]
             lit = np.array([
                 1.0 if acerto(arv, gold.loc[validos[j], "alvos"], pool[sinais(M, ids.index(validos[j]))["idx_top1"]]) else 0.0
                 for j in top

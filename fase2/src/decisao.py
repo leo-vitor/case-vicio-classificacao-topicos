@@ -35,7 +35,7 @@ from src.protocolo import (
     grupos_duplicados,
     wilson,
 )
-from src.recuperacao import Busca, texto_questao, texto_tema
+from src.recuperacao import Busca, ordem_desc, texto_questao, texto_tema
 from src.temas import Arvore
 
 RETRIEVERS = ["rrf_all", "tfidf_char", "tfidf", "bm25"]
@@ -67,16 +67,16 @@ def features(arv, qmap, ids, Ms, Mps, pool, dic, gemeos, max_nq):
     for i, qid in enumerate(ids):
         row = qmap.loc[qid]
         M, Mp = Ms[PRIM], Mps[PRIM]
-        o = np.argsort(-M[i])
+        o = ordem_desc(M[i])
         t1 = pool[o[0]]
         pi = promover(arv, t1)
         rels = {}
         tops = []
         for r in RETRIEVERS:
-            rr = np.argsort(-Ms[r][i])
+            rr = ordem_desc(Ms[r][i])
             rels[r] = float(Ms[r][i, rr[0]] / (Ms[r][i, rr[0]] + Ms[r][i, rr[1]] + 1e-12))
             tops.append(promover(arv, pool[rr[0]]))
-        ob = np.argsort(-Mp[i])
+        ob = ordem_desc(Mp[i])
         bs1, bs2 = float(Mp[i, ob[0]]), float(Mp[i, ob[1]])
         s1, s2 = float(M[i, o[0]]), float(M[i, o[1]])
         _, chaves = dic.casamentos(row["texto"])

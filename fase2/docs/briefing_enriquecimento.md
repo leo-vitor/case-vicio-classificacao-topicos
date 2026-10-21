@@ -54,7 +54,7 @@ de nível 1**. Ou seja, o que importa não é acertar o subtema, é acertar o **
 
 | Recuperador | ramo@1 | ramo@3 | ramo@5 | ramo@10 |
 |---|---|---|---|---|
-| `rrf_all` | **0,641** | 0,804 | 0,837 | **0,935** |
+| `rrf_all` | **0,630** | 0,804 | 0,837 | **0,935** |
 | `tfidf_char` | 0,554 | 0,870 | 0,902 | 0,935 |
 | `tfidf` | 0,641 | 0,761 | 0,804 | 0,902 |
 | `bm25` | 0,500 | 0,685 | 0,739 | 0,804 |
@@ -62,7 +62,7 @@ de nível 1**. Ou seja, o que importa não é acertar o subtema, é acertar o **
 *ramo@k = o tema de nível 1 correto (ou o pai do tema central) está entre os k primeiros.*
 
 Leitura: o teto do ranqueamento é **0,935** (ramo@10) e o ponto de partida é **0,641**
-(ramo@1). Há folga grande, e ela está no **texto dos temas** — exatamente o que este
+(`tfidf`) / **0,630** (`rrf_all`). Há folga grande, e ela está no **texto dos temas** — exatamente o que este
 briefing pede. Recall do tema *exato*: 0,68 no top-5 e 0,74 no top-10 (`rrf_all`).
 
 **Como o erro se distribui** (41 erros em 100):
@@ -207,9 +207,9 @@ do formato errado.
 ## 6. Como o artefato será avaliado
 
 > **Resultado (Etapa 2):** artefato completo (351/351). Pisos gratuitos medidos:
-> melhor `ramo@1` = 0,641 (`base`/`rrf_all`); `+filhos`, `+dicionario_tema` e a combinação
-> não passam de 0,641. Com o artefato: 0,728 (`enri`/`rrf_all`, +0,087) e 0,739
-> (`inst+texto`/`tfidf_char`). Precisão a 20% de cobertura não cai (0,72 vs 0,67).
+> melhor `ramo@1` = 0,641 (`base`/`tfidf`); `+filhos`, `+dicionario_tema` e a combinação
+> não passam disso. Com o artefato: 0,739 (`enri`/`rrf_all`, +0,109, IC +0,033..+0,196).
+> Precisão a 20% de cobertura não cai (0,72 vs 0,61 do melhor piso).
 > **Critério atendido → o enriquecimento entra**, com `rrf_all` e sem troca de arquitetura.
 > Números e ablação em `docs/etapa2_pisos.md`; artefato em `artefatos/pisos.csv`.
 
@@ -235,8 +235,8 @@ precisão não cai com a cobertura fixada em 0,20. Abaixo disso, o enriqueciment
 já tentamos da ordem de 100 configurações neste projeto e o erro padrão é acumular
 complexidade por acaso.
 
-Referência do estado atual (não alterar): decisão nas 659 questões → 131 publicar /
-528 revisar; precisão 0,95 in-sample e 0,90 aninhada (sem vazamento), com 100 rótulos
+Referência do estado atual (não alterar): decisão nas 659 questões → 118 publicar /
+541 revisar; precisão 0,95 in-sample e 0,867 aninhada (sem vazamento), com 100 rótulos
 sendo impossível certificar 95%.
 
 ## 7. O que esperamos de você

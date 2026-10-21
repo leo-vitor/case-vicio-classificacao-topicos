@@ -40,7 +40,7 @@ from src.protocolo import (
     grupos_duplicados,
     wilson,
 )
-from src.recuperacao import Busca, texto_questao
+from src.recuperacao import Busca, ordem_desc, texto_questao
 from src.temas import Arvore
 
 B = 2000
@@ -117,7 +117,7 @@ def main():
                             Mp2[k, c] += lam
             acertos, cas = [], []
             for k in V:
-                ramo = temas1[int(np.argsort(-Mp2[k])[0])]
+                ramo = temas1[int(ordem_desc(Mp2[k])[0])]
                 acertos.append(1.0 if ramo in aceitos[ids[k]] else 0.0)
                 cas.append(1.0 if acerto(arv, gold.loc[ids[k], "alvos"], ramo) else 0.0)
             v = np.array(acertos)
@@ -150,7 +150,7 @@ def main():
     sub_pub = 0
     for k in V:
         i = ids[k]
-        ramo = temas1[int(np.argsort(-Mp[k])[0])]
+        ramo = temas1[int(ordem_desc(Mp[k])[0])]
         membros = [ramo] + [x for x in arv.filhos.get(ramo, []) if x in pos]
         if not membros:
             continue

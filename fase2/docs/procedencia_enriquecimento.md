@@ -11,10 +11,10 @@ outro CSV de `data/`.
 |---|---|
 | caminho | `fase2/enriquecimento_v01.jsonl` |
 | linhas | 351 (universo enriquecível completo) |
-| bytes | 205.126 |
-| sha256 | `d906aa5a5619e450` |
+| bytes | 198.608 |
+| sha256 | `7bbda02e4c658484` |
 | contiguidade | sem buracos, sem duplicados, sem fora do universo |
-| contrato | 351 ok, 0 reprovados, 8 avisos (colisões legítimas entre irmãos) |
+| contrato | 351 ok, 0 reprovados, 9 avisos (8 colisões legítimas entre irmãos + 1 linha longa) |
 
 Universo enriquecível = 375 nós `active` de nível ≥ 1 menos 20 duplicatas de nível 1 não
 enriquecíveis (6716–6728 e 6732–6738) menos os 4 nós raiz = **351**.
@@ -70,14 +70,32 @@ Colisões entre irmãos que compartilham o instituto de propósito:
 - 5546/5549 — contraditório (perícia e declaração do ofendido);
 - 5570/5571 — prequestionamento (extraordinário e especial).
 
-## Pendências de taxonomia
+## Decisão de taxonomia (v02, 2026-10-20)
 
-- **5148 "Instituições Democráticas" (3 questões) e 5155 "Estado Democrático de Direito"
-  (21 questões)** são o mesmo capítulo da Lei 14.197/2021, ambos de nível 1. O artefato
-  mantém os dois; a decisão de fundir ou tratar como sinônimo é do usuário.
-- **5156 "Funcionamento dos Serviços Essenciais"** não é capítulo do Código Penal.
-  Foi interpretado como arts. 265–266 (serviço de utilidade pública e interrupção de
-  serviço). É o único objeto a revisar se a origem for outra.
+Conferida a Lei 14.197/2021 na fonte oficial (Planalto), o Título XII do Código Penal tem:
+
+| dispositivo | conteúdo | artigos |
+|---|---|---|
+| Cap. I | soberania nacional | 359-I a 359-K |
+| Cap. II | instituições democráticas | 359-L, 359-M |
+| Cap. III | instituições democráticas no processo eleitoral | 359-N, 359-P |
+| Cap. IV | funcionamento dos serviços essenciais | 359-R (sabotagem) |
+| Cap. VI | disposições comuns | 359-T |
+
+Portanto:
+
+- **5148 e 5155 não são duplicatas — são aninhados.** 5155 é o Título XII; 5148 é o
+  Capítulo II. Os dois foram reparentados em `src/taxonomia.py` (5148 e 5156 passam a ser
+  filhos de 5155, nível 2), sem mudar IDs.
+- **5156 estava errado.** Não são os arts. 265–266 (incolumidade pública): é o Capítulo IV,
+  art. 359-R (sabotagem). O objeto foi reescrito.
+- **5148 também foi corrigido.** O instituto "interrupção do processo eleitoral" pertence ao
+  Capítulo III e foi removido; entraram "abolição violenta do Estado" e "depor governo
+  constituído".
+- 5148 e 5156 ganharam uma `distinção` entre si, agora que são irmãos.
+
+Impacto medido: 8 temas previstos mudam, 18 decisões mudam, e nenhuma das 15 publicações
+perdidas troca de tema — a mudança atravessou o limiar pela confiança, não pela busca.
 
 ## Como reproduzir a validação
 

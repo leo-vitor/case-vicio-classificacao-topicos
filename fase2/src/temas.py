@@ -10,12 +10,14 @@ import re
 
 import pandas as pd
 
+from src import taxonomia
 from src.config import DATA
 
 
 class Arvore:
     def __init__(self, path=None):
         df = pd.read_csv(path or DATA / "temas.csv", dtype=str).fillna("")
+        df = taxonomia.aplicar(df)
         df["nivel"] = df["nivel"].astype(int)
         self.df = df
         self.ativos = df[df["status"] == "active"]

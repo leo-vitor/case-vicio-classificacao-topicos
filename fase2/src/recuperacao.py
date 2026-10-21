@@ -81,7 +81,7 @@ def _rrf_de_matrizes(*matrizes, k=RRF_K):
     out = np.zeros((n_q, n_t))
     for M in matrizes:
         for i in range(n_q):
-            ordem = np.argsort(-M[i])
+            ordem = ordem_desc(M[i])
             for r, j in enumerate(ordem):
                 out[i, j] += 1.0 / (k + r + 1)
     return out
@@ -130,7 +130,17 @@ class Busca:
     def ordem(self, retriever, q_texts):
         """Lista de arrays de indices ordenados (um por questao)."""
         M = self.scores(retriever, q_texts)
-        return [np.argsort(-M[i]) for i in range(M.shape[0])], M
+        return [ordem_desc(M[i]) for i in range(M.shape[0])], M
+
+
+def ordem_desc(linha):
+    """Indices do maior para o menor, com desempate estavel (menor indice vence).
+
+    O desempate importa: os scores do RRF sao discretos e empatam com frequencia.
+    Sem `kind="stable"`, `argsort` e `argmax` podem escolher maximos diferentes
+    para a mesma linha, e o mesmo top-1 muda de dono entre modulos.
+    """
+    return np.argsort(-np.asarray(linha), kind="stable")
 
 
 def sinais(M, i):
@@ -141,7 +151,7 @@ def sinais(M, i):
     gap : (s1-s2)/s1  -> livre de escala
     """
     linha = M[i]
-    ordem = np.argsort(-linha)[:2]
+    ordem = ordem_desc(linha)[:2]
     s1 = float(linha[ordem[0]])
     s2 = float(linha[ordem[1]]) if len(ordem) > 1 else 0.0
     return {

@@ -93,8 +93,30 @@ conformal (CRC), precisão certificável por Clopper-Pearson, conjuntos conforma
 ancestral comum, posterior Beta-Binomial no lugar da fórmula artesanal de previsão, bagging
 da logística como medida de estabilidade (desvio médio de 0,15 entre reajustes) e o
 protocolo aninhado sem vazamento. **Não entrou na regra:** bagging (empata dentro do ruído
-— 13/14 contra 13/15) e conjuntos conformais (publicam 0). A regra ficou congelada:
-`publicacao.csv` não mudou de hash.
+— 32/29 contra 33/30) e conjuntos conformais (publicam 0). A forma da regra ficou congelada
+(consenso ≥ 0,75 e limiar escolhido nos 100); o valor do limiar é re-escolhido sempre que um
+insumo muda — na v02, 0,887009.
+
+## 12. Taxonomia v02: 5148 e 5156 são filhos de 5155
+
+Decisão de 2026-10-20, tomada depois de conferir a Lei 14.197/2021 na fonte oficial.
+O Título XII do Código Penal é "Dos Crimes contra o Estado Democrático de Direito" (5155);
+"Instituições Democráticas" (5148) é o Capítulo II e "Funcionamento dos Serviços
+Essenciais" (5156) é o Capítulo IV (art. 359-R, sabotagem).
+
+- **Não houve fusão nem troca de IDs.** 5148 e 5156 passam a ser filhos de 5155 (nível 2),
+  aplicados no carregamento por `src/taxonomia.py` — o `data/temas.csv` do case fica
+  intacto, e a correção sobrevive a um download novo.
+- **5156 foi reescrito**: o objeto anterior descrevia os arts. 265–266 (incolumidade
+  pública) e foi substituído pelo art. 359-R.
+- **5148 foi corrigido**: "interrupção do processo eleitoral" é Capítulo III e saiu.
+- A taxonomia é **insumo**, não modelo: a mudança foi medida e declarada, não escolhida
+  por resultado. Efeito: 8 temas previstos e 18 decisões mudam; das 15 publicações
+  perdidas, nenhuma troca de tema — o efeito é da camada de decisão.
+
+Consequência metodológica: qualquer nova versão da taxonomia invalida a comparação com a
+anterior. A v02 fica registrada aqui e o pipeline é reexecutado do zero; o `previsao.txt`
+e o `publicacao.csv` entregues são sempre os da versão vigente.
 
 ## Regra de parada
 
@@ -109,7 +131,7 @@ complexidade sem evidência.
 - Learning-to-rank: secundário, só depois de uma curva precisão × cobertura competitiva com
   regras simples.
 - Conjuntos conformais + ancestral comum: **testados** na auditoria. Válidos, mas inúteis
-  aqui — o conjunto que cobre 95% precisa de 90 temas de 371, que nunca cabem num ramo.
+  aqui — o conjunto que cobre 95% precisa de 59 temas de 371, que nunca cabem num ramo.
   Ficam como diagnóstico (o gargalo é o ranqueamento, não o limiar), não como regra.
 - Conformal sob *covariate shift* sem modelo de deslocamento; BN profunda, GP, CRF,
   isotônica: sem justificativa com 100 rótulos.

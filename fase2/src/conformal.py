@@ -29,6 +29,8 @@ import numpy as np
 import pandas as pd
 from scipy.stats import beta as beta_dist
 
+from src.recuperacao import ordem_desc
+
 from src.artefato import base, tema1
 from src.config import ARTEFATOS
 from src.protocolo import acerto
@@ -85,7 +87,7 @@ def ranks_do_gabarito(arv, pool, M, ids, gold):
         if not alvos:
             r.append(np.nan)
             continue
-        ordem = np.argsort(-M[i])
+        ordem = ordem_desc(M[i])
         posto = {pool[j]: k + 1 for k, j in enumerate(ordem)}
         r.append(min(posto[t] for t in alvos))
     return np.array(r, dtype=float)
@@ -106,7 +108,7 @@ def avaliar_confinamento(arv, pool, M, ids, gold, k):
     """Publica o tema de nivel 1 do top-k quando o top-k inteiro cai num so ramo."""
     pub, ac = 0, 0
     for i, qid in enumerate(ids):
-        ordem = np.argsort(-M[i])[:k]
+        ordem = ordem_desc(M[i])[:k]
         ramos = {tema1(arv, pool[j]) for j in ordem}
         ramos.discard(None)
         if len(ramos) != 1:
@@ -174,7 +176,7 @@ def main():
             k_tr = k_conformal(ranks[sorted(tr_set)], alpha)
             for i in te:
                 i = int(i)
-                ordem = np.argsort(-M[i])[:k_tr]
+                ordem = ordem_desc(M[i])[:k_tr]
                 ramos = {tema1(arv, pool[j]) for j in ordem}
                 ramos.discard(None)
                 if len(ramos) != 1:

@@ -30,7 +30,14 @@ from src.protocolo import (
     ponto_oof,
     wilson,
 )
-from src.recuperacao import RETRIEVERS, Busca, sinais, texto_questao, texto_tema
+from src.recuperacao import (
+    RETRIEVERS,
+    Busca,
+    ordem_desc,
+    sinais,
+    texto_questao,
+    texto_tema,
+)
 from src.temas import Arvore
 
 KS = [1, 3, 5, 10, 20]
@@ -48,7 +55,7 @@ def recall(busca, M, pool, arv, gold, ids, ks=KS):
         for i in validos:
             qid = ids[i]
             alvos = gold.loc[qid, "alvos"]
-            topo = [pool[j] for j in np.argsort(-M[i])[:k]]
+            topo = [pool[j] for j in ordem_desc(M[i])[:k]]
             if any(t in topo for t in alvos):
                 exato += 1
             if any(arv.relacionado(p, t) for p in topo for t in alvos):

@@ -85,6 +85,19 @@ def main():
             f"[IC {corr['precisao_lo']:.2f}-{corr['precisao_hi']:.2f}], cobertura {corr['cobertura']:.2f}\n"
         )
 
+    # Nivel aninhado comparavel: menor alpha com pelo menos 10 publicadas.
+    cert_n = None
+    for a in sorted(cert_nested, key=lambda s: float(s.split("_")[1])):
+        c = cert_nested[a]
+        if c.get("publicados", 0) >= 10:
+            cert_n = c
+            break
+    frase_nested = (
+        f"Na versao aninhada desse mesmo criterio, a certificacao honesta cai para\n"
+        f"{cert_n['precisao']:.0%} de precisao ({cert_n['publicados']} publicadas)."
+        if cert_n else "A versao aninhada desse criterio nao chega a 10 publicadas."
+    )
+
     bloco_cert = "com 100 rotulos, a amostra NAO sustenta 95% (nem 90%) em nenhuma cobertura."
     if cert_alpha is not None:
         c = cert_insample[cert_alpha]
@@ -92,8 +105,7 @@ def main():
             f"Com 100 rotulos, a amostra NAO sustenta 95% nem 90%: nenhuma cobertura tem cota\n"
             f"superior de erro abaixo disso. O primeiro nivel certificavel e {cert_alpha:.0%} de erro,\n"
             f"com {c['publicados']} publicadas e {c['acertos']} acertos (cota superior de erro\n"
-            f"{c['cota_superior_erro']:.3f} <= {cert_alpha}). Na versao aninhada desse mesmo criterio,\n"
-            f"a certificacao honesta cai para ~80% de precisao."
+            f"{c['cota_superior_erro']:.3f} <= {cert_alpha}). {frase_nested}"
         )
 
     texto = f"""precisao_prevista: {ponto:.2f}
