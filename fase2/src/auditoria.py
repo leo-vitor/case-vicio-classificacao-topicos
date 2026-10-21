@@ -293,7 +293,7 @@ def main():
     # ---- 4. beta-binomial ---------------------------------------------
     out["beta_binomial"] = {
         "in_sample_19_20": beta_binomial(*sens_contagem(arv, gold, ids, pred, sel_final)),
-        "uniforme_referencia": {"19/20": beta_binomial(19, 20), "13/15": beta_binomial(13, 15)},
+        "uniforme_referencia": {"19/20": beta_binomial(19, 20), "13/17": beta_binomial(13, 17)},
     }
 
     # ---- 5. ponto de operacao -----------------------------------------

@@ -6,13 +6,12 @@ Tudo reproduzível **sem rede e sem LLM** a partir dos anexos. Relatório final 
 
 ```bash
 cd fase2
-.venv/bin/python -m src.baseline      # Etapa 1: baseline lexical
-.venv/bin/python -m src.confianca     # Etapa 3: confiança no nível da questão
-.venv/bin/python -m src.pisos         # Etapa 2: pisos gratuitos + ablação por campo
-.venv/bin/python -m src.cascata       # Etapa 2: ramo em 2 estágios + disciplina
-.venv/bin/python -m src.decisao       # Etapas 3/4: decisão seletiva -> publicacao.csv
-.venv/bin/python -m src.previsao      # Etapa 5: previsao.txt
+./scripts/regenerar.sh   # pipeline completo: publicacao.csv + previsao.txt + artefatos
 ```
+
+O script roda `clean → baseline → confianca → decisao → conformal → auditoria → previsao`
+(e, no fim, `diagnostico` e `regra_final`) e para no primeiro erro. Leva ~60 s em um núcleo,
+sem rede. Para rodar um módulo isolado: `.venv/bin/python -m src.<modulo>`.
 
 O único insumo novo em relação à Fase 1 é `enriquecimento_v01.jsonl` (351 temas, sha256
 `7bbda02e4c65`), lido do disco. Nenhum passo chama modelo: o artefato foi gerado uma vez,
@@ -93,13 +92,13 @@ em vez do ramo nunca salva um ramo errado (0 casos em 92). Detalhes em
 
 ## Ponto de operação escolhido
 
-**Publicar se consenso ≥ 0,75 E confiança ≥ 0,887009** (confiança = regressão logística
-sobre 14 features de topo de ranking). Caso contrário, `revisar`.
+**Publicar se consenso ≥ 0,75 E confiança ≥ 0,895946** (confiança = regressão logística
+sobre 13 features de topo de ranking). Caso contrário, `revisar`.
 
 | Leitura | Publicadas | Acertos | Precisão | IC 95% (Wilson) | Cobertura |
 |---|---|---|---|---|---|
 | In-sample (regra fixa) | 20 | 19 | 0,950 | 0,764–0,991 | 0,20 |
-| Aninhada corrigida (limiar fora do grupo) | 15 | 13 | 0,867 | 0,621–0,963 | 0,15 |
+| Aninhada corrigida (limiar fora do grupo) | 17 | 13 | 0,765 | 0,527–0,904 | 0,17 |
 | Publicando tudo | 100 | 68 | 0,680 | 0,582–0,763 | 1,00 |
 
 O limiar final é escolhido de forma **conservadora**: entre as regras que sustentam 95%
@@ -109,57 +108,61 @@ escolheu. O consenso mínimo caiu de 1,00 para 0,75 porque, com o texto melhor, 
 recuperadores concordando já é evidência suficiente para sustentar 95% com mais cobertura
 — e é isso que a escolha fora da dobra indica.
 
-A curva precisão × cobertura é plana entre 18% e 38% de cobertura (0,95 a 0,97): o
-conservadorismo custa 18 publicações sem ganho mensurável de precisão *nesta amostra*, mas a
-fronteira in-sample não corrige a seleção — o CRC a 10% dá 0,81 e o aninhado 0,87. Mover o
+A curva precisão × cobertura é plana entre 17% e 37% de cobertura (0,95 a 0,97): o
+conservadorismo custa 17 publicações sem ganho mensurável de precisão *nesta amostra*, mas a
+fronteira in-sample não corrige a seleção — o CRC a 10% dá 0,816 e o aninhado 0,765. Mover o
 limiar agora seria escolhê-lo no conjunto que mede. Detalhes em
 [`regra_final.md`](regra_final.md).
 
+### Correção do `lei_match`
+
+A feature `lei_match` valia 1 em 1 das 100 questões e em 25 das 659, e dominava o logit
+(z ≈ 9,95; coeficiente +2,98). É um singleton: a folha não estima o peso dele. Removi —
+correção, não tuning. O efeito: τ 0,887009 → 0,895946; 118 → **115** publicadas (61 antigas
++ 54 novas); aninhado 13/15 = 0,867 → **13/17 = 0,765**; e 5 das 6 publicações em
+Legislação Especial sumiram. Q0035, publicada com `p_all` 0,96, volta a 0,59 e vai para
+revisão. O número de 6 em Legislação Especial não sobrevive à correção; o de 1 (0 na folha)
+é o que fica.
+
 ## Diagnóstico: busca ou decisão?
 
-Das 92 válidas: 20 publicadas certas, 1 errada, **48 revisadas com o top-1 já no ramo certo**,
-18 com o ramo certo entre o 2º e o 10º e 5 fora do top-10. A busca não é o gargalo (o top-10
-cobre 94,6%); a decisão é. Detalhes em [`diagnostico.md`](diagnostico.md). Os recuperadores
+Das 92 válidas: 20 publicadas certas, 1 errada, **48 revisadas com o top-1 já no ramo certo**
+(18 passariam no limiar mais baixo do platô; 30 precisam de modelo), 18 com o ramo certo entre
+o 2º e o 10º e 5 fora do top-10. O top-10 cobre 94,6%, mas o gargalo é misto: 30 de confiança,
+18 de ranking e 5 de recall. Detalhes em [`diagnostico.md`](diagnostico.md). Os recuperadores
 empatam no top-1, exceto o `tfidf`, que é pior; em
 [`etapa3_recuperadores.md`](etapa3_recuperadores.md).
-
-## Revisão jurídica (pendente)
-
-A amostra de 30 objetos está montada e congelada (8 colisões, 3 nós da v02, 6 de Legislação
-Especial, 5 de Criminologia, 5 de Penal/PP, 3 aleatórios), com rubrica de 4 dimensões,
-critério de aceitação pré-registrado e 3 duplicatas cegas para medir consistência. Falta o
-revisor humano: **não se substitui por concordância entre IAs**. Protocolo e folha em
-[`revisao_juridica.md`](revisao_juridica.md) e `artefatos/revisao_30_cego.csv`.
 
 ## Resultado nas 659
 
 | Decisão | Antigas | Novas | Total |
 |---|---|---|---|
-| publicar | 63 | 55 | **118** |
-| revisar | 296 | 245 | **541** |
+| publicar | 61 | 54 | **115** |
+| revisar | 298 | 246 | **544** |
 | fora | 0 | 0 | 0 |
 
 Nenhuma questão marcada como `fora`: com 8 exemplos rotulados e **nenhum sinal
 discriminante**, marcar `fora` seria chute. `revisar` é a resposta conservadora correta —
 não afeta a precisão das publicadas.
 
-Por ramo: Penal 65, Processo Penal 41, Legislação Especial 6, Criminologia 6. As seis
-publicações em Legislação Especial são novas (antes o consenso nunca fechava nesse
-estrato); é o efeito mais visível do enriquecimento fora do par Penal/Processo Penal.
+Por ramo: Penal 67, Processo Penal 41, Legislação Especial 1, Criminologia 6. A remoção do
+`lei_match` custou 5 das 6 publicações em Legislação Especial (Terrorismo, Organizações
+Criminosas, Estatuto do Desarmamento, Abuso de Autoridade, Tortura); na folha o estrato
+voltou a 0 (6 revisadas com top-1 certo). O enriquecimento continua pondo o ramo certo no
+top-1, mas a publicação de Legislação Especial estava apoiada na feature singleton.
 
 ## Previsão para as 559 (`previsao.txt`)
 
 - **precisão 0,91**, intervalo **0,76–0,99** (posterior Beta-Binomial da regra fixa)
-- **cobertura 0,17** (97/559), intervalo 0,15–0,19
-  - antigas (259): 42 publicadas = 0,16
-  - novas (300): 55 publicadas = 0,18
+- **cobertura 0,17** (94/559), intervalo 0,15–0,19
+  - antigas (259): 40 publicadas = 0,15
+  - novas (300): 54 publicadas = 0,18
 
 O intervalo é largo porque 20 publicadas são poucas — é o dado, não uma escolha.
 
-**Ressalva honesta:** o modelo é um pouco mais confiante nas 300 novas (0,598 contra
-0,549 de pontuação média). A cobertura é praticamente a mesma (0,18 contra 0,18), então a
-assimetria não é o ponto frágil da previsão; o ponto frágil é o tamanho da amostra
-rotulada.
+**Ressalva honesta:** o modelo é um pouco mais confiante nas 300 novas (0,584 contra
+0,530 de pontuação média). A cobertura é 0,18 contra 0,15, então a assimetria não é o ponto
+frágil da previsão; o ponto frágil é o tamanho da amostra rotulada.
 
 ## O teto estatístico (medido, não estimado)
 
@@ -167,8 +170,8 @@ Com 100 rótulos, provar 95% pelo limite inferior de Wilson exige ~73 acertos em
 publicadas. A auditoria transformou isso em número: usando a cota exata de
 Clopper-Pearson, **não se certifica 95% nem 90% em cobertura alguma** (0 publicações). O
 primeiro nível certificável é 12% de erro — 32 publicadas com 31 acertos in-sample — e, no
-protocolo aninhado sem vazamento, a certificação honesta fica em **0,79** (29 publicadas,
-23 acertos a 20% de erro). O que dá para fazer — e foi feito — é publicar pouco, escolher
+protocolo aninhado sem vazamento, a certificação honesta fica em **0,80** (30 publicadas,
+24 acertos a 20% de erro). O que dá para fazer — e foi feito — é publicar pouco, escolher
 o limiar fora do grupo medido e dizer o intervalo com honestidade. Detalhes em
 [`auditoria.md`](auditoria.md).
 
@@ -180,8 +183,8 @@ pequenas — mudanças de vocabulário movem questões através do limiar. Isso 
 0,95 medido e impede tratá-lo como garantia.
 
 A correção de taxonomia (v02) deu a medida mais direta desse problema: mexer em **3 nós**
-(5148 e 5156 reparentados, 5156 reescrito) mudou **18 decisões** em 659 e **nenhum tema
-previsto** entre as 15 que deixaram de ser publicadas. Ou seja, a instabilidade mora na
+(5148 e 5156 reparentados, 5156 reescrito) mudou **18 decisões** em 659 (na versão medida, antes da correção do
+`lei_match`) e **nenhum tema previsto** entre as 15 que deixaram de ser publicadas. Ou seja, a instabilidade mora na
 camada de decisão, não na busca — exatamente onde o próximo ciclo vai trabalhar. Números
 em [`etapa5_cascata.md`](etapa5_cascata.md).
 
@@ -206,7 +209,6 @@ em [`etapa5_cascata.md`](etapa5_cascata.md).
 | `diagnostico.py` | recuperação × decisão (categorias exclusivas, denominadores explícitos) |
 | `recuperadores.py` | recall@1/5/10 pareado por recuperador e disciplina |
 | `regra_final.py` | curva precisão × cobertura, fronteira certificável e robustez |
-| `amostra_revisao.py` | amostra de 30 objetos para revisão jurídica humana (cega) |
 | `previsao.py` | `previsao.txt` (posterior Beta-Binomial + teto certificável) |
 | `artefato.py` | carrega a base uma vez, compartilhada por conformal/auditoria |
 | `conformal.py` | controle de risco (CRC), precisão certificável, conjuntos + ancestral comum |

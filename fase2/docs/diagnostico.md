@@ -15,7 +15,7 @@ categorias = 92).
 | folha-verdade | 100 |
 | válidas (com tema) | **92** |
 | `fora_da_taxonomia` | 8 |
-| regra | consenso ≥ 0,75 e `p` ≥ 0,887009 (a do entregável) |
+| regra | consenso ≥ 0,75 e `p` ≥ 0,895946 (a do entregável) |
 
 Rank = posição, no ranking do `rrf_all` enriquecido, do **primeiro item cujo ramo está entre
 os aceitos** pela régua (tema central ou extra, promovidos ao nível 1).
@@ -40,12 +40,13 @@ Categorias exclusivas (somam 92):
 | revisado, ramo certo no top-2 a 10 | 18 |
 | revisado, ramo ausente do top-10 | 5 |
 
-**Leitura.** O gargalo principal é a **decisão**, não a busca: em 68/92 = 73,9% o ramo certo
-já é o top-1, e a regra manda **48** dessas para revisão. A busca é o gargalo para apenas
-5/92 = 5,4% (ramo ausente do top-10: Q0028, Q0290, Q0316, Q0324, Q0338). O top-10 cobre
-87/92 = 94,6% — o teto de recuperação não é o problema.
+**Leitura.** O gargalo é misto: em 68/92 = 73,9% o ramo certo já é o top-1, e a regra manda
+**48** dessas para revisão — 18 passariam no limiar mais baixo do platô e 30 precisam de
+modelo. O ranking custa 18 casos (ramo certo no 2º–10º) e a busca custa 5/92 = 5,4% (ramo
+ausente do top-10: Q0028, Q0290, Q0316, Q0324, Q0338). O top-10 cobre 87/92 = 94,6%, mas
+94,6% não é 100%: o gargalo é 30 de confiança, 18 de ranking e 5 de recall.
 
-O único erro **publicado** na folha é Q0202: ramo certo em **10º**, `p_oof` = 0,967 e
+O único erro **publicado** na folha é Q0202: ramo certo em **10º**, `p_oof` = 0,970 e
 consenso = 1,0. É o modo de falha esperado de uma confiança montada em margens: um top-1
 com margem grande parece seguro mesmo quando o ramo certo está longe. Nenhuma feature do
 modelo vê "o ramo aceito está no rank 10" — e não deve ver, porque o gabarito não está
@@ -56,26 +57,26 @@ feature de *incerteza* (distância até o 2º ramo), não como rótulo.
 
 | disciplina | n | publicadas | acertos | revisadas com top-1 certo |
 |---|---|---|---|---|
-| Penal | 40 | 10 | 9 | 22 |
+| Penal | 40 | 11 | 10 | 21 |
 | Processo Penal | 30 | 8 | 8 | 14 |
-| Legislação Especial | 12 | 1 | 1 | 5 |
+| Legislação Especial | 12 | 0 | 0 | 6 |
 | Criminologia | 10 | 2 | 2 | 7 |
 
 Criminologia é onde a camada de confiança é mais conservadora (7 de 10 revisadas já tinham o
 top-1 certo); Penal concentra o único erro publicado.
 
-## Denominadores (por que 20, 21 e 118 aparecem juntos)
+## Denominadores (por que 20, 21 e 115 aparecem juntos)
 
 | denominador | publicadas | acertos | precisão | cobertura |
 |---|---|---|---|---|
 | in-sample, `p_oof` (modelos de 80) | 20 | 19 | 0,950 | 0,20 |
 | entregue, `p_all` na folha | 21 | 20 | 0,952 | 0,21 |
-| entregue, 659 | 118 | — | — | 0,179 |
-| fora da folha (559) | 97 | sem rótulo | — | 0,174 |
+| entregue, 659 | 115 | — | — | 0,174 |
+| fora da folha (559) | 94 | sem rótulo | — | 0,168 |
 
-A diferença de 20 para 21 é **uma** questão, Q0035: `p_oof` = 0,502 (revisar) e `p_all` =
-0,960 (publicar, acertou). O `p_all` vem do modelo treinado nos 100, que **viu o rótulo de
-Q0035**; o `p_oof` não. O número honesto para a folha é 20/19 = 0,950; o entregável usa
+A diferença de 20 para 21 é **uma** questão, Q0049: `p_oof` = 0,870 (revisar) e `p_all` =
+0,900 (publicar, acertou). O `p_all` vem do modelo treinado nos 100, que **viu o rótulo de
+Q0049**; o `p_oof` não. O número honesto para a folha é 20/19 = 0,950; o entregável usa
 `p_all` porque é o modelo disponível para as 659. Os dois ficam rotulados — nunca somados.
 
 ## O que isso muda no plano

@@ -13,10 +13,10 @@ Regra de decisao usada (sem LLM em nenhum ponto):
   1. Recuperacao lexical: TF-IDF palavra, TF-IDF caractere, BM25 e RRF.
   2. Regra do pai: se o top-1 e um subtema (nivel 2), publica-se o TEMA pai.
      Isso nunca piora: a regua aceita o pai, e o pai cobre tambem os irmaos.
-  3. Confianca: regressao logistica sobre 14 features do topo do ranking
+  3. Confianca: regressao logistica sobre 13 features do topo do ranking
      (margem, consenso entre recuperadores, relacao hierarquica, disciplina
      de origem, lei citada, prior do tema...).
-  4. Publica se confianca >= 0.887009 E o consenso entre os 4 recuperadores e
+  4. Publica se confianca >= 0.895946 E o consenso entre os 4 recuperadores e
      >= 0.75 (1,00 = todos concordam; 0,75 = tres de quatro).
      Caso contrario, revisar. Esse limiar e o valor EXATO usado em
      `publicacao.csv`. A confianca publicada e arredondada para 2 casas no CSV,
@@ -33,14 +33,14 @@ Tres leituras do mesmo experimento
 ----------------------------------
   - In-sample (regra fixa, 20 publicadas): 19/20 = 0.950
     [IC 95% de Wilson 0.76-0.99], cobertura 0.20
-  - Aninhada (limiar escolhido fora do grupo medido): 35/37 = 0.946,
-    cobertura 0.37
+  - Aninhada (limiar escolhido fora do grupo medido): 35/38 = 0.921,
+    cobertura 0.38
   - Aninhada CORRIGIDA (limiar escolhido em probabilidades internas, que nunca
     viram o grupo medido; a versao anterior tinha esse vazamento):
-    13/15 = 0.867 [IC 0.62-0.96], cobertura 0.15
+    13/17 = 0.765 [IC 0.53-0.90], cobertura 0.17
 
 O limiar final foi escolhido de forma conservadora: entre as regras que sustentam 95% com
-pelo menos 20 publicadas nos 100, fica-se com a de maior limiar (0.887009).
+pelo menos 20 publicadas nos 100, fica-se com a de maior limiar (0.895946).
 
 O que se pode CERTIFICAR (e o que nao se pode)
 ----------------------------------------------
@@ -48,23 +48,23 @@ Com 100 rotulos, a amostra NAO sustenta 95% nem 90%: nenhuma cobertura tem cota
 superior de erro abaixo disso. O primeiro nivel certificavel e 12% de erro,
 com 32 publicadas e 31 acertos (cota superior de erro
 0.110 <= 0.12). Na versao aninhada desse mesmo criterio, a certificacao honesta cai para
-79% de precisao (29 publicadas).
+80% de precisao (30 publicadas).
 Traduzindo: 95% e a meta do case e o ponto estimado, mas nao e um numero que 100 rotulos
 provem. O que a amostra prova fica em torno de 80%.
 
 Cobertura
 ---------
 A cobertura NAO e estimada: ela e consequencia da regra, e pode ser contada.
-Nas 559 fora da folha: 97/559 = 0.17.
+Nas 559 fora da folha: 94/559 = 0.17.
 Por faixa:
-  antigas (Q0001-Q0359 fora da folha, n=259): 42 publicadas = 0.16
-  novas   (Q0360-Q0659, n=300): 55 publicadas = 0.18
+  antigas (Q0001-Q0359 fora da folha, n=259): 40 publicadas = 0.15
+  novas   (Q0360-Q0659, n=300): 54 publicadas = 0.18
 
 Ressalva de distribuicao (o ponto mais fragil)
 ----------------------------------------------
 O modelo fica sistematicamente MAIS confiante nas 300 novas do que nas antigas
-(pontuacao media 0.60 contra 0.55),
-e por isso a cobertura sobe nelas (0.18 contra 0.16).
+(pontuacao media 0.58 contra 0.53),
+e por isso a cobertura sobe nelas (0.18 contra 0.15).
 Pode ser que os enunciados recentes sejam mais "de manual"; pode ser excesso de confianca
 fora da distribuicao. Nao ha como decidir sem rotulo.
 

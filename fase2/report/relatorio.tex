@@ -71,20 +71,20 @@
                   title={\bfseries SUMÁRIO EXECUTIVO},coltitle=azul,colbacktitle=cinza,
                   boxrule=0.6pt,arc=2pt,left=6pt]
 \begin{itemize}
-\item \bd{Resultado:} publiquei 118 das 659 questões (17,9\%), mandei 541 para revisão e
+\item \bd{Resultado:} publiquei 115 das 659 questões (17,4\%), mandei 544 para revisão e
       nenhuma para \emph{fora}.
-\item \bd{Qualidade:} 19 acertos em 20 publicadas (0,95) na regra fixa; 13 em 15 (0,87)
+\item \bd{Qualidade:} 19 acertos em 20 publicadas (0,95) na regra fixa; 13 em 17 (0,76)
       quando o limiar é escolhido fora do grupo medido. A previsão é 0,91 [0,76--0,99].
 \item \bd{A meta de 95\% não é certificável com 100 rótulos.} O primeiro nível que a amostra
-      prova é 12\% de erro (32 publicadas, 31 acertos); no protocolo honesto, ~79\%.
-\item \bd{Nenhuma chamada de modelo na decisão:} o pipeline roda em 30 segundos, sem rede,
+      prova é 12\% de erro (32 publicadas, 31 acertos); no protocolo honesto, 80\%.
+\item \bd{Nenhuma chamada de modelo na decisão:} o pipeline roda em menos de um minuto, sem rede,
       e o único insumo novo é um arquivo de 351 temas enriquecidos, versionado por hash.
 \end{itemize}
 \end{tcolorbox}
 
 \vspace{2pt}
 \noindent
-\kpi{17,9\%}{COBERTURA (118/659)}\hfill
+\kpi{17,4\%}{COBERTURA (115/659)}\hfill
 \kpi{0,91}{PRECISÃO PREVISTA}\hfill
 \kpi{0,74}{RAMO@1 (PISO: 0,64)}\hfill
 \kpi{R\$ 0}{CUSTO DE INFERÊNCIA}
@@ -92,7 +92,7 @@
 
 A Fase 1 respondia com modelos de linguagem e media concordância com outro modelo. A Fase 2
 faz a pergunta oposta: até onde vai um sistema determinístico, auditável e barato? A resposta
-é que ele chega a 0,95 de precisão publicando 18\% das questões --- e que essa precisão
+é que ele chega a 0,95 de precisão publicando 17\% das questões --- e que essa precisão
 não pode ser \emph{provada} com a amostra disponível. O relatório separa o que foi medido do
 que foi estimado em cada número.
 
@@ -131,7 +131,7 @@ enriquecido chega a atrapalhar.
 \node[box,right=of clean] (busca) {Busca híbrida\\\scriptsize TF-IDF + char + BM25};
 \node[box,right=of busca] (rrf) {Fusão RRF\\\scriptsize top-10};
 \node[box,right=of rrf] (pai) {Regra do pai\\\scriptsize nível 2 $\to$ 1};
-\node[box,right=of pai] (conf) {Confiança\\\scriptsize logística (14 features)};
+\node[box,right=of pai] (conf) {Confiança\\\scriptsize logística (13 features)};
 \node[box,right=of conf] (out) {publicar\\\scriptsize / revisar};
 \draw[arr] (clean)--(busca); \draw[arr] (busca)--(rrf); \draw[arr] (rrf)--(pai);
 \draw[arr] (pai)--(conf); \draw[arr] (conf)--(out);
@@ -174,7 +174,7 @@ ramo errado (0 casos em 92). A disciplina de origem como prior dá +0,033, dentr
 
 Por fim, auditei a própria avaliação e achei um vazamento: o limiar aninhado era escolhido
 com probabilidades que já tinham visto o grupo de teste. Corrigido, a cobertura a 95\% caiu
-de 33 para 15 publicadas. O número que entrego é o corrigido.
+de 33 para 17 publicadas. O número que entrego é o corrigido.
 
 \section*{b) Diagnóstico}
 
@@ -184,11 +184,11 @@ filho) a regra final acerta 0,95; no tema exato, 0,50; no mesmo ramo, 0,90. Publ
 um sistema diferente. O relatório mostra as três leituras para que ninguém precise descobrir
 isso sozinho.
 
-\bd{Legislação Especial saiu do zero.} Antes do enriquecimento, nenhuma questão desse estrato
-era publicada: os quatro recuperadores nunca concordavam. Agora são 6 publicações, e
-Criminologia também 6. O efeito não é do acaso: o enriquecimento deu aos temas desse
-estrato o vocabulário que os enunciados usam, e a assimetria entre questões antigas e novas
-caiu para 0,18/0,18 de cobertura. É o resultado mais consistente da intervenção.
+\bd{Legislação Especial perdeu o que dependia do \texttt{lei\_match}.} Eram 6 publicações;
+5 (Terrorismo, Organizações Criminosas, Desarmamento, Abuso de Autoridade, Tortura) sumiram
+com a remoção da feature. Na folha o estrato voltou a 0 (6 revisadas com top-1 certo) e nas
+659 resta 1. O enriquecimento ainda põe o ramo certo no top-1, mas a publicação estava
+apoiada numa feature singleton. Criminologia mantém 6.
 
 \bd{O custo do ganho é instabilidade.} Trocar o texto do tema mudou 266 dos 659 temas
 (40,4\%). E a medida mais limpa veio de uma correção de catálogo em três nós, que mudou 18
@@ -202,11 +202,12 @@ como \emph{fora}, porque não há sinal discriminante em 8 exemplos --- e confus
 vizinhos. Marcar \emph{fora} seria chute; \emph{revisar} é a resposta conservadora e não afeta
 a precisão das publicadas.
 
-\bd{A busca não é o gargalo; a decisão é.} Separando as 92 válidas em categorias exclusivas:
-20 publicadas certas, 1 errada, \textbf{48 revisadas com o ramo certo já no top-1}, 18 com o
-ramo certo entre o 2º e o 10º, 5 fora do top-10. O top-10 cobre 94,6\% dos casos; o que falta
-é confiança para publicar. O único erro publicado (Q0202) tinha o ramo certo em 10º e
-confiança 0,967 --- excesso de confiança, não falta de informação.
+\bd{O gargalo é misto: 30 de confiança, 18 de ranking e 5 de recall.} Separando as 92 válidas
+em categorias exclusivas: 20 publicadas certas, 1 errada, \textbf{48 revisadas com o ramo
+certo já no top-1} (18 passariam no limiar mais baixo do platô; 30 precisam de modelo), 18
+com o ramo certo entre o 2º e o 10º e 5 fora do top-10. O top-10 cobre 94,6\%, mas a busca
+ainda custa 5 casos, o ranking 18 e a confiança 30. O único erro publicado (Q0202) tinha o
+ramo certo em 10º e confiança 0,970 --- excesso de confiança, não falta de informação.
 
 \bd{Uma correção de catálogo, feita com a lei na mão.} Conferi a Lei 14.197/2021:
 ``Instituições Democráticas'' é o Capítulo II do Título XII, e ``Funcionamento dos Serviços
@@ -227,15 +228,15 @@ A auditoria da camada de decisão foi refeita depois disso, com seis verificaç�
 Métrica & leitura literal, estrita e frouxa da mesma predição &
 0,95 / 0,50 / 0,90 \\
 Validação & limiar escolhido fora do grupo medido (nested) &
-33 $\to$ 15 (havia vazamento) \\
+33 $\to$ 17 (havia vazamento) \\
 Regras & logística $\times$ regras manuais de margem &
 33/30 contra 0 publicadas \\
 Certificação & cota de Clopper-Pearson para o erro &
 95\% e 90\% impossíveis; 12\% $\to$ 32/31 \\
 Conformidade & conjunto conformal + ancestral comum &
 $k=59$ para 95\% $\Rightarrow$ 0 publicações \\
-Operação & origem das 118 publicações &
-63 antigas, 55 novas, 6 em Leg. Especial \\
+Operação & origem das 115 publicações &
+61 antigas, 54 novas, 1 em Leg. Especial \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -247,29 +248,32 @@ Operação & origem das 118 publicações &
 \rowcolor{azul}\color{white}\bfseries Conjunto & \color{white}\bfseries Publicadas &
 \color{white}\bfseries Literal & \color{white}\bfseries Estrita \\
 \midrule
-Regra final (consenso $\geq 0{,}75$ e $p \geq 0{,}887$) & 20 & \textbf{0,950} & 0,500 \\
+Regra final (consenso $\geq 0{,}75$ e $p \geq 0{,}896$) & 20 & \textbf{0,950} & 0,500 \\
 Consenso $\geq 0{,}75$, sem limiar & 83 & 0,723 & 0,458 \\
 Publicando tudo & 100 & 0,680 & 0,430 \\
 \midrule
-\rowcolor{cinzaforte}\multicolumn{4}{l}{\emph{Fora da folha-verdade (559): 97 publicadas = 0,17}} \\
-Antigas (259) & 42 & \multicolumn{2}{c}{0,16} \\
-Novas (300) & 55 & \multicolumn{2}{c}{0,18} \\
+\rowcolor{cinzaforte}\multicolumn{4}{l}{\emph{Fora da folha-verdade (559): 94 publicadas = 0,17}} \\
+Antigas (259) & 40 & \multicolumn{2}{c}{0,15} \\
+Novas (300) & 54 & \multicolumn{2}{c}{0,18} \\
 \bottomrule
 \end{tabular}
+\par\smallskip
+{\footnotesize In-sample com $p_{oof}$ (20); o CSV usa $p_{all}$ e publica 21 na folha
+(Q0049 entra, Q0202 erra): 21 + 94 = 115.}
 \end{center}
 
 \section*{c) Produção (50 mil questões por semana)}
 
 \bd{O que escala e o que não escala.} O pipeline é vetorizado: indexar os 371 temas leva menos
-de um segundo, e classificar 659 questões leva 30 segundos em um núcleo. Cinquenta mil
+de um segundo, e classificar 659 questões leva cerca de 40 segundos em um núcleo. Cinquenta mil
 questões por semana cabem em uma máquina modesta, sem GPU e sem API --- o custo marginal é
-zero. O que não escala é a fila: publicar 18\% significa mandar 82\% para revisão humana, ou
+zero. O que não escala é a fila: publicar 17\% significa mandar 83\% para revisão humana, ou
 seja, 41 mil questões por semana. Esse é o gargalo real, não o compute.
 
 \bd{Como eu atacaria a fila.} Primeiro, usar a confiança como ordenação: as revisões mais
 próximas do limiar são as que mais mudam de resposta e devem ser vistas antes. A curva
-precisão $\times$ cobertura é plana entre 18\% e 38\% de cobertura (0,95 a 0,97): o limiar
-conservador custa 18 publicações sem ganho mensurável, mas movê-lo agora seria escolhê-lo no
+precisão $\times$ cobertura é plana entre 17\% e 37\% de cobertura (0,95 a 0,97): o limiar
+conservador custa 17 publicações sem ganho mensurável, mas movê-lo agora seria escolhê-lo no
 conjunto que mede --- fica para a próxima rodada, com a regra pré-registrada. Segundo,
 acumular rótulos de professor e trocar a logística por um modelo calibrado --- com 100 rótulos
 não dá; com algumas centenas, a cobertura a 95\% cresce. Terceiro, atacar o ramo, que é o
@@ -315,7 +319,7 @@ Quem decide & LLM + verificador & busca lexical + logística \\
 Custo por mil questões & chamada de API & R\$ 0 \\
 Determinismo & não (amostragem do modelo) & sim (saída reprodutível) \\
 Amostra de avaliação & 359 questões, 2 rotuladores de IA & 100 questões, rótulo humano \\
-Publicadas & 222/359 (61,8\%) & 118/659 (17,9\%) \\
+Publicadas & 222/359 (61,8\%) & 115/659 (17,4\%) \\
 Qualidade medida & concordância 0,90--0,92 com IA & 0,95 (19/20) contra gabarito \\
 \bottomrule
 \end{tabular}
@@ -323,7 +327,7 @@ Qualidade medida & concordância 0,90--0,92 com IA & 0,95 (19/20) contra gabarit
 
 \bd{Quando eu não usaria este sistema.} Em três situações. Primeira, se a avaliação for pelo
 tema exato: o sistema entrega o ramo, e a leitura estrita cai para 0,50. Segunda, se houver
-exigência de cobertura alta: publicar 18\% não serve para quem precisa responder 82\% das
+exigência de cobertura alta: publicar 17\% não serve para quem precisa responder 83\% das
 questões --- nesse caso é melhor aceitar menos precisão e usar a confiança só como ordenação
 da fila. Terceira, se o catálogo mudar toda semana: cada mudança de tema exige reenriquecer o
 objeto correspondente, e o custo de manutenção deixa de ser desprezível.
@@ -345,13 +349,13 @@ estão calibrados. Nenhum deles exige novo modelo --- só registro do que o revi
                   coltitle=azul,colbacktitle=cinza,left=5pt,right=5pt,top=5pt,bottom=5pt]
 {\small
 \begin{tabular}{@{}ll@{}}
-\texttt{python -m src.decisao} & gera \texttt{publicacao.csv} (118 publicar / 541 revisar) \\
-\texttt{python -m src.previsao} & gera \texttt{previsao.txt} (0,91 [0,76--0,99]) \\
-\texttt{python -m src.pisos} & pisos gratuitos e ablação por campo \\
+\texttt{./scripts/regenerar.sh} & pipeline completo: CSV + TXT + artefatos \\
+\texttt{python -m src.decisao} & só a decisão (115 publicar / 544 revisar) \\
+\texttt{python -m src.previsao} & só a previsão (0,91 [0,76--0,99]) \\
 \texttt{python -m src.auditoria} & manifesto com hashes de todos os insumos \\
 \end{tabular}
 \par\smallskip
-{\footnotesize\itshape Sem rede e sem LLM. 30 s em um núcleo; \texttt{sha256} do
+{\footnotesize\itshape Sem rede e sem LLM. ~60 s em um núcleo; \texttt{sha256} do
 \texttt{enriquecimento\_v01.jsonl} = \texttt{7bbda02e4c658484}. O \texttt{publicacao.csv}
 sai idêntico em duas execuções seguidas (mesmo hash).}
 }
@@ -359,9 +363,9 @@ sai idêntico em duas execuções seguidas (mesmo hash).}
 
 \vspace{2pt}
 \bd{O que eu não entreguei.} Não entreguei um classificador de \emph{fora} (8 exemplos não
-sustentam), nem cobertura acima de 18\%, nem prova de 95\%. Entreguei o que a amostra
+sustentam), nem cobertura acima de 17\%, nem prova de 95\%. Entreguei o que a amostra
 sustenta, com o intervalo e a régua explícitos --- e o caminho barato para subir: rótulos
-humanos, começando pelos 30 temas da revisão jurídica.
+humanos, começando pelos casos de desacordo.
 
 \clearpage
 \section*{(d) Memo para o professor}
@@ -370,7 +374,7 @@ humanos, começando pelos 30 temas da revisão jurídica.
 \bd{O que eu fiz}
 \begin{itemize}
 \item Montei um sistema que decide, para cada uma das 659 questões, se publica o tema ou manda
-      para revisão. Publiquei 118 (17,9\%) e mandei 541 para revisão.
+      para revisão. Publiquei 115 (17,4\%) e mandei 544 para revisão.
 \item Nenhuma decisão é tomada por modelo de linguagem em tempo de execução. O sistema compara
       o texto da questão com o texto dos temas, promove o subtema ao tema principal e só
       publica quando os quatro métodos de busca concordam e a confiança passa de um limiar.
@@ -382,7 +386,7 @@ humanos, começando pelos 30 temas da revisão jurídica.
       para \emph{provar} 95\% eu precisaria de 60 publicações sem nenhum erro. Preferi
       publicar menos e dizer com honestidade o que a amostra sustenta.
 \item O que a amostra sustenta: 19 acertos em 20 publicadas. Quando o limiar é escolhido sem
-      olhar o grupo que está sendo medido, 13 em 15 (0,87). A previsão para o restante é 0,91
+      olhar o grupo que está sendo medido, 13 em 17 (0,76). A previsão para o restante é 0,91
       [0,76--0,99].
 \end{itemize}
 
@@ -392,16 +396,12 @@ humanos, começando pelos 30 temas da revisão jurídica.
       a mesma saída, e o resultado é auditável linha por linha.
 \item Enriqueci os 351 temas com sinônimos, nomes técnicos e uma definição curta. Isso subiu o
       acerto do \emph{ramo} de 0,63 para 0,74 --- e ramo é o que o sistema publica.
-\item Legislação Especial, que antes não tinha nenhuma questão publicada, passou a ter 6; e a
-      diferença de desempenho entre questões antigas e novas praticamente desapareceu.
+\item Legislação Especial perdeu as 5 publicações que dependiam do \texttt{lei\_match};
+      resta 1 (0 na folha), e a diferença entre antigas e novas é 0,15 contra 0,18.
 \end{itemize}
 
 \bd{O que eu preciso de você}
 \begin{itemize}
-\item \bd{Revisão jurídica de 30 temas:} uma amostra estratificada, com foco em Legislação
-      Especial, Criminologia e nas colisões entre irmãos. É o único jeito de pegar erro
-      jurídico que o validador de forma não vê --- como o de 5156, que descrevia o instituto
-      errado.
 \item \bd{Rótulos:} 200 a 300 questões classificadas por você (ou por um monitor) mudam o
       patamar. É o único caminho para provar 95\% em vez de estimar.
 \item \bd{Leitura da régua:} se a avaliação for pelo tema exato e não pelo ramo, o resultado

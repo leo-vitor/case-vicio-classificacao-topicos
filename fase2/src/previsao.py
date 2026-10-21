@@ -123,7 +123,7 @@ Regra de decisao usada (sem LLM em nenhum ponto):
   1. Recuperacao lexical: TF-IDF palavra, TF-IDF caractere, BM25 e RRF.
   2. Regra do pai: se o top-1 e um subtema (nivel 2), publica-se o TEMA pai.
      Isso nunca piora: a regua aceita o pai, e o pai cobre tambem os irmaos.
-  3. Confianca: regressao logistica sobre 14 features do topo do ranking
+  3. Confianca: regressao logistica sobre 13 features do topo do ranking
      (margem, consenso entre recuperadores, relacao hierarquica, disciplina
      de origem, lei citada, prior do tema...).
   4. Publica se confianca >= {tau:.6f} E o consenso entre os 4 recuperadores e

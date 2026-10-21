@@ -22,7 +22,6 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from src.config import ALVO_PRECISAO, ARTEFATOS, N_REPEATS, SEED
-from src.dicionario import Dicionario, normalizar
 from src.enriquecimento import carregar as carregar_artefato
 from src.enriquecimento import textos as textos_enriquecidos
 from src.enriquecimento import versao as versao_artefato
@@ -35,7 +34,7 @@ from src.protocolo import (
     grupos_duplicados,
     wilson,
 )
-from src.recuperacao import Busca, ordem_desc, texto_questao, texto_tema
+from src.recuperacao import Busca, ordem_desc, texto_questao
 from src.temas import Arvore
 
 RETRIEVERS = ["rrf_all", "tfidf_char", "tfidf", "bm25"]
@@ -62,7 +61,7 @@ def scores_temas(arv, pool, M, temas1):
     return Mp
 
 
-def features(arv, qmap, ids, Ms, Mps, pool, dic, gemeos, max_nq):
+def features(arv, qmap, ids, Ms, Mps, pool, gemeos, max_nq):
     rows, pred, cons = [], [], []
     for i, qid in enumerate(ids):
         row = qmap.loc[qid]
@@ -79,9 +78,6 @@ def features(arv, qmap, ids, Ms, Mps, pool, dic, gemeos, max_nq):
         ob = ordem_desc(Mp[i])
         bs1, bs2 = float(Mp[i, ob[0]]), float(Mp[i, ob[1]])
         s1, s2 = float(M[i, o[0]]), float(M[i, o[1]])
-        _, chaves = dic.casamentos(row["texto"])
-        termos = [normalizar(e["termos"]) for e in dic.entradas if e["chave"] in chaves]
-        tp = normalizar(texto_tema(arv, pi))
         disc = MAPAD.get(row["disciplina_origem"], "__sem__")
         c = sum(1 for t in tops if t == pi) / len(RETRIEVERS)
         rows.append({
@@ -97,7 +93,6 @@ def features(arv, qmap, ids, Ms, Mps, pool, dic, gemeos, max_nq):
             "disc_match": float(disc != "__sem__" and arv.raiz(pi) == disc),
             "log_nq": float(np.log1p(arv.nq.get(pi, 0)) / np.log1p(max_nq)),
             "is_gemeo": float(pi in gemeos),
-            "lei_match": float(any(t and t in tp for t in termos)),
             "s1": s1,
         })
         pred.append(pi)
@@ -169,7 +164,6 @@ def main():
     temas1 = [t for t in arv.ativos.tema_id if arv.nivel[t] == 1]
     enr = carregar_artefato()
     busca = Busca(textos_enriquecidos(arv, pool, enr))
-    dic = Dicionario()
     gemeos = arv.gemeos()
     max_nq = max(arv.nq.get(t, 0) for t in pool) or 1
 
@@ -177,7 +171,7 @@ def main():
         qt = [texto_questao(qmap.loc[i]) for i in ids]
         Ms = {r: busca.scores(r, qt) for r in RETRIEVERS}
         Mps = {r: scores_temas(arv, pool, Ms[r], temas1) for r in RETRIEVERS}
-        return features(arv, qmap, ids, Ms, Mps, pool, dic, gemeos, max_nq)
+        return features(arv, qmap, ids, Ms, Mps, pool, gemeos, max_nq)
 
     X100, pred100, cons100 = blocos(ids100)
     cons100 = np.asarray(cons100, dtype=float)

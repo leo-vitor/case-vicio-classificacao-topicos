@@ -10,7 +10,6 @@ import numpy as np
 
 from src.config import N_REPEATS, SEED
 from src.decisao import RETRIEVERS, PRIM, features as features_q, oof_probs, scores_temas
-from src.dicionario import Dicionario
 from src.enriquecimento import carregar as carregar_artefato
 from src.enriquecimento import textos as textos_enriquecidos
 from src.protocolo import (
@@ -45,7 +44,6 @@ def base():
     pool = [t for t in arv.ativos.tema_id if arv.publicavel(t)]
     temas1 = [t for t in arv.ativos.tema_id if arv.nivel[t] == 1]
     busca = Busca(textos_enriquecidos(arv, pool, carregar_artefato()))
-    dic = Dicionario()
     gemeos = arv.gemeos()
     max_nq = max(arv.nq.get(t, 0) for t in pool) or 1
 
@@ -53,7 +51,7 @@ def base():
     Ms = {r: busca.scores(r, qt) for r in RETRIEVERS}
     Mps = {r: scores_temas(arv, pool, Ms[r], temas1) for r in RETRIEVERS}
 
-    X, pred, cons = features_q(arv, qmap, ids, Ms, Mps, pool, dic, gemeos, max_nq)
+    X, pred, cons = features_q(arv, qmap, ids, Ms, Mps, pool, gemeos, max_nq)
     y = np.array([1 if acerto(arv, gold.loc[i, "alvos"], p) else 0 for i, p in zip(ids, pred)])
 
     grupos = grupos_duplicados([qmap.loc[i, "texto"] for i in ids])

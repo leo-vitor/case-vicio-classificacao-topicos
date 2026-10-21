@@ -39,9 +39,9 @@ questão → limpeza → recuperação de candidatos → features → reranker
       piora o top-1 (0,46–0,51 contra 0,51–0,61 do léxico).
 - [x] **Etapa 3 — reranker de candidatos**: **descartado**. Empata ou perde da regra v0.
 - [x] **Etapa 4 — decisão seletiva** (`src/decisao.py`): regra do pai + consenso entre
-      recuperadores + confiança. Publica 131/659.
+      recuperadores + confiança. Publica 115/659.
 - [x] **Etapa 5 — entrega**: `publicacao.csv` e `previsao.txt` (precisão 0,91 [0,76–0,99],
-      cobertura 0,20).
+      cobertura 0,17 nas 559; 0,20 na folha).
 - [x] **Auditoria da camada de decisão** (`src/conformal.py`, `src/auditoria.py`): controle
       de risco conformal, precisão certificável (95% é impossível com 100 rótulos),
       conjuntos conformais + ancestral comum, protocolo aninhado **sem vazamento**,
@@ -63,15 +63,13 @@ cd fase2
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 
-# Etapa 1: baseline lexical + protocolo honesto
-.venv/bin/python -m src.clean       # gera artefatos/questoes_limpas.csv
-.venv/bin/python -m src.baseline    # recall@k, curva precisão x cobertura, ponto out-of-fold
-.venv/bin/python -m src.confianca   # confiança no nível da questão + regra do pai
-.venv/bin/python -m src.decisao     # decisão seletiva -> publicacao.csv
-.venv/bin/python -m src.conformal   # controle de risco, precisão certificável, conformal
-.venv/bin/python -m src.auditoria   # aninhado corrigido, regras × logística, manifesto
-.venv/bin/python -m src.previsao    # previsao.txt
+./scripts/regenerar.sh   # pipeline completo: publicacao.csv + previsao.txt + artefatos
 ```
+
+O script roda `clean → baseline → confianca → decisao → conformal → auditoria → previsao`
+(e, no fim, `diagnostico` e `regra_final`) e para no primeiro erro. Leva ~60 s em um núcleo,
+sem rede e sem LLM na decisão. Para um módulo isolado: `.venv/bin/python -m src.<modulo>`.
+O relatório compila com `pdflatex` em `report/`.
 
 Saídas em `artefatos/` (reconstruíveis, por isso fora do git):
 

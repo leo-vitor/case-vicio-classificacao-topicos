@@ -235,9 +235,10 @@ precisão não cai com a cobertura fixada em 0,20. Abaixo disso, o enriqueciment
 já tentamos da ordem de 100 configurações neste projeto e o erro padrão é acumular
 complexidade por acaso.
 
-Referência do estado atual (não alterar): decisão nas 659 questões → 118 publicar /
-541 revisar; precisão 0,95 in-sample e 0,867 aninhada (sem vazamento), com 100 rótulos
-sendo impossível certificar 95%.
+Referência do estado atual (não alterar): decisão nas 659 questões → 115 publicar /
+544 revisar; precisão 0,95 in-sample e 0,765 aninhada (sem vazamento), com 100 rótulos
+sendo impossível certificar 95%. (Atualizado após a remoção do `lei_match`; os números
+anteriores eram 118/541 e 0,867.)
 
 ## 7. O que esperamos de você
 

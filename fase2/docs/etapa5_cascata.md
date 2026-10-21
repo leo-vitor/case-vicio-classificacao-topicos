@@ -70,7 +70,7 @@ passam a ter outro ramo no top-1. O ganho de `ramo@1` (0,630 → 0,739) não é 
 
 A medida mais direta de instabilidade veio da correção de taxonomia (v02). Mexer em **três
 nós** — 5148 e 5156 reparentados sob 5155, e 5156 reescrito porque descrevia o instituto
-errado — mudou:
+errado — mudou (na versão com `lei_match`, antes da correção da feature):
 
 | grandeza | efeito |
 |---|---|
@@ -90,10 +90,10 @@ Números correlatos:
 | grandeza | valor |
 |---|---|
 | `ramo@1` base → enriquecido | 0,630 → 0,739 |
-| publicadas (659) | 130 (v01) → **118 (v02)** |
+| publicadas (659) | 130 (v01) → **115 (v02, após remover o `lei_match`; 118 antes)** |
 | precisão in-sample | 19/20 = 0,950 |
-| precisão aninhada corrigida | 13/15 = 0,867 |
-| cobertura fora da folha | 97/559 = 0,173 |
+| precisão aninhada corrigida | 13/17 = 0,765 |
+| cobertura fora da folha | 94/559 = 0,168 |
 
 A comparação base × enriquecido **de decisões** (não só de ramo) foi medida na v01
 (177/659 mudavam) e não foi refeita após a v02: refazê-la é o primeiro item do próximo
@@ -102,7 +102,7 @@ está exposto no código.
 
 ## Risco a declarar
 
-Com 100 rótulos, a leitura aninhada honesta é 13/15 = 0,867, com IC de Wilson [0,62; 0,96].
+Com 100 rótulos, a leitura aninhada honesta é 13/17 = 0,765, com IC de Wilson [0,53; 0,90].
 A instabilidade — 18 decisões movidas por uma correção que não mudou tema nenhum — mostra
 que o sistema opera numa faixa de margens pequenas. Isso não invalida o 0,95 in-sample, mas
 impede tratá-lo como garantia; é exatamente a limitação que a Etapa 6 (auditoria) registra
