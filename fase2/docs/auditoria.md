@@ -124,7 +124,8 @@ honesto para a pergunta "95% se sustenta?":
 | 0,25 | 51 / 41 | 0,248 | 48 / 38 |
 
 **Leitura.** Com 100 rótulos **não se certifica 95% nem 90%** em cobertura alguma: para 0
-erros, 95% exigiria 60 publicadas perfeitas, e o modelo não chega perto disso. O primeiro
+erros, a cota unilateral de 95% exigiria 60 publicadas perfeitas, e o modelo não chega perto
+disso. O primeiro
 nível certificável é 12% de erro (32 publicadas, 31 acertos). No protocolo aninhado — o
 que vale — a certificação honesta fica em **0,80 de precisão** com 30 publicadas. Isto
 não é um defeito do método: é o que 100 rótulos permitem afirmar. Aumentar a cobertura ou

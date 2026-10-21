@@ -115,8 +115,9 @@ escolheu. O consenso mínimo caiu de 1,00 para 0,75 porque, com o texto melhor, 
 recuperadores concordando já é evidência suficiente para sustentar 95% com mais cobertura
 — e é isso que a escolha fora da dobra indica.
 
-A curva precisão × cobertura é plana entre 17% e 37% de cobertura (0,95 a 0,97): o
-conservadorismo custa 17 publicações sem ganho mensurável de precisão *nesta amostra*, mas a
+A curva precisão × cobertura é plana entre 20% e 37% de cobertura (0,95 a 0,97); a leitura
+aninhada, que é a entregue, fica em 17% de cobertura e 0,76. O conservadorismo custa 17
+publicações sem ganho mensurável de precisão *nesta amostra*, mas a
 fronteira in-sample não corrige a seleção — o CRC a 10% dá 0,816 e o aninhado 0,765. Mover o
 limiar agora seria escolhê-lo no conjunto que mede. Detalhes em
 [`regra_final.md`](regra_final.md).
@@ -175,9 +176,10 @@ frágil da previsão; o ponto frágil é o tamanho da amostra rotulada.
 
 ## O teto estatístico (medido, não estimado)
 
-Com 100 rótulos, provar 95% pelo limite inferior de Wilson exige ~73 acertos em 73
-publicadas. A auditoria transformou isso em número: usando a cota exata de
-Clopper-Pearson, **não se certifica 95% nem 90% em cobertura alguma** (0 publicações). O
+Com 100 rótulos, provar 95% pela cota unilateral de Clopper-Pearson exige 60 publicadas
+sem erro. (O limite inferior de Wilson bilateral exigiria 73, mas não é o critério usado
+na entrega.) A auditoria transformou isso em número: usando a cota exata, **não se
+certifica 95% nem 90% em cobertura alguma** (0 publicações). O
 primeiro nível certificável é 12% de erro — 32 publicadas com 31 acertos in-sample — e, no
 protocolo aninhado sem vazamento, a certificação honesta fica em **0,80** (30 publicadas,
 24 acertos a 20% de erro). O que dá para fazer — e foi feito — é publicar pouco, escolher

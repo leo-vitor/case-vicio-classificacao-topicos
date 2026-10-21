@@ -66,10 +66,11 @@ O limiar é escolhido no treino de cada fold (precisão ≥ 0,95) e medido no te
 | tfidf_char | abs | 11 | 10 | 0,91 | 0,62–0,98 | 0,11 |
 | tfidf | abs | 3 | 2 | 0,67 | 0,21–0,94 | 0,03 |
 
-Critério "limite inferior de Wilson ≥ 0,95": **nenhuma** configuração lexical passa.
-Não é surpresa: para o limite inferior bater 95% são precisos cerca de **73 acertos
-em 73 publicadas**. Com 100 rótulos, a estratégia é publicar pouco e muito bem — não
-manter a cobertura de 62% da Fase 1.
+Critério original "limite inferior de Wilson ≥ 0,95" (bilateral): **nenhuma** configuração
+lexical passa. Não é surpresa: para o limite inferior bilateral bater 95% são precisos cerca
+de **73 acertos em 73 publicadas**. A entrega usa a cota unilateral de 95%
+(Clopper-Pearson), que exige **60 publicadas sem erro**; em qualquer das duas leituras, a
+estratégia é publicar pouco e muito bem, não manter a cobertura de 62% da Fase 1.
 
 ## Conclusão da Etapa 1
 

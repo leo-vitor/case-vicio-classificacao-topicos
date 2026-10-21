@@ -18,8 +18,9 @@ A Fase 2 nasce de uma leitura crítica da Fase 1. O que mudou:
 2. **Só rótulos de especialista.** A Fase 1 usou rótulos assistidos por IA para estimar
    qualidade; a Fase 2 usa exclusivamente as 100 marcações humanas, para não medir
    "concordância com IA".
-3. **Teto estatístico explícito.** Com 100 rótulos, o limite inferior de Wilson de 95%
-   exige ~73 acertos em 73 publicadas. Publicar pouco e com evidência, não publicar 62%.
+3. **Teto estatístico explícito.** Com 100 rótulos, a cota unilateral de 95% (Clopper-Pearson)
+   exige 60 publicadas sem erro; o limite bilateral de Wilson exigiria 73. Publicar pouco e com
+   evidência, não publicar 62%.
 4. **Validação agrupada.** Folds repetidos, estratificados, com near-duplicatas no mesmo
    fold, e limiar escolhido **fora da dobra**. Sem isso a precisão reportada é otimista.
 

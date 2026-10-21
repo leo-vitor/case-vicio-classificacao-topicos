@@ -46,14 +46,15 @@ Corrigido (`src/auditoria.py`, `p_interno`), a leitura honesta cai de 15 para **
 publicadas** (9 acertos). O τ também não é estável entre folds (0,797–0,982), então
 reescolhê-lo por fold é ruído: a regra entregue é fixa.
 
-## 6. Wilson, não calibração mágica
+## 6. Wilson e a cota exata, não calibração mágica
 
 Calibração (Platt/isotônica) ajusta score → probabilidade; **não cria evidência**.
 Com 100 exemplos, isotônica é instável. O critério de decisão usa o **limite inferior
 de Wilson** da precisão, que é o que se pode afirmar com 95% de confiança.
 
-Referência dura: para o limite inferior bater 95% são necessários ~**73 acertos em 73
-publicadas**. A meta é publicar pouco e bem.
+Referência da entrega: a cota unilateral de 95% (Clopper-Pearson) exige **60 publicadas
+sem erro**. O limite inferior bilateral de Wilson, usado na seleção histórica, exigiria
+~73 acertos em 73 publicadas. A meta é publicar pouco e bem.
 
 A auditoria levou isso ao limite com a cota exata de Clopper-Pearson: com 100 rótulos
 **não se certifica 95% nem 90%** em cobertura alguma. O primeiro nível certificável é 15%
