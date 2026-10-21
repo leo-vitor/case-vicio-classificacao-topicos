@@ -123,6 +123,14 @@ cobre 94,6%); a decisão é. Detalhes em [`diagnostico.md`](diagnostico.md). Os 
 empatam no top-1, exceto o `tfidf`, que é pior; em
 [`etapa3_recuperadores.md`](etapa3_recuperadores.md).
 
+## Revisão jurídica (pendente)
+
+A amostra de 30 objetos está montada e congelada (8 colisões, 3 nós da v02, 6 de Legislação
+Especial, 5 de Criminologia, 5 de Penal/PP, 3 aleatórios), com rubrica de 4 dimensões,
+critério de aceitação pré-registrado e 3 duplicatas cegas para medir consistência. Falta o
+revisor humano: **não se substitui por concordância entre IAs**. Protocolo e folha em
+[`revisao_juridica.md`](revisao_juridica.md) e `artefatos/revisao_30_cego.csv`.
+
 ## Resultado nas 659
 
 | Decisão | Antigas | Novas | Total |
@@ -198,6 +206,7 @@ em [`etapa5_cascata.md`](etapa5_cascata.md).
 | `diagnostico.py` | recuperação × decisão (categorias exclusivas, denominadores explícitos) |
 | `recuperadores.py` | recall@1/5/10 pareado por recuperador e disciplina |
 | `regra_final.py` | curva precisão × cobertura, fronteira certificável e robustez |
+| `amostra_revisao.py` | amostra de 30 objetos para revisão jurídica humana (cega) |
 | `previsao.py` | `previsao.txt` (posterior Beta-Binomial + teto certificável) |
 | `artefato.py` | carrega a base uma vez, compartilhada por conformal/auditoria |
 | `conformal.py` | controle de risco (CRC), precisão certificável, conjuntos + ancestral comum |
