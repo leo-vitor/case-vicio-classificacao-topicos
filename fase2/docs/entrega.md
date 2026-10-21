@@ -160,12 +160,14 @@ top-1, mas a publicação de Legislação Especial estava apoiada na feature sin
 
 ## Previsão para as 559 (`previsao.txt`)
 
-- **precisão 0,91**, intervalo **0,76–0,99** (posterior Beta-Binomial da regra fixa)
+- **precisão 0,76**, intervalo **0,53–0,90** (leitura aninhada corrigida, 13/17; IC 95% de Wilson)
+- teto in-sample: **0,91** [0,76–0,99] (19/20; posterior Beta(20,2))
 - **cobertura 0,17** (94/559), intervalo 0,15–0,19
   - antigas (259): 40 publicadas = 0,15
   - novas (300): 54 publicadas = 0,18
 
-O intervalo é largo porque 20 publicadas são poucas — é o dado, não uma escolha.
+O intervalo é largo porque 17 publicadas são poucas — é o dado, não uma escolha. O 0,91
+não entra no intervalo aninhado: é outro estimador, e fica visível como teto.
 
 **Ressalva honesta:** o modelo é um pouco mais confiante nas 300 novas (0,584 contra
 0,530 de pontuação média). A cobertura é 0,18 contra 0,15, então a assimetria não é o ponto

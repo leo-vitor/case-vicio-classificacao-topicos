@@ -65,13 +65,24 @@ def main():
     tau = res["regra"]["tau"]
     consenso = float(res["regra"].get("consenso_min", 1.0))
 
-    # Ponto e intervalo: posterior Beta-Binomial da regra fixa (a que e aplicada).
-    post = beta_binomial(fixa["acertos"], fixa["publicados"])
-    ponto = round(post["media"], 2)
-    lo, hi = round(post["lo"], 2), round(post["hi"], 2)
-
     # Leitura aninhada corrigida (se a auditoria tiver rodado) e o teto certificavel.
     corr = aud.get("aninhado", {}).get("corrigido_sem_vazamento")
+
+    # Ponto: leitura aninhada corrigida (a regra entregue). Intervalo: Wilson 95%
+    # desse estimador. O posterior in-sample fica como teto separado, nao como
+    # limite do IC aninhado.
+    post = beta_binomial(fixa["acertos"], fixa["publicados"])
+    if corr:
+        ponto = round(float(corr["precisao"]), 2)
+        lo, hi = round(float(corr["precisao_lo"]), 2), round(float(corr["precisao_hi"]), 2)
+        fonte = corr
+        fonte_nome = "leitura aninhada corrigida"
+    else:
+        ponto = round(post["media"], 2)
+        lo, hi = round(post["lo"], 2), round(post["hi"], 2)
+        fonte = fixa
+        fonte_nome = "regra fixa (auditoria ausente)"
+
     cert_nested = aud.get("certificado_nested", {})
     cert_insample = {c["alpha_erro"]: c for c in conf.get("certificado", [])}
     cert_alpha = min([a for a in cert_insample if cert_insample[a]["publicados"]], default=None)
@@ -125,19 +136,19 @@ Regra de decisao usada (sem LLM em nenhum ponto):
      Isso nunca piora: a regua aceita o pai, e o pai cobre tambem os irmaos.
   3. Confianca: regressao logistica sobre 13 features do topo do ranking
      (margem, consenso entre recuperadores, relacao hierarquica, disciplina
-     de origem, lei citada, prior do tema...).
+     de origem, prior do tema e score do top-1).
   4. Publica se confianca >= {tau:.6f} E o consenso entre os 4 recuperadores e
      >= {consenso:.2f} (1,00 = todos concordam; 0,75 = tres de quatro).
      Caso contrario, revisar. Esse limiar e o valor EXATO usado em
      `publicacao.csv`. A confianca publicada e arredondada para 2 casas no CSV,
      entao o valor efetivo usado na decisao e o que esta em `pontuacao_659.csv`.
 
-A precisao prevista ({ponto:.2f}) e a MEDIA do posterior Beta-Binomial, nao um numero
-escolhido a mao: {fixa['acertos']} acertos em {fixa['publicados']} publicadas com prior
-uniforme Beta(1,1) dao Beta({1 + fixa['acertos']}, {1 + fixa['publicados'] - fixa['acertos']});
-a media e {post['media']:.3f} e o intervalo de 95% e [{post['lo']:.2f}, {post['hi']:.2f}].
-O intervalo e largo porque {fixa['publicados']} publicadas sao poucas — e esse e o dado,
-nao uma escolha.
+A precisao prevista ({ponto:.2f}) e a {fonte_nome} da regra entregue:
+{fonte['acertos']}/{fonte['publicados']} = {fonte['precisao']:.3f}, com IC 95% de Wilson [{lo:.2f}, {hi:.2f}].
+O {post['media']:.2f} [{post['lo']:.2f}, {post['hi']:.2f}] e o ponto in-sample
+({fixa['acertos']}/{fixa['publicados']}; posterior Beta({1 + fixa['acertos']}, {1 + fixa['publicados'] - fixa['acertos']}));
+ele aparece como teto separado, nao como limite do IC aninhado. O intervalo e largo porque
+{fonte['publicados']} publicadas sao poucas — e esse e o dado, nao uma escolha.
 
 Tres leituras do mesmo experimento
 ----------------------------------
@@ -188,11 +199,12 @@ a amostra sustenta; aumentar a cobertura, ou provar 95%, exige rotular mais ques
     print(texto)
     (ARTEFATOS / "previsao_resumo.json").write_text(
         json.dumps({"precisao_prevista": ponto, "precisao_intervalo": [lo, hi],
-                    "metodo": "posterior Beta-Binomial (prior Beta(1,1)) da regra fixa",
-                    "posterior": post,
+                    "metodo": "leitura aninhada corrigida da regra entregue; IC 95% de Wilson",
+                    "aninhado_corrigido": fonte,
+                    "in_sample": {"acertos": fixa["acertos"], "publicados": fixa["publicados"],
+                                  "precisao": fixa["precisao"], "posterior": post},
                     "cobertura": round(cobertura, 4), "por_faixa": por_faixa,
                     "nested": nested, "fixa": fixa,
-                    "aninhado_corrigido": corr,
                     "certificado_nested": cert_nested,
                     "certificado_in_sample": cert_insample},
                    ensure_ascii=False, indent=2))

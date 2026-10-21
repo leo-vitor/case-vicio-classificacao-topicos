@@ -1,5 +1,5 @@
-precisao_prevista: 0.91
-precisao_intervalo: 0.76-0.99
+precisao_prevista: 0.76
+precisao_intervalo: 0.53-0.90
 cobertura_prevista: 0.17
 cobertura_intervalo: 0.15-0.19
 
@@ -15,19 +15,19 @@ Regra de decisao usada (sem LLM em nenhum ponto):
      Isso nunca piora: a regua aceita o pai, e o pai cobre tambem os irmaos.
   3. Confianca: regressao logistica sobre 13 features do topo do ranking
      (margem, consenso entre recuperadores, relacao hierarquica, disciplina
-     de origem, lei citada, prior do tema...).
+     de origem, prior do tema e score do top-1).
   4. Publica se confianca >= 0.895946 E o consenso entre os 4 recuperadores e
      >= 0.75 (1,00 = todos concordam; 0,75 = tres de quatro).
      Caso contrario, revisar. Esse limiar e o valor EXATO usado em
      `publicacao.csv`. A confianca publicada e arredondada para 2 casas no CSV,
      entao o valor efetivo usado na decisao e o que esta em `pontuacao_659.csv`.
 
-A precisao prevista (0.91) e a MEDIA do posterior Beta-Binomial, nao um numero
-escolhido a mao: 19 acertos em 20 publicadas com prior
-uniforme Beta(1,1) dao Beta(20, 2);
-a media e 0.909 e o intervalo de 95% e [0.76, 0.99].
-O intervalo e largo porque 20 publicadas sao poucas — e esse e o dado,
-nao uma escolha.
+A precisao prevista (0.76) e a leitura aninhada corrigida da regra entregue:
+13/17 = 0.765, com IC 95% de Wilson [0.53, 0.90].
+O 0.91 [0.76, 0.99] e o ponto in-sample
+(19/20; posterior Beta(20, 2));
+ele aparece como teto separado, nao como limite do IC aninhado. O intervalo e largo porque
+17 publicadas sao poucas — e esse e o dado, nao uma escolha.
 
 Tres leituras do mesmo experimento
 ----------------------------------
@@ -77,6 +77,6 @@ para mostrar quanto do resultado depende da regua.
 
 O que isso significa na pratica
 -------------------------------
-Publicar cerca de 17% das questoes com precisao estimada em 91% e mandar
+Publicar cerca de 17% das questoes com precisao estimada em 76% e mandar
 o resto para revisao humana. E a forma de chegar perto da meta de 95% sem afirmar mais do que
 a amostra sustenta; aumentar a cobertura, ou provar 95%, exige rotular mais questoes.

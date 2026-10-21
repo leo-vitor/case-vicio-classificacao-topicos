@@ -41,8 +41,8 @@ As decisões estão registradas em [`docs/decisoes.md`](docs/decisoes.md).
     ├── src/             recuperação + protocolo + decisão + auditoria
     ├── data/            anexos do case (não versionados)
     ├── artefatos/       saídas geradas (não versionadas)
-    ├── publicacao.csv   659 questões (131 publicar / 528 revisar)
-    ├── previsao.txt     precisão 0,91 [0,76–0,99], cobertura 0,20
+    ├── publicacao.csv   659 questões (115 publicar / 544 revisar)
+    ├── previsao.txt     precisão 0,76 [0,53–0,90], cobertura 0,17
     └── docs/            entrega, baseline e auditoria
 ```
 
@@ -81,12 +81,12 @@ Detalhes em [`fase2/README.md`](fase2/README.md).
 
 | Item | Valor |
 |---|---|
-| Decisões nas 659 | 131 `publicar` / 528 `revisar` / 0 `fora` |
-| Cobertura nas 559 fora da folha | 0,20 (111/559 — antigas 0,14, novas 0,25) |
-| Precisão prevista | 0,91 [0,76–0,99] (posterior Beta-Binomial) |
-| Regra | consenso = 1,00 **e** confiança ≥ 0,8714634… (logística de 14 features) |
-| Precisão in-sample nos 100 | 19/20 = 0,95 (leitura literal da régua; estrita 0,45) |
-| Precisão aninhada, sem vazamento | 9/10 = 0,90 |
+| Decisões nas 659 | 115 `publicar` / 544 `revisar` / 0 `fora` |
+| Cobertura nas 559 fora da folha | 0,17 (94/559 — antigas 0,15, novas 0,18) |
+| Precisão prevista | 0,76 [0,53–0,90] (aninhada corrigida; teto in-sample 0,91 [0,76–0,99]) |
+| Regra | consenso ≥ 0,75 **e** confiança ≥ 0,895946 (logística de 13 features) |
+| Precisão in-sample nos 100 | 19/20 = 0,95 (leitura literal da régua; estrita 0,50) |
+| Precisão aninhada, sem vazamento | 13/17 = 0,765 |
 | O que 100 rótulos **certificam** | ~80%. 95% e 90% são impossíveis em qualquer cobertura. |
 
 Três achados que valem mais que o número final: a régua do case é o que sustenta a meta

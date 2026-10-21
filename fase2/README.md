@@ -42,8 +42,9 @@ questão → limpeza → recuperação de candidatos → features → reranker
 - [x] **Etapa 3 — reranker de candidatos**: **descartado**. Empata ou perde da regra v0.
 - [x] **Etapa 4 — decisão seletiva** (`src/decisao.py`): regra do pai + consenso entre
       recuperadores + confiança. Publica 115/659.
-- [x] **Etapa 5 — entrega**: `publicacao.csv` e `previsao.txt` (precisão 0,91 [0,76–0,99],
-      cobertura 0,17 nas 559; 0,20 na folha).
+- [x] **Etapa 5 — entrega**: `publicacao.csv` e `previsao.txt` (precisão 0,76 [0,53–0,90]
+      na leitura aninhada; 0,91 [0,76–0,99] é o teto in-sample; cobertura 0,17 nas 559;
+      0,20 na folha).
 - [x] **Auditoria da camada de decisão** (`src/conformal.py`, `src/auditoria.py`): controle
       de risco conformal, precisão certificável (95% é impossível com 100 rótulos),
       conjuntos conformais + ancestral comum, protocolo aninhado **sem vazamento**,

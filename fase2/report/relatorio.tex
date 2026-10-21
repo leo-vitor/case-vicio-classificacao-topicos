@@ -74,7 +74,8 @@
 \item \bd{Resultado:} publiquei 115 das 659 questões (17,4\%), mandei 544 para revisão e
       nenhuma para \emph{fora}.
 \item \bd{Qualidade:} 19 acertos em 20 publicadas (0,95) na regra fixa; 13 em 17 (0,76)
-      quando o limiar é escolhido fora do grupo medido. A previsão é 0,91 [0,76--0,99].
+      quando o limiar é escolhido fora do grupo medido. A previsão é 0,76 [0,53--0,90];
+      o teto in-sample é 0,91 [0,76--0,99].
 \item \bd{A meta de 95\% não é certificável com 100 rótulos.} O primeiro nível que a amostra
       prova é 12\% de erro (32 publicadas, 31 acertos); no protocolo honesto, 80\%.
 \item \bd{Nenhuma chamada de modelo na decisão:} o pipeline roda em menos de um minuto, sem rede,
@@ -85,7 +86,7 @@
 \vspace{2pt}
 \noindent
 \kpi{17,4\%}{COBERTURA (115/659)}\hfill
-\kpi{0,91}{PRECISÃO PREVISTA}\hfill
+\kpi{0,76}{PRECISÃO PREVISTA}\hfill
 \kpi{0,74}{RAMO@1 (PISO: 0,64)}\hfill
 \kpi{R\$ 0}{CUSTO DE INFERÊNCIA}
 \vspace{4pt}
@@ -353,7 +354,7 @@ estão calibrados. Nenhum deles exige novo modelo --- só registro do que o revi
 \begin{tabular}{@{}ll@{}}
 \texttt{./scripts/regenerar.sh} & pipeline completo: CSV + TXT + artefatos \\
 \texttt{python -m src.decisao} & só a decisão (115 publicar / 544 revisar) \\
-\texttt{python -m src.previsao} & só a previsão (0,91 [0,76--0,99]) \\
+\texttt{python -m src.previsao} & só a previsão (0,76 [0,53--0,90]) \\
 \texttt{python -m src.auditoria} & manifesto com hashes de todos os insumos \\
 \end{tabular}
 \par\smallskip
@@ -388,8 +389,8 @@ humanos, começando pelos casos de desacordo.
       para \emph{provar} 95\% eu precisaria de 60 publicações sem nenhum erro. Preferi
       publicar menos e dizer com honestidade o que a amostra sustenta.
 \item O que a amostra sustenta: 19 acertos em 20 publicadas. Quando o limiar é escolhido sem
-      olhar o grupo que está sendo medido, 13 em 17 (0,76). A previsão para o restante é 0,91
-      [0,76--0,99]; o 0,76 é o piso conservador, e o intervalo cobre os dois.
+      olhar o grupo que está sendo medido, 13 em 17 (0,76). A previsão para o restante é 0,76
+      [0,53--0,90]; o 0,91 [0,76--0,99] é o teto in-sample, não o piso.
 \end{itemize}
 
 \bd{O que mudou nesta fase}
@@ -412,8 +413,8 @@ humanos, começando pelos casos de desacordo.
 
 \bd{O que eu não afirmo}
 \begin{itemize}
-\item Não afirmo 95\% de precisão: afirmo 0,91 [0,76--0,99] e explico por que o intervalo é
-      largo.
+\item Não afirmo 95\% de precisão: afirmo 0,76 [0,53--0,90] na leitura aninhada e mostro
+      0,91 [0,76--0,99] como teto in-sample; explico por que o intervalo é largo.
 \item Não afirmo que o sistema acerta o subtema: ele acerta o ramo. Publicar o ramo é uma
       escolha compatível com a régua, não um acidente.
 \item Não afirmo estabilidade: mudar o vocabulário dos temas muda o ramo de 40\% das questões,
