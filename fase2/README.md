@@ -9,11 +9,11 @@ offline e determinístico.
 | Item | Valor |
 |---|---|
 | Questões | 659 (359 antigas + 300 novas) |
-| Temas publicáveis | 371 (109 nível 1, 262 nível 2) |
+| Temas publicáveis | 371 (109 nível 1, 262 nível 2); 351 com descrição enriquecida |
 | Rótulos de especialista | 100 (`data/folha_verdade.csv`), todas Q0001–Q0359 |
 | Saída | `publicar` / `revisar` / `fora` + tema sugerido + confiança |
 | Meta | precisão ≥ 95% nas publicadas, maximizando cobertura |
-| Avaliação | apenas as 559 fora da folha-verdade |
+| Avaliação | precisão: 100 da folha; cobertura: 559 fora da folha |
 
 **Regra de acerto (LEIA-ME):** publicar no tema central, num extra, ou num **pai** ou
 **filho** direto de um deles conta como certo. Irmão (outro subtema do mesmo tema)
@@ -25,8 +25,8 @@ São 61 temas centrais distintos em 100 exemplos, e 42 deles com **1 único** ex
 Não há dados para um classificador plano nem para um transformer. O desenho é:
 
 ```
-questão → limpeza → recuperação de candidatos → features → reranker
-        → score calibrado → regra seletiva → publicar / revisar / fora
+questão → limpeza → recuperação de candidatos → features
+        → confiança (logística) → regra seletiva → publicar / revisar / fora
 ```
 
 ## Estado atual
@@ -43,16 +43,17 @@ questão → limpeza → recuperação de candidatos → features → reranker
 - [x] **Etapa 4 — decisão seletiva** (`src/decisao.py`): regra do pai + consenso entre
       recuperadores + confiança. Publica 115/659.
 - [x] **Etapa 5 — entrega**: `publicacao.csv` e `previsao.txt` (precisão 0,76 [0,53–0,90]
-      na leitura aninhada; 0,91 [0,76–0,99] é o teto in-sample; cobertura 0,17 nas 559;
-      0,20 na folha).
+      na leitura aninhada; 0,95 [0,76–0,99] é o teto in-sample; cobertura 0,17 nas 559).
 - [x] **Auditoria da camada de decisão** (`src/conformal.py`, `src/auditoria.py`): controle
       de risco conformal, precisão certificável (95% é impossível com 100 rótulos),
       conjuntos conformais + ancestral comum, protocolo aninhado **sem vazamento**,
       comparação com regras manuais e manifesto de proveniência.
       Resultado em [`docs/auditoria.md`](docs/auditoria.md).
-- [ ] **Enriquecimento jurídico da taxonomia** (próximo passo): descrições
-      discriminativas geradas **offline**, versionadas, sem ver as questões.
-      Briefing de hand-off em [`docs/briefing_enriquecimento.md`](docs/briefing_enriquecimento.md).
+- [x] **Enriquecimento lexical da taxonomia** (`enriquecimento_v01.jsonl`): 351 temas
+      com descrições ampliadas, geradas **offline**, versionadas e validadas. Procedência em
+      [`docs/procedencia_enriquecimento.md`](docs/procedencia_enriquecimento.md).
+- [ ] **Próximo passo:** mais rótulos priorizados (leis, Legislação Especial e casos perto do
+      limiar), a regra da lei citada e o vocabulário de execução penal.
 
 Resumo da entrega, resultados e limites: [`docs/entrega.md`](docs/entrega.md).
 
@@ -93,17 +94,29 @@ fase2/
 │   ├── config.py        caminhos, semente, parâmetros
 │   ├── clean.py         HTML → texto
 │   ├── temas.py         árvore + régua de acerto (pai/filho; irmão não conta)
+│   ├── taxonomia.py     ajustes v02 da árvore (5148/5156 sob 5155)
 │   ├── dicionario.py    expansão de consulta (offline, curado à mão)
+│   ├── enriquecimento.py lê o artefato e monta o texto enriquecido
 │   ├── recuperacao.py   TF-IDF palavra/char, BM25, RRF
 │   ├── protocolo.py     folds, Wilson, curva, limiar out-of-fold, Beta-Binomial
 │   ├── baseline.py      Etapa 1 (A0/A1)
+│   ├── pisos.py         pisos gratuitos + ablação por campo
+│   ├── cascata.py       ramo em 2 estágios e prior de disciplina
 │   ├── confianca.py     confiança no nível da questão + regra do pai
 │   ├── decisao.py       regra seletiva → publicacao.csv
+│   ├── diagnostico.py   recuperação × decisão
+│   ├── recuperadores.py recall@k pareado por recuperador
+│   ├── conformal.py     CRC, precisão certificável, conjuntos + ancestral comum
+│   ├── auditoria.py     aninhado corrigido, regras × logística, manifesto
+│   ├── regra_final.py   curva precisão × cobertura e robustez
 │   ├── previsao.py      previsao.txt
 │   ├── artefato.py      base compartilhada (folds, p_oof, features)
-│   ├── conformal.py     CRC, precisão certificável, conjuntos + ancestral comum
-│   └── auditoria.py     aninhado corrigido, regras × logística, manifesto
+│   └── validador_enriquecimento.py  contrato do artefato offline
 ├── artefatos/       saídas geradas (não versionadas)
+├── report/          relatório final (PDF/LaTeX)
+├── scripts/         regeneração e ingestão do enriquecimento
+├── publicacao.csv   entrega (115 publicar / 544 revisar)
+├── previsao.txt     precisão 0,76 [0,53–0,90], cobertura 0,17
 └── docs/            resultados e decisões
 ```
 
