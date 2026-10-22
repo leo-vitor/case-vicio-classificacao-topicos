@@ -74,37 +74,40 @@
                   title={\bfseries Sumário executivo},coltitle=azul,colbacktitle=cinza,
                   boxrule=0.6pt,arc=2pt,left=6pt]
 \begin{itemize}
-\item \bd{Resultado:} publiquei 115 das 659 questões (17,4\%) e mandei 544 para revisão.
-      Nas 559 questões fora da folha-verdade, a cobertura é 94/559 (0,17).
-\item \bd{Previsão de precisão: 0,76 (0,53 a 0,90).} É a estimativa aninhada (13 acertos em
-      17), em que o limiar é escolhido sem ver o grupo medido. Na regra fixa, medida nos
-      mesmos 100 rótulos, foram 19 em 20 (0,95): esse número é o teto otimista, não a previsão.
-\item \bd{A meta de 95\% não é demonstrável com 100 rótulos.} Pela cota unilateral de 95\%
-      (Clopper-Pearson), seriam precisas umas 60 publicações auditadas sem nenhum erro; o
-      sistema publica 20 na folha-verdade.
-\item \bd{Nenhum modelo de linguagem na decisão.} Um comando regenera a entrega em cerca de
-      um minuto, sem rede. O único insumo gerado por LLM é o arquivo de temas enriquecidos,
-      versionado por hash.
+\item \bd{Resultado:} publiquei 115 das 659 questões (17,4\%) e mandei 544 para a revisão do
+      professor. Nas 559 questões fora da folha-verdade, publiquei 94 (0,17).
+\item \bd{Previsão de precisão: 0,76, com faixa de 0,53 a 0,90.} É a medida mais honesta que
+      tenho: 13 acertos em 17 publicações, numa avaliação em que a regra nunca viu as questões
+      usadas para medi-la. Quando meço a regra nas mesmas questões que a ajustaram, ela acerta
+      19 de 20 (0,95), mas esse número é otimista e não é a minha previsão.
+\item \bd{A meta de 95\% não é demonstrável com 100 rótulos.} Mesmo sem nenhum erro, eu
+      precisaria conferir umas 60 publicações para provar 95\%; na folha-verdade o sistema
+      publica 20.
+\item \bd{Nenhum modelo de linguagem na hora de decidir.} Um comando refaz toda a entrega em
+      cerca de um minuto, sem internet. O único material produzido por um LLM é a descrição
+      ampliada dos temas, gerada uma vez e guardada no repositório.
 \end{itemize}
 \end{tcolorbox}
 
 \vspace{2pt}
 \noindent\kpi{17,4\%}{COBERTURA (115/659)}\hfill\kpi{0,76}{PRECISÃO PREVISTA}\hfill
-\kpi{0,74}{RAMO CERTO NO TOP-1}\hfill\kpi{R\$ 0}{CUSTO DE API POR QUESTÃO}
+\kpi{0,74}{ASSUNTO CERTO EM 1º}\hfill\kpi{R\$ 0}{CUSTO DE API}
 
 % ================================= a) O SISTEMA ============================
 \section{a) O sistema}
 
-O sistema responde três perguntas, sempre na mesma ordem: qual é o tema mais provável, em que
-ramo da árvore ele está e se vale publicar. Nenhuma das três chama modelo de linguagem.
+O sistema responde a três perguntas, sempre na mesma ordem: qual é o tema mais provável, a que
+assunto geral ele pertence e se vale publicar. Chamo de \bd{ramo} o tema de primeiro nível da
+árvore (por exemplo, ``Teoria da Pena''); os subtemas ficam abaixo dele. Nenhuma das três perguntas
+consulta um modelo de linguagem.
 
 \begin{center}
 \begin{tikzpicture}[node distance=5mm]
 \node[box] (a) {Limpeza\\\scriptsize HTML $\to$ texto};
-\node[box,right=of a] (b) {Busca\\\scriptsize 4 recuperadores};
+\node[box,right=of a] (b) {Busca\\\scriptsize 4 métodos};
 \node[box,right=of b] (c) {Regra do pai\\\scriptsize subtema $\to$ ramo};
-\node[box,right=of c] (d) {Confiança\\\scriptsize logística};
-\node[box,right=of d] (e) {Regra seletiva\\\scriptsize publicar/revisar};
+\node[box,right=of c] (d) {Confiança\\\scriptsize probabilidade};
+\node[box,right=of d] (e) {Decisão\\\scriptsize publicar/revisar};
 \node[box,above=4mm of b,fill=cinza] (t) {Temas\\\scriptsize enriquecidos};
 \draw[arr] (a)--(b); \draw[arr] (b)--(c); \draw[arr] (c)--(d); \draw[arr] (d)--(e);
 \draw[arr] (t)--(b);
@@ -112,167 +115,195 @@ ramo da árvore ele está e se vale publicar. Nenhuma das três chama modelo de 
 \end{center}
 
 \begin{enumerate}
-\item \bd{Temas enriquecidos.} Os 351 temas ativos ganharam sinônimos, institutos e uma
-      definição curta, gerados por LLM uma única vez, validados automaticamente (campos, leis e
-      colisões) e congelados num arquivo versionado. É a peça que mais rendeu (tabela abaixo),
-      e é exatamente o uso de LLM que o case permite.
-\item \bd{Busca com quatro recuperadores.} TF-IDF por palavra, TF-IDF por caractere, BM25 e a
-      fusão deles (RRF). A fusão é a que ranqueia; os quatro juntos servem para medir consenso.
-\item \bd{Regra do pai.} Se o mais provável é um subtema, publico o tema pai. Pela régua, o pai
-      vale para o subtema certo e para todos os irmãos, então a regra nunca transforma um acerto
-      em erro. Na folha, ela eliminou os erros entre irmãos: nenhum dos erros restantes é desse tipo.
-\item \bd{Confiança.} Uma regressão logística sobre 13 sinais do topo do ranking (margens, consenso
-      entre recuperadores, nível do tema, disciplina de origem, tamanho do tema na origem e score
-      do primeiro), treinada fora da dobra nos 100 rótulos.
-\item \bd{Regra seletiva.} Publica só se pelo menos três dos quatro recuperadores concordarem e
-      a confiança passar de 0,896. O resto vai para revisão, com a sugestão do sistema.
+\item \bd{Temas enriquecidos.} O catálogo traz, para cada tema, só o nome e o caminho na árvore,
+      o que é pouco para comparar com o texto de uma questão. Um LLM escreveu, uma única vez, uma
+      descrição ampliada dos 351 temas ativos: sinônimos, institutos jurídicos e uma definição
+      curta. Um programa conferiu automaticamente campos, leis citadas e repetições entre pai e
+      filho, e o arquivo ficou congelado no repositório. Foi a peça que mais rendeu (tabela
+      abaixo), e é exatamente o uso de LLM que o case permite.
+\item \bd{Busca com quatro métodos.} Cada método ordena os temas do mais ao menos parecido com
+      a questão. Dois contam palavras em comum, valorizando as raras (TF-IDF por palavra e o BM25,
+      usado em buscadores); um compara pedaços de palavras, o que tolera plural e conjugação
+      (TF-IDF por caractere); o quarto junta os três rankings num só (fusão RRF). A fusão escolhe
+      o tema; os quatro juntos dizem se há \bd{consenso}.
+\item \bd{Regra do pai.} Se o tema mais provável é um subtema, publico o ramo acima dele. Pela
+      régua do case, publicar no pai conta como acerto para o subtema certo e para todos os seus
+      irmãos, então essa regra nunca transforma um acerto em erro. Na folha-verdade, ela eliminou
+      os erros entre subtemas vizinhos.
+\item \bd{Confiança.} Para cada questão, calculo 13 \bd{sinais}: números que ajudam a prever se a
+      busca acertou. Por exemplo, a distância entre o primeiro e o segundo tema do ranking, quantos
+      métodos concordam, o nível do tema na árvore e se a disciplina de origem bate com a do tema.
+      Uma regressão logística, um modelo estatístico simples, combina os sinais numa probabilidade
+      de acerto. Ela aprendeu com os 100 rótulos, sempre medida em questões que não viu.
+\item \bd{Decisão.} Publico só quando pelo menos três dos quatro métodos concordam e a
+      probabilidade de acerto passa de 0,896 (o \bd{limiar}). O resto vai para revisão, com a
+      sugestão do sistema.
 \end{enumerate}
 
 \begin{center}
 \small
 \begin{tabular}{lcc}
 \toprule
-Texto usado para cada tema (92 questões com tema) & Ramo certo no top-1 & Diferença \\
+Descrição usada para cada tema (92 questões com tema) & Ramo certo em 1º & Diferença \\
 \midrule
-Caminho e título (base) & 0,630 & \\
-Base e títulos dos filhos & 0,630 & 0,000 \\
-Base e termos do dicionário jurídico & 0,620 & $-$0,011 \\
+Caminho e título (o catálogo original) & 0,630 & \\
+Catálogo e títulos dos subtemas & 0,630 & 0,000 \\
+Catálogo e termos de um dicionário jurídico & 0,620 & $-$0,011 \\
 Só sinônimos & 0,609 & $-$0,022 \\
-\bd{Enriquecido (sinônimos, institutos e definição)} & \bd{0,739} & \bd{+0,109} \\
+\bd{Descrição enriquecida (sinônimos, institutos e definição)} & \bd{0,739} & \bd{+0,109} \\
 \bottomrule
 \end{tabular}
 \end{center}
 \vspace{-4pt}
-{\small O critério de entrada foi escrito antes do teste (ganho de pelo menos 0,05). O intervalo
-pareado do ganho é de 0,033 a 0,196: positivo, mas não folgado. Nenhum campo isolado basta;
-o ganho vem da combinação.}
+{\small Escrevi o critério antes do teste: só entraria com ganho de pelo menos 0,05. O ganho foi
+de 0,109, com faixa provável de 0,033 a 0,196 comparando questão a questão: positivo, mas sem
+folga. Nenhum campo sozinho resolve; o ganho vem da combinação.}
 
-\bd{O que testei e descartei.} Cada ideia entrava só com ganho medido no ramo certo no top-1.
+\bd{O que testei e descartei.} Cada ideia só entrava se melhorasse o acerto do ramo em primeiro.
 \begin{itemize}
-\item \bd{Embeddings densos} (multilingual-e5-large), mesmo com os temas enriquecidos: 0,53 a
-      0,68 sozinhos; a melhor fusão ganhou uma questão, com intervalo cruzando zero. Distinções
-      jurídicas são lexicais (um número de lei, um termo técnico), e o embedding as aproxima.
-\item \bd{Vizinhos entre questões (kNN):} só 41 dos 109 ramos aparecem na folha, então o teto é
-      baixo (0,79 com acerto perfeito) e o resultado ficou em 0,43 a 0,48.
-\item \bd{Reranker de candidatos} (16 sinais): empatou ou perdeu. \bd{Cascata em dois estágios}:
-      dá a mesma decisão da regra do pai. \bd{Disciplina de origem como prior}: duas questões a
-      mais em 92, dentro do ruído.
-\item \bd{O sinal de lei citada}, que entrou e saiu. Tinha 1 caso positivo em 100 e dominava a
-      confiança. Removê-lo custou 5 das 6 publicações de Legislação Especial e derrubou a
-      precisão aninhada de 0,87 para 0,76. Preferi um número pior a um sistema apoiado num caso.
+\item \bd{Embeddings}, que representam o texto como uma lista de números que captura o sentido
+      (testei o multilingual-e5-large, inclusive com os temas enriquecidos): 0,53 a 0,68 sozinhos,
+      e a melhor combinação com a busca ganhou uma única questão. O que separa temas jurídicos
+      vizinhos é a palavra exata (um número de lei, um termo técnico), e o embedding aproxima
+      justamente o que eu preciso separar.
+\item \bd{Vizinhos entre questões (kNN)}, que dá a uma questão o tema das questões rotuladas mais
+      parecidas: só 41 dos 109 ramos aparecem na folha-verdade, então nem um acerto perfeito
+      passaria de 0,79. Ficou em 0,43 a 0,48.
+\item \bd{Um segundo modelo para reordenar os candidatos} (16 sinais por par questão e tema):
+      empatou ou perdeu. \bd{Decidir primeiro a disciplina e depois o tema}: deu a mesma decisão
+      da regra do pai. \bd{Dar peso à disciplina de origem}: duas questões a mais em 92, dentro do
+      acaso.
+\item \bd{Um sinal de lei citada}, que entrou e saiu. Tinha um único caso positivo nas 100 e
+      dominava a probabilidade. Removê-lo custou 5 das 6 publicações de Legislação Especial e
+      derrubou a precisão honesta de 0,87 para 0,76. Preferi um número pior a um sistema apoiado
+      num caso só.
 \end{itemize}
 
 % ================================= b) OS 100 ROTULOS =======================
 \section{b) Os 100 rótulos}
 
-\bd{Como usei.} Os 100 rótulos tiveram três papéis, sempre separados: escolher peças do sistema
-(com o critério escrito antes), treinar a confiança e medir a precisão. Para não medir no que
-treinei, usei 5 dobras repetidas 5 vezes, estratificadas por disciplina e com questões quase
-iguais sempre na mesma dobra (não houve nenhuma). O limiar de publicação é escolhido dentro de
-cada dobra e aplicado na parte que ficou de fora. Ao auditar esse protocolo, achei um vazamento:
-o limiar era escolhido com probabilidades que já tinham visto o grupo de teste. Corrigido, as
-publicações aninhadas caíram de 33 para 17. O número que entrego é o corrigido.
+\bd{Como usei.} A folha-verdade (as 100 questões rotuladas pela equipe) teve três papéis, sempre
+separados: escolher as peças do sistema, com o critério escrito antes; treinar o modelo de
+confiança; e medir a precisão. O cuidado central foi não medir nas mesmas questões em que ajustei.
+Medir assim é como corrigir a própria prova: o resultado sai bom demais. Os estatísticos chamam
+isso de medida \bd{in-sample} (``dentro da amostra'').
+
+Para evitar isso, usei \bd{validação cruzada aninhada}. Divido as 100 questões em 5 partes; ajusto
+o modelo e o limiar em 4 delas e meço na quinta, que ficou de fora; repito trocando a parte de
+fora e, depois, refaço tudo com 5 sorteios diferentes. Questões quase iguais ficariam sempre na
+mesma parte (não houve nenhuma). Ao auditar esse processo, achei um \bd{vazamento}: o limiar era
+escolhido com probabilidades que já tinham visto a parte de teste. Corrigido, as publicações nessa
+medida caíram de 33 para 17. O número que entrego é o corrigido.
 
 \begin{center}
 \small
 \begin{tabular}{lccc}
 \toprule
-Leitura (pela régua do case) & Publicadas & Acertos & Precisão (IC 95\% Wilson) \\
+Como a precisão foi medida (régua do case) & Publicadas & Acertos & Precisão (faixa de 95\%) \\
 \midrule
-Regra fixa, in-sample (mesmos 100) & 20 & 19 & 0,95 (0,76 a 0,99) \\
-\bd{Aninhada, limiar escolhido fora do grupo} & \bd{17} & \bd{13} & \bd{0,76 (0,53 a 0,90)} \\
-Publicando tudo & 100 & 68 & 0,68 \\
+Nas mesmas 100 que ajustaram a regra (in-sample) & 20 & 19 & 0,95 (0,76 a 0,99) \\
+\bd{Aninhada: regra ajustada sem ver o grupo medido} & \bd{17} & \bd{13} & \bd{0,76 (0,53 a 0,90)} \\
+Publicando todas as 100 & 100 & 68 & 0,68 \\
 \bottomrule
 \end{tabular}
 \end{center}
+\vspace{-4pt}
+{\small A faixa (intervalo de confiança de Wilson) mostra os valores compatíveis com o que medi.
+Uma ressalva: a validação aninhada protege a escolha do limiar, mas os sinais e a forma da regra
+foram escolhidos olhando os mesmos 100 rótulos. Por isso o 0,76 ainda pode ser otimista, e não
+tenho como medir quanto.}
 
 \bd{O que os rótulos mostraram sobre a convenção da equipe.}
 \begin{itemize}
-\item \bd{Gêmeos.} Oito temas aparecem duas vezes, com o mesmo título, em disciplinas diferentes.
-      Nas 6 questões da folha com tema gêmeo, a equipe usou o de Legislação Especial em 5; na
-      Q0324 marcou os dois (um como central, outro como extra). E não seguiu a disciplina de
-      origem: a Q0091 veio como Direito Penal e foi para Lei de Execução Penal (Legislação
-      Especial). Na fase 1, quando o gêmeo não batia com a disciplina de origem, eu mandava a
-      questão para revisão; os rótulos mostram que essa regra teria barrado um acerto (Q0091).
+\item \bd{Temas gêmeos.} Oito temas aparecem duas vezes, com o mesmo título, em disciplinas
+      diferentes (por exemplo, Lei de Execução Penal em Legislação Especial e em Processo Penal).
+      Nas 6 questões da folha com tema gêmeo, a equipe usou o de Legislação Especial em 5; na Q0324
+      marcou os dois. E não seguiu a disciplina informada na origem: a Q0091 veio como Direito
+      Penal e foi para Lei de Execução Penal, em Legislação Especial. Na fase 1, eu mandava para
+      revisão o gêmeo que não batia com a disciplina de origem; essa regra teria barrado um acerto.
       São só 6 casos.
-\item \bd{Nível e extras.} A equipe rotula no tema em 53 das 92 questões e no subtema em 39, e
-      usa extras em 39: questões multitemáticas são comuns, e os extras dão mais de um jeito de
-      acertar pela régua.
-\item \bd{Fora da árvore:} 8 das 100, sem nenhum traço comum que permita detectá-las.
-\item \bd{A régua pesa.} A mesma predição acerta 0,95 in-sample pela régua do case, 0,90 se só
-      o ramo contasse e 0,50 se fosse exigido o tema exato. O sistema acerta o ramo, não o
-      subtema.
+\item \bd{Tema ou subtema.} A equipe rotula no tema em 53 das 92 questões e no subtema em 39, e
+      indica temas extras em 39: questões que cobram mais de um assunto são comuns, e os extras dão
+      mais de um jeito de acertar.
+\item \bd{Fora da árvore:} 8 das 100 não têm tema adequado, e não encontrei nada em comum entre
+      elas que permitisse detectá-las.
+\item \bd{A régua pesa muito.} As mesmas 20 publicações acertam 0,95 pela régua do case, 0,90 se
+      só o ramo contasse e 0,50 se fosse exigido o tema exato. O sistema acerta o assunto geral,
+      não o detalhe.
 \end{itemize}
 
 % ================================= c) DIAGNOSTICO ==========================
 \section{c) Diagnóstico}
 
-\bd{O que atrapalha nos dados e nos temas.} Os gêmeos, que a régua não deixa trocar. As
-lixeiras, temas que concentram centenas de questões na origem. O assunto de origem, que também
-é uma lixeira (``Concurso de Crimes'' rotula 43 questões de temas variados). A sobreposição entre
-a lei especial e o instituto correspondente do Código. E um erro de catálogo: pela Lei
-14.197/2021, os temas 5148 e 5156 são capítulos do tema 5155. Corrigi isso no entregável, sem
-trocar IDs. É uma correção legal, não um ajuste de métrica: nenhuma publicação cai nesses temas,
-mas a mudança de texto deslocou 18 decisões, com 15 publicações perdidas, 3 ganhas e saldo de
-$-12$. A avaliação de precisão continua sendo feita contra a árvore original; por isso declaro
-o custo e levo a correção ao professor para confirmação.
+\bd{O que atrapalha nos dados e nos temas.} Primeiro, as \bd{lixeiras}: temas genéricos que, na
+classificação automática antiga, receberam centenas de questões que não eram deles. Quanto mais
+cheio um tema está na origem, menos esse histórico informa. O próprio assunto de origem também
+virou lixeira: ``Concurso de Crimes'' rotula 43 questões de temas variados. Segundo, os gêmeos,
+que a régua não deixa trocar. Terceiro, a sobreposição entre uma lei especial e o instituto
+correspondente do Código. Por último, um erro de catálogo: pela Lei 14.197/2021, os temas 5148 e
+5156 são capítulos do tema 5155, não irmãos dele. Corrigi isso no entregável, sem trocar IDs.
+Nenhuma publicação cai nesses temas, mas a mudança de texto mexeu em 18 decisões: 15 publicações
+perdidas e 3 ganhas. Como a avaliação usa a árvore original, declaro o custo e levo a correção ao
+professor.
 
-\bd{Onde o sistema perde.} Nas 92 questões com tema: 20 publicadas certas, 1 publicada errada,
-48 em revisão com o ramo certo já em primeiro (18 passariam com um limiar mais baixo; 30 precisam
-de uma confiança melhor), 18 com o ramo certo entre o 2º e o 10º lugar e 5 fora do top-10. A
-busca não é mais o gargalo principal: a confiança é.
+\bd{Onde o sistema perde.} Nas 92 questões com tema: 20 publicadas certas e 1 publicada errada;
+48 foram para revisão com o ramo certo já em primeiro lugar (18 passariam com um limiar mais baixo,
+30 precisariam de uma confiança melhor); 18 tinham o ramo certo entre o 2º e o 10º lugar; e 5 nem
+apareciam entre os dez primeiros. A busca já não é o gargalo principal: o que falta é o sistema
+saber quando está certo.
 
 \bd{Que questões o sistema ainda erra, e o que resolveria cada uma.}
 
 \begin{center}
 \small
-\begin{tabular}{p{4.0cm}p{5.6cm}p{6.2cm}}
+\begin{tabular}{p{3.6cm}p{6.0cm}p{6.2cm}}
 \toprule
 Tipo de questão & O que acontece & O que resolveria \\
 \midrule
 Lei de Execução Penal & vai para Teoria da Pena (3 casos); o texto fala de remição ou falta
-grave, sem citar a lei & descrição do tema 4703 com o vocabulário da execução \\
-Juizado Especial Criminal & vai para procedimento ou ação penal (3 casos), apesar de citar a
-Lei 9.099 & usar a lei citada como evidência, a testar com rótulos novos \\
+grave sem citar a lei & descrever o tema 4703 com o vocabulário da execução \\
+Juizado Especial Criminal & vai para procedimento ou ação penal (3 casos), mesmo citando a Lei
+9.099 & usar a lei citada como evidência, testada com rótulos novos \\
 Gabarito em subtema & erra o ramo em 36\%, contra 19\% quando o gabarito é tema & mais rótulos
 de subtema \\
-Erro confiante & a Q0202 foi publicada errada com confiança 0,97: os quatro recuperadores leem o
-mesmo texto e erram juntos & um sinal que não venha da busca, validado em rótulos novos \\
-Fora da árvore & 8 casos sem traço comum & revisão humana; criar os temas que faltam \\
+Erro confiante & a Q0202 foi publicada errada com 0,97 de confiança: os quatro métodos leem o
+mesmo texto e erram juntos & um sinal que não venha da busca, testado com rótulos novos \\
+Fora da árvore & 8 casos sem nada em comum & revisão humana; criar os temas que faltam \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 Legislação Especial concentra o problema: erra o ramo em 6 de 12 questões, contra 10\% em
-Criminologia. A regra da lei citada não entrou na entrega porque foi desenhada depois de ver os
-erros e tem poucos casos; fica como o primeiro teste da próxima rodada.
+Criminologia. Testei depois usar a lei citada como regra, mas a ideia veio de olhar esses erros e
+tem poucos casos; ficou fora da entrega e é o primeiro teste da próxima rodada.
 
 % ================================= d) PRODUCAO =============================
 \section{d) Produção: 50 mil questões por semana}
 
-\bd{Custo e tempo.} Classificar as 659 questões leva cerca de 40 segundos num núcleo; 50 mil
-levam perto de uma hora, sem GPU e sem API. O LLM só volta quando o catálogo muda, para
-enriquecer os temas novos ou alterados, uma vez por tema. O custo que não escala é a fila: com
-17\% de publicação, uns 41 mil itens por semana iriam para revisão. Por isso a fila deve ser
-ordenada pela confiança, com as questões mais perto do limiar primeiro, porque são as que mais
-mudam de decisão com um rótulo.
+\bd{Custo e tempo.} Classificar as 659 questões leva cerca de 40 segundos num processador comum;
+50 mil levariam perto de uma hora, sem placa de vídeo e sem pagar API. O LLM só volta quando o
+catálogo muda, para descrever os temas novos ou alterados, uma vez por tema. O custo que não escala
+é a fila: com 17\% de publicação, uns 41 mil itens por semana iriam para revisão. Por isso a fila
+deve ser ordenada pela confiança, com as questões mais perto do limiar primeiro: são as que mais
+mudam de decisão com um rótulo novo.
 
 \bd{Como eu colocaria em produção.} Com precisão estimada de 0,76, eu não deixaria o sistema
 publicar sozinho no começo: uma em cada quatro publicadas estaria errada, que é o problema que a
 plataforma quer resolver. Hoje ele serve como triagem: o ramo certo está em primeiro lugar em 74\%
 das questões e entre os dez primeiros em 95\%, então o professor confirma uma sugestão ou escolhe
-numa lista curta, em vez de procurar entre 375 temas. O caminho seria: (1) modo sombra, em que o
-sistema sugere e o professor decide; (2) publicação liberada por partes, só nos temas e faixas de
-confiança em que a amostra auditada passar de 95\%; (3) auditoria separada das importações novas,
-porque o modelo publica um pouco mais nas 300 questões recentes (18\%, 54 de 300) do que nas
-antigas fora da folha (15\%, 40 de 259), e isso pode ser excesso de confiança.
+numa lista curta, em vez de procurar entre 375 temas. O caminho seria: (1) um período em que o
+sistema só sugere e o professor decide; (2) publicação liberada por partes, só nos temas e faixas
+de confiança em que a amostra auditada passar de 95\%; (3) auditoria separada das importações
+novas, porque o sistema publica um pouco mais nas 300 questões recentes (18\%, 54 de 300) do que
+nas antigas (15\%, 40 de 259), o que pode ser excesso de confiança.
 
-\bd{Como a correção do professor vira dado de treino.} Cada revisão gera uma linha: questão,
-tema sugerido, tema final e se a sugestão estava certa. Essa linha serve a quatro coisas:
+\bd{Como a correção do professor vira dado de treino.} Cada revisão gera uma linha: questão, tema
+sugerido, tema final e se a sugestão estava certa. Essa linha serve a quatro coisas:
 \begin{enumerate}
-\item é o rótulo ``certo ou errado'' que o modelo de confiança aprende, que é o gargalo atual;
+\item é o rótulo de ``acertou ou errou'' que o modelo de confiança aprende, e esse é o gargalo
+      atual;
 \item amplia a folha-verdade, que recalibra o limiar e mede a precisão;
-\item mostra quais temas acumulam correções, e esses são reenriquecidos;
+\item mostra quais temas acumulam correções, e esses ganham uma descrição melhor;
 \item com alguns milhares de linhas, permite treinar um classificador direto sobre o texto.
 \end{enumerate}
 
@@ -284,27 +315,31 @@ tema sugerido, tema final e se a sugestão estava certa. Essa linha serve a quat
 \toprule
 Peça & Quando & Condição para entrar em produção \\
 \midrule
-Modelo de confiança & toda semana, com as revisões novas & não piorar no protocolo aninhado \\
+Modelo de confiança & toda semana, com as revisões novas & não piorar na validação aninhada \\
 Limiar de publicação & a cada uns 100 rótulos novos & precisão aninhada de pelo menos 95\% \\
-Temas enriquecidos & quando o catálogo muda & passar no validador; hash novo \\
-Classificador de texto & quando houver uns milhares de rótulos & superar a busca no aninhado \\
+Descrição dos temas & quando o catálogo muda & passar na conferência automática \\
+Classificador de texto & quando houver uns milhares de rótulos & superar a busca na validação \\
 \bottomrule
 \end{tabular}
 \end{center}
 \vspace{-3pt}
 {\small Os volumes (100 rótulos, alguns milhares) são estimativas minhas, a confirmar com o uso.}
 
-\bd{Como medir a qualidade.} Toda semana: a precisão numa amostra de publicadas auditada pelo
-professor, a taxa de sugestões corrigidas na fila e os reportes de alunos por tema. Para afirmar
-95\% com segurança pela cota unilateral, a amostra auditada precisa ser de 60 publicações sem
-erro, não de poucas unidades.
+\bd{Como medir a qualidade.} Toda semana, três números: a precisão numa amostra de publicadas
+conferida pelo professor, a fração de sugestões corrigidas na fila e os reportes de alunos por
+tema. A amostra precisa ser grande. Com zero erros em $n$ questões conferidas, só dá para garantir
+que o erro fica abaixo de cerca de $3/n$; para garantir 95\% de precisão, são precisas umas 60
+publicações conferidas sem nenhum erro. Com 20, mesmo sem erro, só se garante 86\%.
 
-\bd{O que eu faria com mais tempo.} Em ordem de retorno: (1) rótulos priorizados, primeiro nas
-questões que citam lei, em Legislação Especial e perto do limiar; (2) a regra da lei citada,
-testada com rótulos novos; (3) o vocabulário da execução no tema 4703; (4) um sinal de confiança
-independente da busca, a validar com rótulos novos (o assunto de origem é um candidato, mas hoje
-é ruidoso); (5) exemplos por tema propostos por LLM e revisados, para cobrir os 68 ramos ausentes
-da folha.
+\bd{O que eu faria com mais tempo.} Em ordem de retorno: (1) mais rótulos, começando pelas questões
+que citam lei, pelas de Legislação Especial e pelas mais perto do limiar; (2) a regra da lei citada,
+testada nesses rótulos novos; (3) o vocabulário da execução penal no tema 4703; (4) um sinal de
+confiança que não venha da busca, já que hoje todos os sinais nascem da mesma comparação de texto
+e erram juntos; (5) exemplos de questões por tema, propostos por um LLM e revisados por um
+professor, para cobrir os 68 ramos que não aparecem na folha-verdade.
+
+Uma conclusão atravessa o trabalho: o gargalo é o número de rótulos, não o modelo. Uma semana com
+100 rótulos novos, bem escolhidos, renderia mais do que qualquer algoritmo novo.
 
 % ================================= e) MEMO =================================
 \clearpage
@@ -313,26 +348,26 @@ da folha.
 
 \bd{O que eu construí}
 \begin{itemize}
-\item Um sistema que decide, para cada uma das 659 questões, se publica o tema ou manda para a
-      sua revisão. Ele compara o texto da questão com a descrição dos temas e não consulta
-      nenhum modelo de linguagem, como o ChatGPT, na hora de decidir. Publiquei 115 (17\%) e
-      mandei 544 para você.
+\item Um sistema que decide, para cada uma das 659 questões, se publica o tema ou manda para a sua
+      revisão. Ele compara o texto da questão com a descrição dos temas e não consulta nenhum
+      modelo de linguagem, como o ChatGPT, na hora de decidir. Publiquei 115 (17\%) e mandei 544
+      para você.
 \item Espero que umas 3 de cada 4 publicadas estejam certas. Não consigo prometer os 95\% pedidos:
       com 100 questões rotuladas, não há como provar isso.
-\item Na prática, hoje o sistema é mais útil para sugerir o tema do que para publicar sozinho:
-      ele coloca o tema certo entre as dez primeiras opções em 95\% das questões.
+\item Na prática, hoje o sistema é mais útil para sugerir o tema do que para publicar sozinho: o
+      assunto certo aparece entre as dez primeiras opções em 95\% das questões.
 \end{itemize}
 
 \bd{O que encontrei}
 \begin{itemize}
-\item O sistema acerta o assunto geral em 3 de cada 4 questões; quando erra, em geral confunde
-      temas vizinhos. Ele publica no tema principal, não no subtema, porque a régua aceita isso
-      e é mais seguro.
+\item O sistema coloca o assunto certo em primeiro lugar em cerca de 74\% das questões; quando erra,
+      em geral confunde temas vizinhos. Ele publica no tema principal, não no subtema, porque a
+      régua aceita isso e é mais seguro.
 \item A maior dificuldade é Legislação Especial: metade das questões vai para o tema
-      correspondente do Código. Questões de execução da pena vão para Teoria da Pena, e
-      questões de Juizado Especial vão para procedimento ou ação penal.
-\item Quando a questão cita uma lei especial, isso costuma ser uma pista, mas ainda não usei
-      como regra: são poucos casos e a ideia veio depois de eu ver os erros.
+      correspondente do Código. Questões de execução da pena vão para Teoria da Pena, e questões de
+      Juizado Especial vão para procedimento ou ação penal.
+\item Quando a questão cita uma lei especial, isso costuma ser uma pista, mas ainda não usei como
+      regra: são poucos casos e a ideia veio depois de eu ver os erros.
 \item Nos temas com nome repetido em duas disciplinas, a sua equipe usou quase sempre o de
       Legislação Especial (5 de 6), e não a disciplina de onde a questão veio.
 \end{itemize}
@@ -342,21 +377,20 @@ da folha.
 \item Dar nomes diferentes aos 8 pares de temas repetidos (por exemplo, citar a disciplina no
       título): 4684/6716, 5063/5466, 4688/6717, 4702/6723, 4704/6724, 4703/6734, 4705/6725 e
       4708/6728.
-\item Deixar mais clara a fronteira entre Lei de Execução Penal e Teoria da Pena, e entre
-      Juizado Especial Criminal e Procedimento Sumaríssimo.
-\item Confirmar a correção que eu já fiz em ``Instituições Democráticas'' (5148) e
-      ``Funcionamento dos Serviços Essenciais'' (5156): pela Lei 14.197/2021, são capítulos de
-      ``Estado Democrático de Direito'' (5155), não temas irmãos dele.
-\item Rever os temas que hoje acumulam centenas de questões sem relação com eles.
+\item Deixar mais clara a fronteira entre Lei de Execução Penal e Teoria da Pena, e entre Juizado
+      Especial Criminal e Procedimento Sumaríssimo.
+\item Confirmar a correção que fiz em ``Instituições Democráticas'' (5148) e ``Funcionamento dos
+      Serviços Essenciais'' (5156): pela Lei 14.197/2021, são capítulos de ``Estado Democrático de
+      Direito'' (5155), não temas irmãos dele.
+\item Rever os temas genéricos que hoje acumulam centenas de questões sem relação com eles.
 \end{itemize}
 
 \bd{O que preciso de você}
 \begin{itemize}
 \item Revisar primeiro as questões que eu ordenar na fila: as mais perto da decisão. Cada correção
       sua ensina o sistema e é o que permite, com o tempo, publicar mais com segurança.
-\item Rotular de 200 a 300 questões, começando pelas que citam lei e pelas de Legislação
-      Especial. No ritmo atual, isso dá umas 35 a 50 publicadas para calibrar; não prova 95\%.
-      Para provar, seria preciso auditar 60 publicadas sem erro.
+\item Rotular de 200 a 300 questões, começando pelas que citam lei e pelas de Legislação Especial.
+      É isso que permite, com o tempo, provar se o sistema chega a 95\%.
 \item Confirmar qual dos dois nomes é o oficial em cada par de temas repetidos.
 \end{itemize}
 
