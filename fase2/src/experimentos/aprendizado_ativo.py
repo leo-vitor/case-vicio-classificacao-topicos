@@ -21,14 +21,12 @@ from src.config import ALVO_PRECISAO, ARTEFATOS
 from src.decisao import escolher_regra, modelo
 from src.protocolo import acerto, wilson
 
-
 OUT = ARTEFATOS / "experimentos"
 SEEDS = list(range(30))
 BUDGETS = [10, 20, 40]
 INICIAL = 20
 TESTE = 40
 ESTRATEGIAS = ["acaso", "limiar", "evidencia", "legislacao"]
-
 
 def split_teste_pool(y_estrato, rng, n_teste=TESTE):
     """Split estratificado simples; devolve indices de pool e teste."""
@@ -41,7 +39,7 @@ def split_teste_pool(y_estrato, rng, n_teste=TESTE):
         n = max(1, min(len(g) - 1, n))
         teste.extend(g[:n].tolist())
     teste = sorted(set(teste))
-    # Ajuste de tamanho: completa ou remove pelo maior estrato.
+
     while len(teste) < n_teste:
         faltam = [i for i in idx if i not in set(teste)]
         if not faltam:
@@ -52,7 +50,6 @@ def split_teste_pool(y_estrato, rng, n_teste=TESTE):
         teste = sorted(teste[:n_teste])
     pool = [i for i in idx if i not in set(teste)]
     return np.array(pool), np.array(teste)
-
 
 def estado(X, y, cons, labeled, seed):
     """Treina no conjunto rotulado, escolhe limiar por CV interna e devolve estado."""
@@ -74,7 +71,6 @@ def estado(X, y, cons, labeled, seed):
     p_all = clf.predict_proba(X)[:, 1]
     return {"tau": float(tau), "c": float(c), "p": p_all, "modelo": clf}
 
-
 def metricas(estado_, cons, y, teste, arv, gold, ids):
     if estado_["p"] is None:
         return {"publicados": 0, "acertos": 0, "precisao": 0.0,
@@ -88,15 +84,13 @@ def metricas(estado_, cons, y, teste, arv, gold, ids):
         qid = ids[i]
         if acerto(arv, gold.loc[qid, "alvos"], None):
             ac += 1
-    # acerto nao depende de pred: a publicacao usa o top-1, que esta em pred.
-    # O chamador passa pred em estado_["pred"] para evitar depender do texto.
+
     ac = int(sum(1 for j, i in enumerate(teste) if pub[j] and estado_["pred"][i]))
     lo, hi = wilson(ac, m)
     return {"publicados": m, "acertos": ac,
             "precisao": round(ac / m, 4) if m else None,
             "cobertura": round(m / len(teste), 4),
             "wilson": [round(float(lo), 4), round(float(hi), 4)] if m else [0.0, 1.0]}
-
 
 def escolher(estrategia, restantes, estado_, cons, y, pred, unique_ev, le, rng, n=10):
     restantes = list(restantes)
@@ -113,8 +107,7 @@ def escolher(estrategia, restantes, estado_, cons, y, pred, unique_ev, le, rng, 
         ordem = np.argsort(-score, kind="stable")
         return [restantes[i] for i in ordem[:n]]
     if estrategia == "evidencia":
-        # Primeiro as questoes com ramo unico de evidencia; dentro do grupo,
-        # sorteio para nao usar o gabarito.
+
         grupo = [i for i in restantes if unique_ev[i]]
         if len(grupo) >= n:
             return rng.choice(grupo, size=n, replace=False).tolist()
@@ -131,7 +124,6 @@ def escolher(estrategia, restantes, estado_, cons, y, pred, unique_ev, le, rng, 
                                         replace=False).tolist()
         return escolhidos[:n]
     raise ValueError(estrategia)
-
 
 def main():
     b = base()
@@ -151,7 +143,7 @@ def main():
         pool, teste = split_teste_pool(disciplina, rng)
         if len(teste) < 20 or len(pool) < INICIAL + max(BUDGETS):
             continue
-        # Conjunto inicial comum as quatro estrategias nesta semente.
+
         inicial = None
         for _ in range(100):
             cand = rng.choice(pool, size=INICIAL, replace=False)
@@ -204,7 +196,6 @@ def main():
                 "wilson_agregado": [round(float(lo), 4), round(float(hi), 4)],
             }
 
-    # Pareado por semente contra "acaso": vitorias/empates/derrotas.
     pareado = {}
     for s in ESTRATEGIAS:
         if s == "acaso":
@@ -268,7 +259,6 @@ def main():
     print(json.dumps({"n_sementes": len(seeds_usadas), "agregado": agregado,
                       "pareado": pareado}, ensure_ascii=False, indent=2))
     print(f"Saidas: {OUT / 'aprendizado_ativo.json'} e .md")
-
 
 if __name__ == "__main__":
     main()

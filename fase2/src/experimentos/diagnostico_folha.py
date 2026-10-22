@@ -18,10 +18,8 @@ from src.artefato import base
 from src.config import ARTEFATOS, DATA
 from src.protocolo import acerto, wilson
 
-
 OUT = ARTEFATOS / "experimentos"
 FONTES = ["CP_PG", "CP_PE", "CPP", "LEI"]
-
 
 def avaliar_fonte(df, fonte, arv):
     g = df[df["fonte"] == fonte].copy()
@@ -45,7 +43,6 @@ def avaliar_fonte(df, fonte, arv):
         "ids": g["id"].tolist(),
     }
 
-
 def main():
     b = base()
     arv, gold, ids, pred = b["arv"], b["gold"], b["ids"], b["pred"]
@@ -68,8 +65,6 @@ def main():
                 "model": bool(acerto(arv, alvos, pred[i])),
             })
 
-    # Uniao dos artigos (CP + CPP): a leitura exploratoria de "artigos 4 de 7"
-    # era a uniao, nao cada fonte separada. Mantemos as duas visoes.
     por_q = {}
     for row in linhas:
         if row["fonte"] in ("CP_PG", "CP_PE", "CPP"):
@@ -85,8 +80,6 @@ def main():
     for fonte in FONTES + ["ARTIGOS"]:
         resultados[fonte] = avaliar_fonte(df, fonte, arv)
 
-    # Cruzamento do conjunto que interessa para a decisao: so as fontes que
-    # passaram no criterio escrito.
     passam = [f for f in FONTES if resultados[f]["passa"]]
     resultado = {
         "n_folha": len(ids),
@@ -126,7 +119,6 @@ def main():
     print(json.dumps({f: {k: v for k, v in r.items() if k != "ids"}
                       for f, r in resultados.items()}, ensure_ascii=False, indent=2))
     print(f"Saidas: {OUT / 'diagnostico_folha.json'} e .md")
-
 
 if __name__ == "__main__":
     main()

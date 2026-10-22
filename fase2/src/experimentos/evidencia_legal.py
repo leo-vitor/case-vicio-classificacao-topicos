@@ -28,14 +28,11 @@ from src.config import ARTEFATOS, DATA, ROOT
 from src.experimentos.checar_tabelas import art_set, normaliza_lei, parse_artigo
 from src.temas import Arvore
 
-
 ART = ROOT / "experimentos" / "artigos_tema.csv"
 LEIS = ROOT / "experimentos" / "leis_tema.csv"
 OUT = ARTEFATOS / "experimentos"
 OUT.mkdir(parents=True, exist_ok=True)
 
-# Prefixos de artigo. O grupo seguinte aceita listas ("395 e 396") e sufixos
-# ("121-A"), mas para no primeiro sinal que nao seja numero ou conector.
 ART_RE = re.compile(
     r"\b(?:art(?:igo)?s?\.?)\s*"
     r"((?:\d{1,4}(?:-[A-Za-z])?)"
@@ -49,7 +46,6 @@ LEI_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Codigos que a tabela cobre. CPP vem antes de CP para o caso de "CPP".
 CODE_PATTERNS = [
     ("CPP", re.compile(
         r"(?<![A-Za-z])(?:CPP|C[óo]digo\s+de\s+Processo\s+Penal|"
@@ -62,7 +58,6 @@ CODE_PATTERNS = [
         r"(?!\s+Militar)(?![A-Za-z])",
         re.IGNORECASE)),
 ]
-
 
 def carregar_tabelas():
     art = pd.read_csv(ART, dtype=str).fillna("")
@@ -77,7 +72,6 @@ def carregar_tabelas():
             lei_map[n] = (r["tema_id"], r["observacao"])
     return art_map, lei_map
 
-
 def codigo_mais_proximo(texto: str, ini: int, fim: int, janela: int = 180):
     """Codigo citado mais perto do trecho, com o texto como unica fonte."""
     candidatos = []
@@ -85,15 +79,12 @@ def codigo_mais_proximo(texto: str, ini: int, fim: int, janela: int = 180):
         for m in rx.finditer(texto):
             if m.start() < ini - janela or m.start() > fim + janela:
                 continue
-            # Distancia ao fim da lista quando o codigo vem depois; ao inicio
-            # quando vem antes. Assim "art. 121 do CP" e "CP, art. 121" ambos
-            # funcionam sem escolher um codigo de outra oracao.
+
             d = m.start() - fim if m.start() >= fim else ini - m.end()
             candidatos.append((abs(d), 0 if m.start() >= fim else 1, codigo))
     if not candidatos:
         return None
     return min(candidatos)[2]
-
 
 def mapear_artigo(art_map, arv, codigo: str, valor: str):
     p = parse_artigo(valor)
@@ -114,7 +105,6 @@ def mapear_artigo(art_map, arv, codigo: str, valor: str):
             "observacao": obs,
         })
     return achados
-
 
 def extrair_questao(arv, art_map, lei_map, qid: str, texto: str):
     achados = []
@@ -154,7 +144,6 @@ def extrair_questao(arv, art_map, lei_map, qid: str, texto: str):
         "tem_evidencia": bool(todos),
     }
 
-
 def resumo_cobertura(rows, ids_folha):
     total = len(rows)
     folha = [r for r in rows if r["id"] in ids_folha]
@@ -180,7 +169,6 @@ def resumo_cobertura(rows, ids_folha):
 
     return {"total": bloco(rows, "659"), "folha": bloco(folha, "folha-verdade")}
 
-
 def main():
     arv = Arvore()
     art_map, lei_map = carregar_tabelas()
@@ -189,7 +177,6 @@ def main():
     ids_folha = set(folha["id"])
     rows = [extrair_questao(arv, art_map, lei_map, r.id, r.texto) for r in q.itertuples()]
 
-    # CSV achatado, para as etapas seguintes; JSONL preserva os detalhes.
     flat = []
     for r in rows:
         flat.append({
@@ -216,7 +203,6 @@ def main():
     )
     print(json.dumps(cobertura, ensure_ascii=False, indent=2))
     print(f"Saidas: {OUT / 'evidencia_legal.csv'} e .jsonl")
-
 
 if __name__ == "__main__":
     main()

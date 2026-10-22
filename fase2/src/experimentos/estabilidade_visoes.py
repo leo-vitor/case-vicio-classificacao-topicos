@@ -20,9 +20,7 @@ from src.enriquecimento import carregar as carregar_artefato, textos as textos_e
 from src.protocolo import acerto, wilson
 from src.recuperacao import Busca, ordem_desc
 
-
 OUT = ARTEFATOS / "experimentos"
-
 
 def visoes_questao(q):
     alts = q.get("alternativas") or {}
@@ -32,7 +30,6 @@ def visoes_questao(q):
         "alternativas": alternativas,
         "comando": strip_html(q.get("comando") or ""),
     }
-
 
 def main():
     b = base()
@@ -101,7 +98,6 @@ def main():
                       ["n", "concordantes", "discordantes", "diferenca_pp", "separacao_clara"]},
                      ensure_ascii=False, indent=2))
     print(f"Saidas: {OUT / 'estabilidade_visoes.json'} e .md")
-
 
 if __name__ == "__main__":
     main()

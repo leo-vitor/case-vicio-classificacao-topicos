@@ -123,6 +123,13 @@ Formas testadas:
 O veto, por construção, só pode reduzir publicações. Se o critério de cobertura não
 puder ser satisfeito, isso será registrado como resultado, não contornado.
 
+**Defeito do critério do veto.** Exigir que a cobertura suba é incompatível com um
+veto: vetar só transforma `publicar` em `revisar`, nunca cria uma publicação nova.
+Logo, o veto não pode passar nesse critério, independentemente de sua precisão. O
+teste mede corretamente o efeito, mas o critério de adoção está mal desenhado para
+essa forma. Para uma próxima rodada, o veto deveria ser julgado por precisão e por
+perdas evitadas, não por aumento de cobertura.
+
 Definição operacional, escrita antes de rodar: o baseline é a regra atual
 `(consenso >= c) & (p >= tau)`, com `(tau, c)` escolhidos dentro do treino de cada
 uma das 25 dobras externas (5 repetições de 5 dobras). Em cada dobra, a variante
@@ -145,6 +152,13 @@ O veto perde cobertura e a promoção cai precisão; ambos falham no critério.
 Decisão: nenhuma das duas formas é adotada. Veto e promoção ficam registrados como
 beco sem saída para esta fonte; a agregação majoritária não deve ser usada como
 número principal.
+
+**Observação sobre o baseline.** O 0,889 é a média das cinco repetições, cada uma com
+cinco dobras; o 0,765 é a partição única de 5 dobras que já estava no relatório
+(13/17). São estimativas de protocolos diferentes, não dois números concorrentes. O
+0,889 não deve substituir o 0,765 como número principal: a repetição reduz ruído de
+uma partição, mas não cria uma amostra nova, e a agregação por maioria entre
+repetições infla a precisão. O número público continua 0,765 [0,53-0,90].
 
 ## Etapa 5. Simulação de aprendizado ativo
 

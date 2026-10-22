@@ -23,10 +23,8 @@ from src.config import ALVO_PRECISAO, ARTEFATOS, N_REPEATS
 from src.decisao import escolher_regra, modelo
 from src.protocolo import acerto, wilson
 
-
 OUT = ARTEFATOS / "experimentos"
 FONTE = "LEI"
-
 
 def p_interno_grupo(X, y, folds_grupo, k):
     """Igual a auditoria.p_interno, mas restrito a uma repeticao de 5 dobras."""
@@ -46,7 +44,6 @@ def p_interno_grupo(X, y, folds_grupo, k):
         p_tr[b_in] = clf.predict_proba(X.iloc[tr_idx[b_in]])[:, 1]
     return tr_idx, p_tr, te
 
-
 def metricas(pub, y):
     m = int(np.sum(pub))
     ac = int(np.sum(y[pub]))
@@ -57,7 +54,6 @@ def metricas(pub, y):
         "precisao_wilson": [round(float(lo), 4), round(float(hi), 4)] if m else [0.0, 1.0],
         "cobertura": round(m / len(y), 4),
     }
-
 
 def main():
     b = base()
@@ -172,8 +168,6 @@ def main():
             "passa": passa,
         }
 
-    # Leitura secundaria, sem trocar o criterio: pareado pela contagem de
-    # acertos em cada uma das 5 repeticoes, e medias por repeticao.
     corr_rep = {n: np.array([[bool(pubs[n][r, i] and corretas[i]) for i in range(len(y))]
                              for r in range(N_REPEATS)]) for n in nomes}
     resultado["pareado_por_repeticao"] = {}
@@ -198,7 +192,6 @@ def main():
             "passa": bool(var_p >= base_p and var_c > base_c and ganhos > perdas),
         }
 
-    # Sanidade: o baseline de 5 dobras que ja existia no main.
     sanidade = nested_corrigido(X, y, cons, folds)
     resultado["sanidade_baseline_5_dobras_existente"] = {
         k: v for k, v in sanidade.items() if k not in ("pub", "regras")
@@ -245,7 +238,6 @@ def main():
                        "sanidade_baseline_5_dobras_existente"]},
                      ensure_ascii=False, indent=2))
     print(f"Saidas: {OUT / 'decisao_evidencia.json'} e .md")
-
 
 if __name__ == "__main__":
     main()

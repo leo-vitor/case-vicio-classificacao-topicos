@@ -15,12 +15,10 @@ import pandas as pd
 from src.config import ARTEFATOS, DATA, ROOT
 from src.temas import Arvore
 
-
 ART = ROOT / "experimentos" / "artigos_tema.csv"
 LEIS = ROOT / "experimentos" / "leis_tema.csv"
 OUT = ARTEFATOS / "experimentos"
 OUT.mkdir(parents=True, exist_ok=True)
-
 
 def parse_artigo(valor: str):
     """'121-A' -> (121, 'A'); '395' -> (395, ''). Devolve None se nao casar."""
@@ -29,14 +27,12 @@ def parse_artigo(valor: str):
         return None
     return int(m.group(1)), (m.group(2) or "").upper()
 
-
 def chave(valor: str):
     p = parse_artigo(valor)
     if p is None:
         return None
     base, suf = p
     return (base, suf)
-
 
 def ordem(valor: str):
     """Ordem dentro do mesmo numero de artigo: sem sufixo antes de A, B, ..."""
@@ -45,7 +41,6 @@ def ordem(valor: str):
         return None
     base, suf = p
     return (base, suf if suf else "")
-
 
 def art_set(valor_inicio: str, valor_fim: str):
     """Conjunto de (numero, sufixo) que a linha cobre.
@@ -73,12 +68,10 @@ def art_set(valor_inicio: str, valor_fim: str):
             out.add((base, suf))
     return out
 
-
 def normaliza_lei(valor: str) -> str:
     """'11.340/2006' e 'Lei nº 9.099' viram apenas os digitos do numero."""
     m = re.search(r"(\d[\d\.]*)", str(valor))
     return m.group(1).replace(".", "") if m else ""
-
 
 def main():
     temas = pd.read_csv(DATA / "temas.csv", dtype=str).fillna("")
@@ -96,7 +89,6 @@ def main():
         if motivo not in ("tema_inexistente",):
             revisao.append(item)
 
-    # ---------------------------------------------------------- temas
     invalidos_art = []
     for i, r in art.iterrows():
         if r["tema_id"] not in set(temas["tema_id"]):
@@ -113,7 +105,6 @@ def main():
         elif r["tema_id"] not in ativos:
             add("leis_tema.csv", i + 2, "tema_inativo", r["tema_id"])
 
-    # ------------------------------------------------- faixas por codigo
     fora_ordem = []
     sobrepostas = []
     base_compartilhada = []
@@ -136,7 +127,7 @@ def main():
             la, ra, ca = linhas[a]
             for b in range(a + 1, len(linhas)):
                 lb, rb, cb = linhas[b]
-                # Sobreposicao real na identidade do artigo (numero + sufixo).
+
                 if ca & cb:
                     sobrepostas.append({
                         "codigo": codigo,
@@ -149,8 +140,7 @@ def main():
                     add("artigos_tema.csv", la, "faixa_sobreposta_real",
                         f"{ra['art_inicio']}..{ra['art_fim']} x "
                         f"{rb['art_inicio']}..{rb['art_fim']} (linha {lb})")
-                # O mesmo numero com e sem sufixo e esperado pela regra; fica
-                # registrado como informativo, nao como erro mecanico.
+
                 bases_a = {x[0] for x in ca}
                 bases_b = {x[0] for x in cb}
                 if bases_a & bases_b and not (ca & cb):
@@ -159,7 +149,6 @@ def main():
                         "bases": sorted(bases_a & bases_b),
                     })
 
-    # ------------------------------------------------------- sufixos
     sufixos = []
     bases_com_faixa = defaultdict(list)
     for i, r in art.iterrows():
@@ -185,9 +174,7 @@ def main():
         if ini[1] and fim[1] and ini[1] > fim[1]:
             add("artigos_tema.csv", i + 2, "sufixo_fora_de_ordem",
                 f"{r['art_inicio']} > {r['art_fim']}")
-        # A regra do PROVENIENCIA diz que sufixo casa so com a linha de mesmo
-        # sufixo. Se existir uma faixa sem sufixo cobrindo o mesmo numero, a
-        # tabela fica ambigua e precisa de decisao humana.
+
         for base in range(ini[0], fim[0] + 1):
             if bases_com_faixa[(r["codigo"], base)]:
                 base_compartilhada.append({
@@ -196,7 +183,6 @@ def main():
                     "bases": [base], "informativo": "sufixo vs faixa sem sufixo",
                 })
 
-    # --------------------------------------- linhas da correcao 5155
     catalogo = []
     for i, r in art.iterrows():
         obs = str(r.get("observacao", ""))
@@ -213,7 +199,6 @@ def main():
                 add("artigos_tema.csv", i + 2, "catalogo_pai_nao_5155",
                     f"{r['tema_id']} -> {pai}")
 
-    # --------------------------------------------------------- leis
     numeros = defaultdict(list)
     for i, r in leis.iterrows():
         n = normaliza_lei(r["lei"])
@@ -243,7 +228,6 @@ def main():
         json.dumps(resumo, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
-    # Relatorio curto para leitura humana.
     linhas = ["# Checagem mecanica das tabelas", ""]
     linhas.append(f"- linhas em artigos_tema.csv: {len(art)}")
     linhas.append(f"- linhas em leis_tema.csv: {len(leis)}")
@@ -265,7 +249,6 @@ def main():
                       "n_problemas": len(problemas),
                       "n_revisao_humana": len(revisao)}, ensure_ascii=False, indent=2))
     print(f"Relatorios: {OUT / 'checagem_tabelas.json'} e .md")
-
 
 if __name__ == "__main__":
     main()
